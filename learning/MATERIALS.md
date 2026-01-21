@@ -25,7 +25,7 @@ A curated collection of high-quality resources for learning about AI application
 
 **Notable Quotes:**
 
-> "Enterprise world generally prefers applications with lower risks... ...companies to deploy internal facing applications than external facing applications."
+> "Enterprise world generally prefers applications with lower risks [...] companies to deploy internal facing applications than external facing applications."
 
 This quote highlights the importance of risk consideration in AI deployments, particularly in enterprise environments where internal-facing applications serve as a safer starting point before rolling out customer-facing AI systems.
 
