@@ -10,6 +10,56 @@ This repository uses [just](https://github.com/casey/just) as a command runner f
 - **Ease of Use**: Dependencies are handled automatically
 - **Focus**: Only essential commands are included
 
+## Modular Architecture
+
+The command system uses a **two-tier architecture** for maximum modularity:
+
+### Main Justfile (Root)
+Located at the repository root, handles:
+- Command discovery (`just --list`)
+- Package alias resolution (e.g., `support` → `internal-support-agent`)
+- Workspace-wide operations (install all, test all)
+- Delegation to package-specific justfiles
+
+### Package Justfiles
+Each package has its own `justfile` defining:
+- **Start command**: How to run the package
+- **Test command**: How to test the package
+- **Custom commands**: Package-specific operations
+
+**Example structure**:
+```
+.
+├── justfile                              # Main justfile
+└── packages/
+    ├── shared/
+    │   └── justfile                      # Defines: just start, just test
+    ├── internal-support-agent/
+    │   └── justfile                      # Defines: just start, just test
+    └── corporate-agentic-system/
+        └── justfile                      # Defines: just start, just test
+```
+
+**How it works**:
+```bash
+# You run:
+just start support
+
+# Main justfile:
+# 1. Resolves "support" → "internal-support-agent"
+# 2. Runs: just install support
+# 3. Delegates to: cd packages/internal-support-agent && just start
+
+# Package justfile executes:
+# uv run python src/agent.py
+```
+
+**Benefits**:
+- ✅ **Easy to extend**: Add new package by creating a justfile
+- ✅ **Decentralized**: Each package controls its own entrypoints
+- ✅ **Consistent interface**: Same commands work for all packages
+- ✅ **No hardcoded paths**: Implementation details in packages
+
 ## Installation
 
 ### Install `just`
@@ -450,6 +500,85 @@ Keep it:
 - **Modular**: Delegate to package-specific scripts
 - **Consistent**: Follow existing command patterns
 - **Necessary**: Only add if it's genuinely useful
+
+## Adding New Packages
+
+The modular architecture makes it easy to add new packages to the monorepo.
+
+### Step 1: Create Package Structure
+
+```bash
+mkdir -p packages/my-new-agent/{src,tests}
+cd packages/my-new-agent
+```
+
+### Step 2: Create Package Justfile
+
+Create `packages/my-new-agent/justfile`:
+
+```just
+# My New Agent commands
+
+# Start the agent
+start:
+    @echo "🚀 Starting my-new-agent..."
+    uv run python src/main.py
+
+# Run tests
+test:
+    @echo "🧪 Testing my-new-agent..."
+    uv run pytest
+    @echo "✅ My-new-agent tests passed"
+```
+
+### Step 3: Update Main Justfile
+
+Add your package to the main justfile's resolution logic in the `install`, `start`, and `test` commands:
+
+```just
+# In install command, add:
+elif [ "{{PACKAGE}}" = "my-new-agent" ]; then
+    echo "📦 Installing my-new-agent..."
+    uv sync --package my-new-agent
+    echo "✅ My-new-agent installed"
+
+# In start command, add:
+elif [ "{{PACKAGE}}" = "my-new-agent" ]; then
+    PKG_DIR="my-new-agent"
+
+# In test command, add:
+elif [ "{{PACKAGE}}" = "my-new-agent" ]; then
+    PKG_DIR="my-new-agent"
+```
+
+### Step 4: Register in Workspace
+
+Update `pyproject.toml` at the root:
+
+```toml
+[tool.uv.workspace]
+members = [
+    "packages/shared",
+    "packages/internal-support-agent",
+    "packages/corporate-agentic-system",
+    "packages/my-new-agent",  # Add this
+]
+```
+
+### Step 5: Test It
+
+```bash
+# Install the new package
+just install my-new-agent
+
+# Start it
+just start my-new-agent
+
+# Test it
+just test my-new-agent
+```
+
+That's it! Your new package is now fully integrated with the command system.
 
 ## Examples
 
