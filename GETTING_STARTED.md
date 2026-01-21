@@ -112,8 +112,8 @@ just test          # Run tests
 
 3. **Configure environment**
    ```bash
-   cp projects/.env.example projects/.env
-   # Edit projects/.env and add your API keys
+   cp .env.example .env
+   # Edit .env and add your API keys
    ```
 
 ## Your First Steps
@@ -170,10 +170,10 @@ Open and read through the learning materials:
 
 ### 4. Build Your Own Project
 
-Start building in the `projects/src/` directory:
+Start building in the `src/` directory:
 
 ```python
-# projects/src/my_agent.py
+# src/my_agent.py
 from pydantic_ai import Agent
 
 agent = Agent('openai:gpt-4')
@@ -186,7 +186,7 @@ print(result.data)
 Copy `.env.example` to `.env` and configure:
 
 ```bash
-cd projects
+# No need to cd
 cp .env.example .env
 ```
 
@@ -215,7 +215,7 @@ pydantic-ai-production-ready/
 │   ├── 04-production-deployment/ # Production guide
 │   └── README.md           # Learning materials overview
 │
-├── projects/               # Python monorepo
+├──                # Python monorepo
 │   ├── src/               # Source code
 │   │   ├── examples/      # Example implementations
 │   │   └── __init__.py
@@ -235,7 +235,7 @@ pydantic-ai-production-ready/
 ### Install Dependencies
 
 ```bash
-cd projects
+# No need to cd
 uv sync                    # Install base dependencies
 uv sync --all-extras      # Install all optional dependencies
 uv sync --extra openai    # Install specific extras
@@ -244,14 +244,14 @@ uv sync --extra openai    # Install specific extras
 ### Run Code
 
 ```bash
-cd projects
+# No need to cd
 uv run python -m src.examples.chatbot
 ```
 
 ### Test Code
 
 ```bash
-cd projects
+# No need to cd
 uv run pytest              # Run all tests
 uv run pytest -v          # Verbose output
 uv run pytest tests/test_basic.py  # Run specific test
@@ -260,7 +260,7 @@ uv run pytest tests/test_basic.py  # Run specific test
 ### Format and Lint
 
 ```bash
-cd projects
+# No need to cd
 uv run black .            # Format code
 uv run ruff check --fix . # Lint and fix
 uv run mypy src           # Type checking

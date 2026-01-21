@@ -54,7 +54,7 @@ Thank you for your interest in contributing! This document provides guidelines f
    ```bash
    # Use devcontainer (recommended)
    # OR
-   cd projects
+   # No need to cd
    uv sync --all-extras
    ```
 
@@ -66,7 +66,7 @@ Thank you for your interest in contributing! This document provides guidelines f
 
 3. **Run Tests**
    ```bash
-   cd projects
+   # No need to cd
    uv run pytest
    ```
 

@@ -85,7 +85,7 @@ git clone https://github.com/Th3Un1q3/pydantic-ai-production-ready.git
 cd pydantic-ai-production-ready
 
 # Navigate to projects directory
-cd projects
+# No need to cd
 
 # Create virtual environment and install dependencies
 uv sync
@@ -116,7 +116,7 @@ sudo apt install redis-server
 You'll need API keys for LLM providers. Create a `.env` file in the `projects` directory:
 
 ```bash
-cd projects
+# No need to cd
 cat > .env << 'EOF'
 # OpenAI
 OPENAI_API_KEY=your_openai_api_key_here
@@ -139,7 +139,7 @@ EOF
 Run the test suite to verify everything is set up correctly:
 
 ```bash
-cd projects
+# No need to cd
 uv run pytest
 ```
 

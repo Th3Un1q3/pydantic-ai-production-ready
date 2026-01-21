@@ -7,73 +7,44 @@ default:
 
 # Show detailed help with examples
 help:
-    @echo "Pydantic AI Production Ready - Command System"
+    @echo "Run 'just --list' to see all available commands"
     @echo ""
-    @echo "Available commands:"
-    @echo "  just install [PACKAGE]     - Install dependencies (all or specific package)"
-    @echo "  just start [PACKAGE]       - Start project (installs if needed)"
-    @echo "  just test [PACKAGE]        - Run tests (all or specific package)"
-    @echo "  just format [PACKAGE]      - Format code"
-    @echo "  just lint [PACKAGE]        - Lint code"
-    @echo "  just clean                 - Clean build artifacts"
+    @echo "Common usage:"
+    @echo "  just install [package]  - Install dependencies"
+    @echo "  just start <package>    - Start a project"
+    @echo "  just test [package]     - Run tests"
     @echo ""
-    @echo "Examples:"
-    @echo "  just install                           # Install all packages"
-    @echo "  just install internal-support-agent    # Install specific package"
-    @echo "  just start corporate-agentic-system    # Start corporate system"
-    @echo "  just test                              # Test all packages"
-    @echo "  just test shared                       # Test shared package"
-    @echo ""
-    @echo "Package shortcuts:"
-    @echo "  just install-shared, just install-support, just install-corporate"
-    @echo "  just start-shared, just start-support, just start-corporate"
-    @echo "  just test-shared, just test-support, just test-corporate"
+    @echo "See COMMANDS.md for detailed documentation"
 
 # ============================================================================
 # Installation Commands
 # ============================================================================
 
-# Install all packages
-install-all:
-    @echo "📦 Installing all packages..."
-    cd projects && uv sync
-    @echo "✅ All packages installed"
-
-# Install specific package
+# Install all packages or specific package
 install PACKAGE="all":
     #!/usr/bin/env bash
     set -euo pipefail
     if [ "{{PACKAGE}}" = "all" ]; then
-        just install-all
+        echo "📦 Installing all packages..."
+        uv sync
+        echo "✅ All packages installed"
     elif [ "{{PACKAGE}}" = "shared" ]; then
-        just install-shared
+        echo "📦 Installing shared package..."
+        uv sync --package pydantic-ai-shared
+        echo "✅ Shared package installed"
     elif [ "{{PACKAGE}}" = "internal-support-agent" ] || [ "{{PACKAGE}}" = "support" ]; then
-        just install-support
+        echo "📦 Installing internal-support-agent..."
+        uv sync --package internal-support-agent
+        echo "✅ Internal-support-agent installed"
     elif [ "{{PACKAGE}}" = "corporate-agentic-system" ] || [ "{{PACKAGE}}" = "corporate" ]; then
-        just install-corporate
+        echo "📦 Installing corporate-agentic-system..."
+        uv sync --package corporate-agentic-system
+        echo "✅ Corporate-agentic-system installed"
     else
         echo "❌ Unknown package: {{PACKAGE}}"
-        echo "Available: shared, internal-support-agent (support), corporate-agentic-system (corporate)"
+        echo "Available: all, shared, internal-support-agent (support), corporate-agentic-system (corporate)"
         exit 1
     fi
-
-# Install shared package
-install-shared:
-    @echo "📦 Installing shared package..."
-    cd projects && uv sync --package pydantic-ai-shared
-    @echo "✅ Shared package installed"
-
-# Install internal-support-agent
-install-support:
-    @echo "📦 Installing internal-support-agent..."
-    cd projects && uv sync --package internal-support-agent
-    @echo "✅ Internal-support-agent installed"
-
-# Install corporate-agentic-system
-install-corporate:
-    @echo "📦 Installing corporate-agentic-system..."
-    cd projects && uv sync --package corporate-agentic-system
-    @echo "✅ Corporate-agentic-system installed"
 
 # ============================================================================
 # Start Commands (with implicit installation)
@@ -85,86 +56,53 @@ start PACKAGE:
     set -euo pipefail
     
     # Ensure dependencies are installed first
+    just install {{PACKAGE}}
+    
+    # Start the appropriate package
     if [ "{{PACKAGE}}" = "shared" ]; then
-        just install-shared
-        just _start-shared
+        echo "🚀 Starting shared chatbot example..."
+        cd packages/shared && uv run python src/examples/chatbot.py
     elif [ "{{PACKAGE}}" = "internal-support-agent" ] || [ "{{PACKAGE}}" = "support" ]; then
-        just install-support
-        just _start-support
+        echo "🚀 Starting internal-support-agent..."
+        cd packages/internal-support-agent && uv run python src/agent.py
     elif [ "{{PACKAGE}}" = "corporate-agentic-system" ] || [ "{{PACKAGE}}" = "corporate" ]; then
-        just install-corporate
-        just _start-corporate
+        echo "🚀 Starting corporate-agentic-system..."
+        cd packages/corporate-agentic-system && uv run python src/orchestrator.py
     else
         echo "❌ Unknown package: {{PACKAGE}}"
         echo "Available: shared, internal-support-agent (support), corporate-agentic-system (corporate)"
         exit 1
     fi
-
-# Internal: Start shared examples (chatbot)
-_start-shared:
-    @echo "🚀 Starting shared chatbot example..."
-    cd projects/packages/shared && uv run python src/examples/chatbot.py
-
-# Internal: Start internal-support-agent
-_start-support:
-    @echo "🚀 Starting internal-support-agent..."
-    cd projects/packages/internal-support-agent && uv run python src/agent.py
-
-# Internal: Start corporate-agentic-system
-_start-corporate:
-    @echo "🚀 Starting corporate-agentic-system..."
-    cd projects/packages/corporate-agentic-system && uv run python src/orchestrator.py
-
-# Convenient aliases for starting projects
-start-shared: (start "shared")
-start-support: (start "support")
-start-corporate: (start "corporate")
 
 # ============================================================================
 # Testing Commands
 # ============================================================================
 
-# Run tests for all packages
-test-all:
-    @echo "🧪 Running tests for all packages..."
-    cd projects && uv run pytest
-    @echo "✅ All tests passed"
-
-# Run tests for specific package or all
+# Run tests for all packages or specific package
 test PACKAGE="all":
     #!/usr/bin/env bash
     set -euo pipefail
     if [ "{{PACKAGE}}" = "all" ]; then
-        just test-all
+        echo "🧪 Running tests for all packages..."
+        uv run pytest
+        echo "✅ All tests passed"
     elif [ "{{PACKAGE}}" = "shared" ]; then
-        just test-shared
+        echo "🧪 Testing shared package..."
+        cd packages/shared && uv run pytest
+        echo "✅ Shared tests passed"
     elif [ "{{PACKAGE}}" = "internal-support-agent" ] || [ "{{PACKAGE}}" = "support" ]; then
-        just test-support
+        echo "🧪 Testing internal-support-agent..."
+        cd packages/internal-support-agent && uv run pytest
+        echo "✅ Internal-support-agent tests passed"
     elif [ "{{PACKAGE}}" = "corporate-agentic-system" ] || [ "{{PACKAGE}}" = "corporate" ]; then
-        just test-corporate
+        echo "🧪 Testing corporate-agentic-system..."
+        cd packages/corporate-agentic-system && uv run pytest
+        echo "✅ Corporate-agentic-system tests passed"
     else
         echo "❌ Unknown package: {{PACKAGE}}"
-        echo "Available: shared, internal-support-agent (support), corporate-agentic-system (corporate)"
+        echo "Available: all, shared, internal-support-agent (support), corporate-agentic-system (corporate)"
         exit 1
     fi
-
-# Test shared package
-test-shared:
-    @echo "🧪 Testing shared package..."
-    cd projects/packages/shared && uv run pytest
-    @echo "✅ Shared tests passed"
-
-# Test internal-support-agent
-test-support:
-    @echo "🧪 Testing internal-support-agent..."
-    cd projects/packages/internal-support-agent && uv run pytest
-    @echo "✅ Internal-support-agent tests passed"
-
-# Test corporate-agentic-system
-test-corporate:
-    @echo "🧪 Testing corporate-agentic-system..."
-    cd projects/packages/corporate-agentic-system && uv run pytest
-    @echo "✅ Corporate-agentic-system tests passed"
 
 # ============================================================================
 # Code Quality Commands
@@ -174,7 +112,6 @@ test-corporate:
 format PACKAGE="all":
     #!/usr/bin/env bash
     set -euo pipefail
-    cd projects
     if [ "{{PACKAGE}}" = "all" ]; then
         echo "🎨 Formatting all packages..."
         uv run black packages/
@@ -189,7 +126,6 @@ format PACKAGE="all":
 lint PACKAGE="all":
     #!/usr/bin/env bash
     set -euo pipefail
-    cd projects
     if [ "{{PACKAGE}}" = "all" ]; then
         echo "🔍 Linting all packages..."
         uv run ruff check packages/
@@ -204,7 +140,6 @@ lint PACKAGE="all":
 typecheck PACKAGE="all":
     #!/usr/bin/env bash
     set -euo pipefail
-    cd projects
     if [ "{{PACKAGE}}" = "all" ]; then
         echo "🔎 Type checking all packages..."
         uv run mypy packages/shared/src packages/internal-support-agent/src packages/corporate-agentic-system/src
@@ -231,13 +166,13 @@ check PACKAGE="all":
 # Clean build artifacts and cache
 clean:
     @echo "🧹 Cleaning build artifacts..."
-    @find projects -type d \( -name "__pycache__" -o -name ".pytest_cache" -o -name ".mypy_cache" -o -name ".ruff_cache" -o -name "htmlcov" \) -exec rm -rf {} + 2>/dev/null || true
-    @find projects -type f \( -name ".coverage" -o -name "*.pyc" \) -delete 2>/dev/null || true
+    @find packages -type d \( -name "__pycache__" -o -name ".pytest_cache" -o -name ".mypy_cache" -o -name ".ruff_cache" -o -name "htmlcov" \) -exec rm -rf {} + 2>/dev/null || true
+    @find packages -type f \( -name ".coverage" -o -name "*.pyc" \) -delete 2>/dev/null || true
     @echo "✅ Cleaned"
 
 # Show project structure
 tree:
-    @tree projects -L 3 -I '__pycache__|*.pyc|.pytest_cache|.mypy_cache|.ruff_cache|htmlcov' 2>/dev/null || find projects -type d -maxdepth 3 ! -path "*/\.*" ! -path "*/__pycache__" ! -path "*/.pytest_cache" ! -path "*/.mypy_cache" ! -path "*/.ruff_cache" ! -path "*/htmlcov"
+    @tree packages -L 3 -I '__pycache__|*.pyc|.pytest_cache|.mypy_cache|.ruff_cache|htmlcov' 2>/dev/null || find packages -type d -maxdepth 3 ! -path "*/\.*" ! -path "*/__pycache__" ! -path "*/.pytest_cache" ! -path "*/.mypy_cache" ! -path "*/.ruff_cache" ! -path "*/htmlcov"
 
 # Show environment info
 info:
@@ -247,12 +182,12 @@ info:
     @uv --version || echo "uv: not found"
     @echo ""
     @echo "Workspace packages:"
-    @cd projects && uv tree 2>/dev/null || echo "Run 'just install' first"
+    @uv tree 2>/dev/null || echo "Run 'just install' first"
 
 # Initialize development environment
 init:
     @echo "🚀 Initializing development environment..."
-    just install-all
+    just install
     @echo "✅ Development environment ready"
     @echo ""
     @echo "Try these commands:"

@@ -101,4 +101,4 @@ Continue to [Environment Setup](02-setup.md) to configure your development envir
 
 - [Official Pydantic AI Documentation](https://ai.pydantic.dev/)
 - [Pydantic Documentation](https://docs.pydantic.dev/)
-- [Example Projects](../../projects/)
+- [Example Projects](../../)

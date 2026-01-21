@@ -10,7 +10,7 @@ This document describes the architecture and design decisions for the Pydantic A
 pydantic-ai-production-ready/
 ├── .devcontainer/          # Development environment
 ├── learning/               # Educational content
-├── projects/               # Workspace-based Python monorepo
+├──                # Workspace-based Python monorepo
 ├── README.md              # Main documentation
 ├── GETTING_STARTED.md     # Quick start guide
 ├── CONTRIBUTING.md        # Contribution guidelines
@@ -21,7 +21,7 @@ pydantic-ai-production-ready/
 
 ### Design Philosophy
 
-The `projects/` directory implements a **workspace-based monorepo** using uv, designed for:
+The `` directory implements a **workspace-based monorepo** using uv, designed for:
 
 1. **Scalability**: Support multiple independent projects
 2. **Code Reuse**: Share common utilities without duplication
@@ -32,7 +32,7 @@ The `projects/` directory implements a **workspace-based monorepo** using uv, de
 ### Workspace Structure
 
 ```
-projects/
+
 ├── pyproject.toml                      # Workspace root
 └── packages/
     ├── shared/                         # Common utilities
@@ -79,7 +79,7 @@ projects/
 
 ## Package Descriptions
 
-### 1. Workspace Root (`projects/`)
+### 1. Workspace Root (``)
 
 **Purpose**: Define workspace members and shared development dependencies
 

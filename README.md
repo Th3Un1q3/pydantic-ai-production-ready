@@ -28,7 +28,7 @@ This repository provides a comprehensive framework for building production-ready
 │   ├── 02-core-concepts/
 │   ├── 03-advanced-patterns/
 │   └── 04-production-deployment/
-├── projects/               # Python monorepo with uv
+├──                # Python monorepo with uv
 │   ├── src/               # Source code
 │   ├── tests/             # Test files
 │   └── pyproject.toml     # Project configuration
@@ -108,7 +108,7 @@ brew install just
    just init
    
    # Or manually
-   cd projects && uv sync
+   # No need to cd && uv sync
    ```
 
 3. **Explore Commands**
@@ -197,7 +197,7 @@ just test-support
 If you prefer to use uv directly:
 
 ```bash
-cd projects
+# No need to cd
 
 # Install dependencies
 uv sync
@@ -221,7 +221,7 @@ uv run mypy packages/*/src
 
 ### Environment Variables
 
-Create a `.env` file in the `projects/` directory:
+Create a `.env` file in the `` directory:
 
 ```bash
 # OpenAI

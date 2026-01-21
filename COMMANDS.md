@@ -105,7 +105,7 @@ just install-corporate
 ```
 
 **How it works:**
-- Reads workspace configuration from `projects/pyproject.toml`
+- Reads workspace configuration from `pyproject.toml`
 - Installs package and its dependencies
 - Creates virtual environment if needed
 - Resolves cross-package dependencies
@@ -342,7 +342,7 @@ just init
 
 Instead of:
 ```bash
-cd projects/packages/internal-support-agent
+cd packages/internal-support-agent
 uv sync --package internal-support-agent
 uv run python src/agent.py
 ```
@@ -408,7 +408,7 @@ just init
 
 1. Ensure dependencies are installed: `just install`
 2. Check environment variables: `.env` file configured
-3. Run tests with verbose output: `cd projects && uv run pytest -v`
+3. Run tests with verbose output: `# No need to cd && uv run pytest -v`
 
 ## Extending the Command System
 
@@ -416,10 +416,10 @@ just init
 
 1. Create package directory:
    ```bash
-   mkdir -p projects/packages/new-package/{src,tests}
+   mkdir -p packages/new-package/{src,tests}
    ```
 
-2. Add to workspace (`projects/pyproject.toml`):
+2. Add to workspace (`pyproject.toml`):
    ```toml
    [tool.uv.workspace]
    members = [
@@ -474,7 +474,7 @@ git commit -m "feat: add new feature"
 
 ```bash
 # Run specific test file
-cd projects/packages/internal-support-agent
+cd packages/internal-support-agent
 uv run pytest tests/test_agent.py -v
 
 # Run all tests with coverage

@@ -22,7 +22,7 @@ fi
 # Sync Python dependencies using uv
 echo "Installing Python dependencies..."
 cd /workspace
-just install-all
+just install
 
 echo "Development environment setup complete!"
 echo ""

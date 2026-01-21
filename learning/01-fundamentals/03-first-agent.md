@@ -232,4 +232,4 @@ Continue to [Module 02: Core Concepts](../02-core-concepts/README.md) to dive de
 
 - [Pydantic AI Agents Documentation](https://ai.pydantic.dev/agents/)
 - [Pydantic AI Tools Documentation](https://ai.pydantic.dev/tools/)
-- [Example Projects](../../projects/src/)
+- [Example Projects](../../src/)

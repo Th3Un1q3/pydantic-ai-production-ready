@@ -10,10 +10,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install uv - Python package manager
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-ENV PATH="/root/.cargo/bin:$PATH"
-
 # Set working directory
 WORKDIR /workspace
 

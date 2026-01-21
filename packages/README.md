@@ -1,11 +1,11 @@
-# Pydantic AI Production Ready - Projects Monorepo
+# Pydantic AI Production Ready - Packages Monorepo
 
 This directory contains a **workspace-based Python monorepo** for multiple AI projects using Pydantic AI Framework.
 
 ## Monorepo Structure
 
 ```
-projects/
+/
 ├── pyproject.toml           # Workspace root configuration
 ├── packages/                # Individual projects/packages
 │   ├── shared/             # Shared utilities and common code
@@ -21,7 +21,7 @@ projects/
 │       ├── tests/
 │       └── pyproject.toml
 ├── .env.example
-└── README.md
+└── README.md                # This file
 ```
 
 ## Why This Structure?
@@ -39,7 +39,8 @@ This **state-of-the-art monorepo** structure provides:
 ### Install All Packages
 
 ```bash
-cd projects
+just install
+# or directly with uv
 uv sync
 ```
 
@@ -48,15 +49,14 @@ This installs all workspace packages and their dependencies.
 ### Work with Specific Package
 
 ```bash
-# Sync only one package
+# Using just (recommended)
+just install support
+just start support
+just test support
+
+# Or directly with uv
 uv sync --package internal-support-agent
-
-# Run tests for specific package
-cd packages/internal-support-agent
-uv run pytest
-
-# Run a specific package's code
-uv run --package internal-support-agent python -m src.agent
+cd packages/internal-support-agent && uv run python src/agent.py
 ```
 
 ## Packages
@@ -79,7 +79,7 @@ AI agent for internal company support handling IT, HR, and general queries.
 
 **Run demo**:
 ```bash
-uv run --package internal-support-agent python -m src.agent
+just start support
 ```
 
 ### 🏢 corporate-agentic-system
@@ -92,7 +92,7 @@ Multi-agent orchestrator for corporate workflow automation.
 
 **Run demo**:
 ```bash
-uv run --package corporate-agentic-system python -m src.orchestrator
+just start corporate
 ```
 
 ## Adding a New Project
@@ -114,7 +114,7 @@ uv run --package corporate-agentic-system python -m src.orchestrator
    ]
    ```
 
-3. **Register in workspace** (`projects/pyproject.toml`):
+3. **Register in workspace** (`pyproject.toml` at root):
    ```toml
    [tool.uv.workspace]
    members = [
@@ -127,7 +127,7 @@ uv run --package corporate-agentic-system python -m src.orchestrator
 
 4. **Sync workspace**:
    ```bash
-   uv sync
+   just install
    ```
 
 ## Development Workflow
@@ -136,29 +136,26 @@ uv run --package corporate-agentic-system python -m src.orchestrator
 
 ```bash
 # All packages
-cd projects
-uv run pytest
+just test
 
 # Specific package
-cd packages/internal-support-agent
-uv run pytest
+just test support
 
 # With coverage
-uv run pytest --cov=src
+cd packages/internal-support-agent && uv run pytest --cov=src
 ```
 
 ### Code Formatting
 
 ```bash
 # Format all packages
-cd projects
-uv run black packages/
+just format
 
 # Lint all packages
-uv run ruff check packages/
+just lint
 
 # Type check
-uv run mypy packages/shared/src
+just typecheck
 ```
 
 ### Package-Specific Commands
@@ -170,20 +167,20 @@ Each package can be developed independently:
 cd packages/internal-support-agent
 
 # Install just this package's deps
-uv sync --package internal-support-agent
+just install support
 
 # Run its code
-uv run python -m src.agent
+just start support
 
 # Run its tests
-uv run pytest
+just test support
 ```
 
 ## Dependencies
 
 ### Shared Dependencies (workspace-level)
 
-Defined in `projects/pyproject.toml`:
+Defined in root `pyproject.toml`:
 - pytest, black, ruff, mypy
 - Available to all packages
 
@@ -198,6 +195,7 @@ Each package defines its own in its `pyproject.toml`:
 
 ```bash
 # Install with all extras for a package
+just install support
 uv sync --package internal-support-agent --all-extras
 
 # Install specific extras
@@ -206,7 +204,7 @@ uv sync --package internal-support-agent --extra postgres --extra redis
 
 ## Environment Configuration
 
-Create `.env` in the `projects/` directory:
+Create `.env` in the root directory:
 
 ```bash
 cp .env.example .env
@@ -233,9 +231,9 @@ FROM python:3.12
 WORKDIR /app
 COPY packages/shared ./packages/shared
 COPY packages/internal-support-agent ./packages/internal-support-agent
-COPY projects/pyproject.toml ./
+COPY pyproject.toml ./
 RUN pip install uv && uv sync --package internal-support-agent
-CMD ["uv", "run", "--package", "internal-support-agent", "python", "-m", "src.agent"]
+CMD ["uv", "run", "python", "packages/internal-support-agent/src/agent.py"]
 ```
 
 ### Serverless Deployment
