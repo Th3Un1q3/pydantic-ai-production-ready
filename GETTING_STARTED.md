@@ -6,6 +6,24 @@ Welcome! This guide will help you get started with the Pydantic AI Production Re
 
 This repository is designed for both learners and practitioners who want to build production-ready AI applications using Pydantic AI Framework.
 
+## Prerequisites
+
+1. **Install just** (command runner):
+   ```bash
+   # macOS/Linux
+   curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+   
+   # macOS (Homebrew)
+   brew install just
+   ```
+
+2. **Install uv** (Python package manager):
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+See [COMMANDS.md](COMMANDS.md) for other installation methods.
+
 ### 🎯 For Learners
 
 Navigate to the `learning/` directory for structured learning materials:
@@ -32,14 +50,16 @@ Navigate to the `learning/` directory for structured learning materials:
 
 ### 💻 For Developers
 
-Use the `projects/` directory for hands-on development:
+Use the `just` command runner for development:
 
 ```bash
-cd projects
-uv sync                  # Install dependencies
-uv run pytest           # Run tests
-uv run python -m src.examples.chatbot  # Run examples
+just              # List all available commands
+just init         # Install all dependencies
+just start support # Start internal support agent
+just test          # Run all tests
 ```
+
+See [COMMANDS.md](COMMANDS.md) for the complete command reference.
 
 ## Quick Start Options
 
@@ -56,49 +76,74 @@ uv run python -m src.examples.chatbot  # Run examples
 **What you get:**
 - ✅ Python 3.12
 - ✅ uv package manager
+- ✅ just command runner
 - ✅ PostgreSQL database
 - ✅ Redis cache
 - ✅ All dependencies installed
+
+**After container starts:**
+```bash
+just              # List available commands
+just start support # Start internal support agent
+just test          # Run tests
+```
 
 ### Option 2: Local Setup
 
 **Best for**: Working with existing local tools
 
-1. **Install uv**
+1. **Install prerequisites**
    ```bash
+   # Install just
+   curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+   
+   # Install uv
    curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
 
 2. **Clone and setup**
    ```bash
    git clone https://github.com/Th3Un1q3/pydantic-ai-production-ready.git
-   cd pydantic-ai-production-ready/projects
-   uv sync
+   cd pydantic-ai-production-ready
+   
+   # Initialize (installs all dependencies)
+   just init
    ```
 
 3. **Configure environment**
    ```bash
-   cp .env.example .env
-   # Edit .env and add your API keys
+   cp projects/.env.example projects/.env
+   # Edit projects/.env and add your API keys
    ```
 
 ## Your First Steps
 
-### 1. Explore Examples
+### 1. Explore Commands
+
+```bash
+# See all available commands
+just
+
+# Get detailed help
+just help
+
+# Show project structure
+just tree
+```
+
+### 2. Run Examples
 
 The repository includes working examples:
 
 ```bash
-cd projects
+# Start internal support agent demo
+just start support
 
-# View available examples
-ls -la src/examples/
+# Start corporate agentic system demo
+just start corporate
 
-# Simple chatbot (requires OPENAI_API_KEY)
-uv run python -m src.examples.chatbot
-
-# Data extraction
-uv run python -m src.examples.data_extraction
+# Run shared examples (chatbot)
+just start shared
 ```
 
 ### 2. Run Tests
@@ -106,8 +151,13 @@ uv run python -m src.examples.data_extraction
 Verify everything works:
 
 ```bash
-cd projects
-uv run pytest -v
+# Test all packages
+just test
+
+# Test specific package
+just test shared
+just test support
+just test corporate
 ```
 
 ### 3. Start Learning

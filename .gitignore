@@ -42,6 +42,9 @@ ENV/
 .uv/
 uv.lock
 
+# Just
+.just/
+
 # Environment variables
 .env
 .env.local

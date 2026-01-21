@@ -39,6 +39,22 @@ This repository provides a comprehensive framework for building production-ready
 
 ## 🚀 Quick Start
 
+### Prerequisites
+
+This repository uses [`just`](https://github.com/casey/just) as a command runner. Install it first:
+
+**macOS/Linux**:
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+```
+
+**macOS (Homebrew)**:
+```bash
+brew install just
+```
+
+**See [COMMANDS.md](COMMANDS.md) for other installation methods.**
+
 ### Option 1: Using DevContainer (Recommended)
 
 1. **Prerequisites**
@@ -61,27 +77,87 @@ This repository provides a comprehensive framework for building production-ready
    The devcontainer will automatically:
    - Set up Python 3.12
    - Install `uv` package manager
+   - Install `just` command runner
    - Start PostgreSQL and Redis
    - Install all dependencies
 
+4. **Use Commands**
+   ```bash
+   just init          # Initialize environment
+   just start support # Start internal support agent
+   just test          # Run all tests
+   ```
+
 ### Option 2: Local Setup
 
-1. **Install uv**
+1. **Install Prerequisites**
    ```bash
+   # Install uv
    curl -LsSf https://astral.sh/uv/install.sh | sh
+   
+   # Install just
+   curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
    ```
 
 2. **Clone and Setup**
    ```bash
    git clone https://github.com/Th3Un1q3/pydantic-ai-production-ready.git
-   cd pydantic-ai-production-ready/projects
+   cd pydantic-ai-production-ready
    
-   # Install dependencies
-   uv sync
+   # Initialize environment (installs all dependencies)
+   just init
    
-   # Run tests
-   uv run pytest
+   # Or manually
+   cd projects && uv sync
    ```
+
+3. **Explore Commands**
+   ```bash
+   just              # List all available commands
+   just help         # Show detailed help
+   just start support # Start internal support agent
+   just test         # Run all tests
+   ```
+
+## 📋 Command System
+
+This repository uses `just` for task automation. See **[COMMANDS.md](COMMANDS.md)** for detailed documentation.
+
+### Common Commands
+
+```bash
+# Discovery
+just                  # List all commands
+just help            # Show detailed help
+
+# Installation
+just install         # Install all packages
+just install support # Install specific package
+
+# Development
+just start support   # Start internal support agent (auto-installs)
+just start corporate # Start corporate system (auto-installs)
+
+# Testing
+just test            # Test all packages
+just test support    # Test specific package
+
+# Code Quality
+just format          # Format all code
+just lint            # Lint all code
+just check           # Run all checks (format + lint + typecheck + test)
+
+# Utilities
+just clean           # Clean build artifacts
+just tree            # Show project structure
+just info            # Show environment info
+```
+
+**Key Features:**
+- ✅ **Discoverable**: Run `just` to see all commands
+- ✅ **Automatic Dependencies**: `just start` installs if needed
+- ✅ **Modular**: Per-package commands available
+- ✅ **Consistent**: Predictable command structure
 
 ## 📚 Learning Path
 
@@ -99,9 +175,26 @@ Each module includes:
 
 ## 🛠️ Development
 
-### Project Structure
+See **[COMMANDS.md](COMMANDS.md)** for complete command reference.
 
-The `projects/` directory contains a Python monorepo managed with `uv`:
+### Quick Development Workflow
+
+```bash
+# Work on a package
+just install support        # Install dependencies
+just start support          # Start the application
+just test support           # Run tests
+just check support          # Run all quality checks
+
+# Or use convenient shortcuts
+just install-support
+just start-support
+just test-support
+```
+
+### Manual Development (without just)
+
+If you prefer to use uv directly:
 
 ```bash
 cd projects
@@ -117,7 +210,8 @@ uv run black .
 uv run ruff check --fix .
 
 # Type checking
-uv run mypy src
+uv run mypy packages/*/src
+```
 ```
 
 ### Available Services (in DevContainer)

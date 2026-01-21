@@ -2,6 +2,13 @@
 
 echo "Setting up development environment..."
 
+# Install just command runner
+if ! command -v just &> /dev/null; then
+    echo "Installing just..."
+    curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sh -s -- --to ~/.local/bin
+    export PATH="$HOME/.local/bin:$PATH"
+fi
+
 # Install uv if not already installed
 if ! command -v uv &> /dev/null; then
     echo "Installing uv..."
@@ -11,7 +18,12 @@ fi
 
 # Sync Python dependencies using uv
 echo "Installing Python dependencies..."
-cd /workspace/projects
-uv sync
+cd /workspace
+just install-all
 
 echo "Development environment setup complete!"
+echo ""
+echo "Try these commands:"
+echo "  just              # List all available commands"
+echo "  just start support # Start internal support agent"
+echo "  just test          # Run all tests"
