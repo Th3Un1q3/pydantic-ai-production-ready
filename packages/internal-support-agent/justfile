@@ -1,0 +1,12 @@
+# Internal Support Agent commands
+
+# Start the internal support agent
+start:
+    @echo "🚀 Starting internal-support-agent..."
+    uv run python src/agent.py
+
+# Run tests
+test:
+    @echo "🧪 Testing internal-support-agent..."
+    uv run pytest
+    @echo "✅ Internal-support-agent tests passed"

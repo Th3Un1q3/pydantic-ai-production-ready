@@ -58,21 +58,22 @@ start PACKAGE:
     # Ensure dependencies are installed first
     just install {{PACKAGE}}
     
-    # Start the appropriate package
+    # Resolve package alias to directory name
+    PKG_DIR=""
     if [ "{{PACKAGE}}" = "shared" ]; then
-        echo "🚀 Starting shared chatbot example..."
-        cd packages/shared && uv run python src/examples/chatbot.py
+        PKG_DIR="shared"
     elif [ "{{PACKAGE}}" = "internal-support-agent" ] || [ "{{PACKAGE}}" = "support" ]; then
-        echo "🚀 Starting internal-support-agent..."
-        cd packages/internal-support-agent && uv run python src/agent.py
+        PKG_DIR="internal-support-agent"
     elif [ "{{PACKAGE}}" = "corporate-agentic-system" ] || [ "{{PACKAGE}}" = "corporate" ]; then
-        echo "🚀 Starting corporate-agentic-system..."
-        cd packages/corporate-agentic-system && uv run python src/orchestrator.py
+        PKG_DIR="corporate-agentic-system"
     else
         echo "❌ Unknown package: {{PACKAGE}}"
         echo "Available: shared, internal-support-agent (support), corporate-agentic-system (corporate)"
         exit 1
     fi
+    
+    # Delegate to package-specific justfile
+    cd packages/$PKG_DIR && just start
 
 # ============================================================================
 # Testing Commands
@@ -86,22 +87,23 @@ test PACKAGE="all":
         echo "🧪 Running tests for all packages..."
         uv run pytest
         echo "✅ All tests passed"
-    elif [ "{{PACKAGE}}" = "shared" ]; then
-        echo "🧪 Testing shared package..."
-        cd packages/shared && uv run pytest
-        echo "✅ Shared tests passed"
-    elif [ "{{PACKAGE}}" = "internal-support-agent" ] || [ "{{PACKAGE}}" = "support" ]; then
-        echo "🧪 Testing internal-support-agent..."
-        cd packages/internal-support-agent && uv run pytest
-        echo "✅ Internal-support-agent tests passed"
-    elif [ "{{PACKAGE}}" = "corporate-agentic-system" ] || [ "{{PACKAGE}}" = "corporate" ]; then
-        echo "🧪 Testing corporate-agentic-system..."
-        cd packages/corporate-agentic-system && uv run pytest
-        echo "✅ Corporate-agentic-system tests passed"
     else
-        echo "❌ Unknown package: {{PACKAGE}}"
-        echo "Available: all, shared, internal-support-agent (support), corporate-agentic-system (corporate)"
-        exit 1
+        # Resolve package alias to directory name
+        PKG_DIR=""
+        if [ "{{PACKAGE}}" = "shared" ]; then
+            PKG_DIR="shared"
+        elif [ "{{PACKAGE}}" = "internal-support-agent" ] || [ "{{PACKAGE}}" = "support" ]; then
+            PKG_DIR="internal-support-agent"
+        elif [ "{{PACKAGE}}" = "corporate-agentic-system" ] || [ "{{PACKAGE}}" = "corporate" ]; then
+            PKG_DIR="corporate-agentic-system"
+        else
+            echo "❌ Unknown package: {{PACKAGE}}"
+            echo "Available: all, shared, internal-support-agent (support), corporate-agentic-system (corporate)"
+            exit 1
+        fi
+        
+        # Delegate to package-specific justfile
+        cd packages/$PKG_DIR && just test
     fi
 
 # ============================================================================
