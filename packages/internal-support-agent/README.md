@@ -15,7 +15,7 @@ This package provides an intelligent support agent that can:
 From the workspace root:
 
 ```bash
-cd projects
+
 uv sync --package internal-support-agent
 ```
 
@@ -32,7 +32,7 @@ print(ticket.title, ticket.priority)
 ## Running the Demo
 
 ```bash
-cd projects
+
 uv run --package internal-support-agent python -m src.agent
 ```
 
@@ -50,7 +50,7 @@ uv run --package internal-support-agent python -m src.agent
 
 ## Configuration
 
-Set environment variables in `projects/.env`:
+Set environment variables in `.env`:
 
 ```bash
 OPENAI_API_KEY=your_key_here

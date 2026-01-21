@@ -25,7 +25,7 @@ Corporate Orchestrator
 From the workspace root:
 
 ```bash
-cd projects
+
 uv sync --package corporate-agentic-system
 ```
 
@@ -49,7 +49,7 @@ workflow = await orchestrator.plan_workflow(
 ## Running the Demo
 
 ```bash
-cd projects
+
 uv run --package corporate-agentic-system python -m src.orchestrator
 ```
 
@@ -68,7 +68,7 @@ but supports other providers through configuration.
 
 ## Configuration
 
-Set environment variables in `projects/.env`:
+Set environment variables in `.env`:
 
 ```bash
 # Anthropic (recommended for corporate use)
