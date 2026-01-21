@@ -4,14 +4,14 @@ import pytest
 
 def test_basic():
     """Test basic import."""
-    import src
-    assert hasattr(src, "__version__")
+    from internal_support_agent import agent
+    assert hasattr(agent, "InternalSupportAgent")
 
 
 @pytest.mark.asyncio
 async def test_support_ticket_structure():
     """Test that SupportTicket model works."""
-    from src.agent import SupportTicket
+    from internal_support_agent.agent import SupportTicket
     
     ticket = SupportTicket(
         title="Test Ticket",

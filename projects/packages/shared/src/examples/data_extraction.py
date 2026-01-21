@@ -10,6 +10,8 @@ from pydantic import BaseModel, Field
 from pydantic_ai import Agent
 from loguru import logger
 
+from ..config import get_default_model
+
 
 class Person(BaseModel):
     """Structured person information."""
@@ -22,10 +24,17 @@ class Person(BaseModel):
 class DataExtractionExample:
     """Extract structured data from text."""
     
-    def __init__(self):
-        """Initialize the data extraction agent."""
+    def __init__(self, model: str = None):
+        """Initialize the data extraction agent.
+        
+        Args:
+            model: The model to use (defaults to configured OpenAI model)
+        """
+        if model is None:
+            model = get_default_model("openai")
+            
         self.agent = Agent(
-            "openai:gpt-4",
+            model,
             result_type=Person,
             system_prompt="""Extract person information from the text.
             Be accurate and only extract information that is present."""

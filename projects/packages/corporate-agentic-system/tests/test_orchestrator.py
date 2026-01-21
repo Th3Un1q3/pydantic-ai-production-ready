@@ -4,14 +4,14 @@ import pytest
 
 def test_basic():
     """Test basic import."""
-    import src
-    assert hasattr(src, "__version__")
+    from corporate_agentic_system import orchestrator
+    assert hasattr(orchestrator, "CorporateOrchestrator")
 
 
 @pytest.mark.asyncio
 async def test_workflow_result_structure():
     """Test that WorkflowResult model works."""
-    from src.orchestrator import WorkflowResult
+    from corporate_agentic_system.orchestrator import WorkflowResult
     
     result = WorkflowResult(
         status="planned",

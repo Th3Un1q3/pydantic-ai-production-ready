@@ -11,6 +11,15 @@ from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext
 from loguru import logger
 
+# Import from shared package
+try:
+    from pydantic_ai_shared.config import get_default_model
+except ImportError:
+    # Fallback for development
+    import sys
+    sys.path.insert(0, "../../shared/src")
+    from config import get_default_model
+
 
 class SupportTicket(BaseModel):
     """Support ticket structure."""
@@ -25,12 +34,15 @@ class SupportTicket(BaseModel):
 class InternalSupportAgent:
     """AI agent for internal support queries."""
     
-    def __init__(self, model: str = "openai:gpt-4"):
+    def __init__(self, model: str = None):
         """Initialize the support agent.
         
         Args:
-            model: The model to use
+            model: The model to use (defaults to configured OpenAI model)
         """
+        if model is None:
+            model = get_default_model("openai")
+            
         self.agent = Agent(
             model,
             result_type=SupportTicket,

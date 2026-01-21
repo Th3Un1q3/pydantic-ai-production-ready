@@ -2,6 +2,7 @@
 Corporate Agentic System - Orchestrator
 
 This module implements a multi-agent orchestrator for corporate tasks.
+Uses Anthropic's Claude by default for enhanced reasoning.
 """
 import asyncio
 import os
@@ -11,6 +12,15 @@ from dataclasses import dataclass
 from pydantic import BaseModel, Field
 from pydantic_ai import Agent, RunContext
 from loguru import logger
+
+# Import from shared package
+try:
+    from pydantic_ai_shared.config import get_default_model
+except ImportError:
+    # Fallback for development
+    import sys
+    sys.path.insert(0, "../../shared/src")
+    from config import get_default_model
 
 
 class Task(BaseModel):
@@ -41,12 +51,16 @@ class CorporateContext:
 class CorporateOrchestrator:
     """Orchestrator for corporate agentic system."""
     
-    def __init__(self, model: str = "anthropic:claude-3-5-sonnet-20241022"):
+    def __init__(self, model: str = None):
         """Initialize the orchestrator.
         
         Args:
-            model: The model to use (defaults to Claude for corporate use)
+            model: The model to use (defaults to configured Anthropic model for corporate use)
         """
+        if model is None:
+            # Default to Anthropic for corporate use (enhanced reasoning)
+            model = get_default_model("anthropic")
+            
         self.planner = Agent(
             model,
             result_type=WorkflowResult,

@@ -10,6 +10,8 @@ from pydantic import BaseModel
 from pydantic_ai import Agent, RunContext
 from loguru import logger
 
+from .config import get_default_model
+
 
 class ChatMessage(BaseModel):
     """A chat message structure."""
@@ -20,12 +22,15 @@ class ChatMessage(BaseModel):
 class ChatbotExample:
     """A simple chatbot example using Pydantic AI."""
     
-    def __init__(self, model: str = "openai:gpt-4"):
+    def __init__(self, model: str = None):
         """Initialize the chatbot.
         
         Args:
-            model: The model to use (e.g., 'openai:gpt-4')
+            model: The model to use (defaults to configured OpenAI model)
         """
+        if model is None:
+            model = get_default_model("openai")
+        
         self.agent = Agent(
             model,
             system_prompt="""You are a helpful assistant. 
