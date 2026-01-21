@@ -5,7 +5,6 @@ This example demonstrates a basic chatbot using Pydantic AI.
 """
 import asyncio
 import os
-from typing import Optional
 
 from pydantic import BaseModel
 from pydantic_ai import Agent, RunContext

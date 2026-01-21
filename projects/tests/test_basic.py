@@ -3,6 +3,8 @@ Example test to verify the test infrastructure is working.
 """
 import pytest
 
+import src
+
 
 def test_basic():
     """Test that basic assertions work."""
@@ -11,7 +13,6 @@ def test_basic():
 
 def test_import():
     """Test that we can import the main package."""
-    import src
     assert hasattr(src, "__version__")
 
 
