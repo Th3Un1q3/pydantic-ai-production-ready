@@ -43,7 +43,6 @@ install-all:
 install PACKAGE="all":
     #!/usr/bin/env bash
     set -euo pipefail
-    cd /home/runner/work/pydantic-ai-production-ready/pydantic-ai-production-ready
     if [ "{{PACKAGE}}" = "all" ]; then
         just install-all
     elif [ "{{PACKAGE}}" = "shared" ]; then
@@ -84,7 +83,6 @@ install-corporate:
 start PACKAGE:
     #!/usr/bin/env bash
     set -euo pipefail
-    cd /home/runner/work/pydantic-ai-production-ready/pydantic-ai-production-ready
     
     # Ensure dependencies are installed first
     if [ "{{PACKAGE}}" = "shared" ]; then
@@ -136,7 +134,6 @@ test-all:
 test PACKAGE="all":
     #!/usr/bin/env bash
     set -euo pipefail
-    cd /home/runner/work/pydantic-ai-production-ready/pydantic-ai-production-ready
     if [ "{{PACKAGE}}" = "all" ]; then
         just test-all
     elif [ "{{PACKAGE}}" = "shared" ]; then
@@ -177,7 +174,7 @@ test-corporate:
 format PACKAGE="all":
     #!/usr/bin/env bash
     set -euo pipefail
-    cd /home/runner/work/pydantic-ai-production-ready/pydantic-ai-production-ready/projects
+    cd projects
     if [ "{{PACKAGE}}" = "all" ]; then
         echo "🎨 Formatting all packages..."
         uv run black packages/
@@ -192,7 +189,7 @@ format PACKAGE="all":
 lint PACKAGE="all":
     #!/usr/bin/env bash
     set -euo pipefail
-    cd /home/runner/work/pydantic-ai-production-ready/pydantic-ai-production-ready/projects
+    cd projects
     if [ "{{PACKAGE}}" = "all" ]; then
         echo "🔍 Linting all packages..."
         uv run ruff check packages/
@@ -207,7 +204,7 @@ lint PACKAGE="all":
 typecheck PACKAGE="all":
     #!/usr/bin/env bash
     set -euo pipefail
-    cd /home/runner/work/pydantic-ai-production-ready/pydantic-ai-production-ready/projects
+    cd projects
     if [ "{{PACKAGE}}" = "all" ]; then
         echo "🔎 Type checking all packages..."
         uv run mypy packages/shared/src packages/internal-support-agent/src packages/corporate-agentic-system/src
