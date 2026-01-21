@@ -1,0 +1,12 @@
+# Shared package commands
+
+# Start the shared chatbot example
+start:
+    @echo "🚀 Starting shared chatbot example..."
+    uv run python src/examples/chatbot.py
+
+# Run tests
+test:
+    @echo "🧪 Testing shared package..."
+    uv run pytest
+    @echo "✅ Shared tests passed"

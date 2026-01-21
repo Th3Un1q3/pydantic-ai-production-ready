@@ -1,0 +1,12 @@
+# Corporate Agentic System commands
+
+# Start the corporate agentic system
+start:
+    @echo "🚀 Starting corporate-agentic-system..."
+    uv run python src/orchestrator.py
+
+# Run tests
+test:
+    @echo "🧪 Testing corporate-agentic-system..."
+    uv run pytest
+    @echo "✅ Corporate-agentic-system tests passed"
