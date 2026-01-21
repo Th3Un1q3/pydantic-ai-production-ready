@@ -129,6 +129,7 @@ Content creators are encouraged to:
 
 ## Resources
 
+- [Learning Materials](MATERIALS.md) - Curated books, websites, and videos for AI application development
 - [Pydantic AI Documentation](https://ai.pydantic.dev/)
 - [Pydantic Documentation](https://docs.pydantic.dev/)
 - Project examples in `/projects`
