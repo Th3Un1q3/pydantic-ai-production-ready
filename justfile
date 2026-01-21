@@ -231,18 +231,13 @@ check PACKAGE="all":
 # Clean build artifacts and cache
 clean:
     @echo "🧹 Cleaning build artifacts..."
-    find projects -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
-    find projects -type d -name ".pytest_cache" -exec rm -rf {} + 2>/dev/null || true
-    find projects -type d -name ".mypy_cache" -exec rm -rf {} + 2>/dev/null || true
-    find projects -type d -name ".ruff_cache" -exec rm -rf {} + 2>/dev/null || true
-    find projects -type d -name "htmlcov" -exec rm -rf {} + 2>/dev/null || true
-    find projects -type f -name ".coverage" -delete 2>/dev/null || true
-    find projects -type f -name "*.pyc" -delete 2>/dev/null || true
+    @find projects -type d \( -name "__pycache__" -o -name ".pytest_cache" -o -name ".mypy_cache" -o -name ".ruff_cache" -o -name "htmlcov" \) -exec rm -rf {} + 2>/dev/null || true
+    @find projects -type f \( -name ".coverage" -o -name "*.pyc" \) -delete 2>/dev/null || true
     @echo "✅ Cleaned"
 
 # Show project structure
 tree:
-    @tree projects -L 3 -I '__pycache__|*.pyc|.pytest_cache|.mypy_cache|.ruff_cache' || find projects -type d -maxdepth 3
+    @tree projects -L 3 -I '__pycache__|*.pyc|.pytest_cache|.mypy_cache|.ruff_cache|htmlcov' 2>/dev/null || find projects -type d -maxdepth 3 ! -path "*/\.*" ! -path "*/__pycache__" ! -path "*/.pytest_cache" ! -path "*/.mypy_cache" ! -path "*/.ruff_cache" ! -path "*/htmlcov"
 
 # Show environment info
 info:
