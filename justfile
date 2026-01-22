@@ -54,10 +54,10 @@ install PACKAGE="all":
 start PACKAGE:
     #!/usr/bin/env bash
     set -euo pipefail
-    
+
     # Ensure dependencies are installed first
     just install {{PACKAGE}}
-    
+
     # Resolve package alias to directory name
     PKG_DIR=""
     if [ "{{PACKAGE}}" = "shared" ]; then
@@ -71,7 +71,7 @@ start PACKAGE:
         echo "Available: shared, internal-support-agent (support), corporate-agentic-system (corporate)"
         exit 1
     fi
-    
+
     # Delegate to package-specific justfile
     cd packages/$PKG_DIR && just start
 
@@ -101,7 +101,7 @@ test PACKAGE="all":
             echo "Available: all, shared, internal-support-agent (support), corporate-agentic-system (corporate)"
             exit 1
         fi
-        
+
         # Delegate to package-specific justfile
         cd packages/$PKG_DIR && just test
     fi
@@ -186,13 +186,60 @@ info:
     @echo "Workspace packages:"
     @uv tree 2>/dev/null || echo "Run 'just install' first"
 
+
+# Opens files needed first
+_open_startup_files:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    FILES_TO_CHECK=(.env README.md GETTING_STARTED.md)
+    FILES_TO_OPEN=()
+
+    # Build a single list of existing files in the desired order (so .env is last)
+    for f in "${FILES_TO_CHECK[@]}"; do
+        if [ -f "$f" ]; then
+            FILES_TO_OPEN+=("$f")
+        fi
+    done
+
+    # Open files in editor (prefers VS Code). Maintain order from FILES_TO_CHECK.
+    if [ ${#FILES_TO_OPEN[@]} -gt 0 ]; then
+        if command -v code >/dev/null 2>&1; then
+            code "${FILES_TO_OPEN[@]}" || true
+        elif command -v editor >/dev/null 2>&1; then
+            editor "${FILES_TO_OPEN[@]}" || true
+        else
+            echo "💡 Tip: open the following files in your editor:"
+            for file in "${FILES_TO_OPEN[@]}"; do
+                echo "  - $file"
+            done
+        fi
+    fi
+
+
+_create_env_file:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    if [ ! -f .env ]; then
+        echo "Creating .env file from .env.example..."
+        cp .env.example .env
+        echo "✅ .env file created"
+    else
+        echo ".env file already exists. Skipping creation."
+    fi
+
 # Initialize development environment
 init:
-    @echo "🚀 Initializing development environment..."
-    just install
-    @echo "✅ Development environment ready"
-    @echo ""
-    @echo "Try these commands:"
-    @echo "  just start support     # Start internal support agent"
-    @echo "  just test              # Run all tests"
-    @echo "  just help              # Show detailed help"
+    #!/usr/bin/env bash
+    set -euo pipefail
+    just _create_env_file
+    just _open_startup_files
+
+    echo "✅ Development environment ready"
+    echo ""
+    echo "Try these commands:"
+    echo "  just start support     # Start internal support agent"
+    echo "  just test              # Run all tests"
+    echo "  just help              # Show detailed help"
+

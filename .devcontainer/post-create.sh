@@ -7,7 +7,8 @@ echo "Setting up development environment..."
 # Alternative: Install from package manager when available
 if ! command -v just &> /dev/null; then
     echo "Installing just..."
-    curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sh -s -- --to ~/.local/bin
+    mkdir -p ~/.local/bin
+    curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/.local/bin
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
@@ -19,14 +20,16 @@ if ! command -v uv &> /dev/null; then
     export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
-# Sync Python dependencies using uv
-echo "Installing Python dependencies..."
-cd /workspace
-just install
 
-echo "Development environment setup complete!"
-echo ""
-echo "Try these commands:"
-echo "  just              # List all available commands"
-echo "  just start support # Start internal support agent"
-echo "  just test          # Run all tests"
+cd /workspace
+
+just init # Non interactive mode setup
+
+# Pretty success message
+# Uses ANSI colors for terminals that support them
+echo -e "\n\033[1;32m+----------------------------------------------+\033[0m"
+echo -e "\033[1;32m| ✅  Tooling installation complete!            |\033[0m"
+echo -e "\033[1;32m+----------------------------------------------+\033[0m"
+echo -e "\033[0;36mTip: run \033[1mjust help\033[0m \033[0;36mfor available commands.\033[0m\n"
+echo -e "\033[1;32mFirst Run❓ Execute \033[1mjust init\033[0m \033[0;36m for initial setup.\033[0m"
+echo -e "\033[1;32m+----------------------------------------------+\033[0m\n"

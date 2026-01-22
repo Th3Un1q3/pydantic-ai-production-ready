@@ -51,14 +51,6 @@ uv.lock
 .env.*.local
 
 # IDEs
-.vscode/
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.idea/
-*.swp
-*.swo
 *~
 .DS_Store
 
