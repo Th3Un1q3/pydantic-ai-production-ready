@@ -25,7 +25,9 @@
         "mhutchie.git-graph",
         "ms-toolsai.jupyter",
         "ms-toolsai.vscode-jupyter-cell-tags",
-        "GitHub.copilot-chat"
+        "GitHub.copilot-chat",
+        "vstirbu.vscode-mermaid-preview",
+        "MermaidChart.vscode-mermaid-chart"
       ],
       "settings": {
         // Python Configuration

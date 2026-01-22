@@ -2,6 +2,69 @@
 
 This directory contains modular learning materials for building production-ready AI applications with Pydantic AI Framework.
 
+## Introduction
+
+### Who is this for?
+
+Developers and teams who are moving into standardization and strategic adoption of AI technologies within their organizations.
+
+> **Note:** This is not an introductory tutorial for beginners. It assumes familiarity with AI concepts and certain programming skills.
+
+> **Final Note:** If you feel a little bit late to join AI adoption, you're wrong, it's just the right time as we finally have great tools and frameworks to build upon!
+
+### AI Adoption Journey
+
+Organizations typically progress through several stages in their AI adoption:
+
+1. **Assessment & Foundation**: Ensuring data readiness, establishing governance, and upskilling teams before scaling.
+2. **Ready-made Tools**: Leveraging existing solutions like GitHub Copilot and Gemini for immediate productivity gains.
+3. **Integration & Automation**: Embedding AI into existing workflows (e.g., support agents like Kappa AI) and setting up automations.
+4. **Standardization & Internal Development**: Consolidating usage to supported tools, developing shared prompt libraries, and building internal applications to cultivate expertise.
+5. **Customer-Facing Products**: Leveraging acquired expertise and standardized practices to build proprietary, customer-facing AI products.
+
+> **Note:** This journey is rarely linear; organizations often cycle back to refine foundations or re-evaluate tools based on performance metrics and evolving regulations.
+
+Not every organization proceeds to the build phases; some may find ready-made tools and integrations sufficient for their needs.
+
+```mermaid
+graph TD
+    A(["Start"])
+    Z["Assessment & Foundation (Data, Skills, Governance)"]
+    B["Ready-made Tools (Copilot, Claude Code, Gemini)"]
+    C["Integration & Automation (Workflows, Support Agents)"]
+    D{"Strategic Expansion?"}
+    E(["Maintain Tool Usage"])
+    F["Standardization (Unified Toolset, Prompt Libs)"]
+    G["Build Internal Apps (Learning & Expertise)"]
+    H["Build Customer-Facing Products"]
+
+    A --> Z
+    Z --> B
+    B --> C
+    B --> F
+    C --> D
+    D -- No --> E
+    D -- Yes --> G
+    F --> G
+    G --> H
+    H -.-> F
+
+    subgraph Phase0 ["Phase 0: Preparation"]
+        Z
+    end
+
+    subgraph Phase1 ["Phase 1: Consumption & Integration"]
+        B
+        C
+    end
+
+    subgraph Phase2 ["Phase 2: Strategic Adoption & Building"]
+        F
+        G
+        H
+    end
+```
+
 ## Structure
 
 The learning materials are organized in a modular, progressive structure:
