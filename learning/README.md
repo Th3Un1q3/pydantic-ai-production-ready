@@ -30,22 +30,18 @@ Not every organization proceeds to the build phases; some may find ready-made to
 graph TD
     A(["Start"])
     Z["Assessment & Foundation (Data, Skills, Governance)"]
-    B["Ready-made Tools (Copilot, Claude Code, Gemini)"]
+    B["Individual Tools (Copilot, Claude Code, Gemini)"]
     C["Integration & Automation (Workflows, Support Agents)"]
-    D{"Strategic Expansion?"}
-    E(["Maintain Tool Usage"])
     F["Standardization (Unified Toolset, Prompt Libs)"]
     G["Build Internal Apps (Learning & Expertise)"]
     H["Build Customer-Facing Products"]
 
     A --> Z
     Z --> B
-    B --> C
+    Z --> C
     B --> F
-    C --> D
-    D -- No --> E
-    D -- Yes --> G
-    F --> G
+    C -- Strategic Expansion? --> G
+    F -- Need to Scale? --> G
     G --> H
     H -.-> F
 
@@ -53,12 +49,12 @@ graph TD
         Z
     end
 
-    subgraph Phase1 ["Phase 1: Consumption & Integration"]
+    subgraph Phase1 ["Phase 1: Consumption"]
         B
         C
     end
 
-    subgraph Phase2 ["Phase 2: Strategic Adoption & Building"]
+    subgraph Phase2 ["Phase 2: Strategic Adoption"]
         F
         G
         H
