@@ -63,29 +63,9 @@ graph TD
 
 ## Structure
 
-The learning materials are organized in a modular, progressive structure:
-
-```
-learning/
-├── 01-fundamentals/          # Basic concepts and getting started
-│   ├── 01-introduction.md
-│   ├── 02-setup.md
-│   └── exercises/
-├── 02-core-concepts/          # Core Pydantic AI concepts
-│   ├── 01-agents.md
-│   ├── 02-models.md
-│   ├── 03-tools.md
-│   └── exercises/
-├── 03-advanced-patterns/      # Advanced implementation patterns
-│   ├── 01-streaming.md
-│   ├── 02-error-handling.md
-│   └── exercises/
-├── 04-production-deployment/  # Production considerations
-│   ├── 01-monitoring.md
-│   ├── 02-scaling.md
-│   └── exercises/
-└── README.md                  # This file
-```
+The canonical directory layout for `learning/` is now maintained by the `learning-structure` skill.
+See `.github/skills/learning-structure/references/structure.md` for the canonical layout and use
+`.github/skills/learning-structure/scripts/init_learning_structure.py` to create or validate modules.
 
 ## How to Use
 

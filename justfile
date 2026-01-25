@@ -20,6 +20,10 @@ help:
 # Installation Commands
 # ============================================================================
 
+# Install a skill from a GitHub URL. just install-skill https://github.com/anthropics/skills/tree/main/skills/skill-creator
+install-skill URL:
+    ./scripts/install_skill.sh {{URL}}
+
 # Install all packages or specific package
 install PACKAGE="all":
     #!/usr/bin/env bash
