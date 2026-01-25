@@ -63,9 +63,9 @@ graph TD
 
 ## Structure
 
-The canonical directory layout for `learning/` is now maintained by the `learning-structure` skill.
-See `.github/skills/learning-structure/references/structure.md` for the canonical layout and use
-`.github/skills/learning-structure/scripts/init_learning_structure.py` to create or validate modules.
+The canonical directory layout and module structure for `learning/` is maintained by the [learning-structure skill](.github/skills/learning-structure). Use the skill's script to create, validate, or manage modules.
+
+For the canonical structure definition, see [learning-structure references](.github/skills/learning-structure/references/structure.md).
 
 ## How to Use
 
@@ -81,47 +81,20 @@ See `.github/skills/learning-structure/references/structure.md` for the canonica
 
 ### For Content Creators
 
-The modular structure supports easy content addition and updates:
+To add or modify modules, use the `learning-structure` skill:
 
-#### Adding a New Module
+1. Run the script to create a new module:
+   ```bash
+   python .github/skills/learning-structure/scripts/init_learning_structure.py --add-module XX-module-name --title "Module Title"
+   ```
+2. Add content to markdown files following these guidelines:
+   - **Progressive Complexity**: Build on previous modules
+   - **Self-Contained**: Each topic should be independently understandable
+   - **Practical Focus**: Include code examples and real-world scenarios
+   - **Clear Objectives**: Start modules with learning goals
+   - **Exercises**: Provide hands-on practice
 
-1. Create a new numbered directory: `XX-module-name/`
-2. Add markdown files for concepts: `01-concept-name.md`
-3. Create an `exercises/` subdirectory for hands-on activities
-4. Update this README with the new module
-
-#### Module Template
-
-Each module should follow this structure:
-
-```
-XX-module-name/
-├── README.md              # Module overview and objectives
-├── 01-topic-one.md       # Individual topic/concept
-├── 02-topic-two.md       # Another topic
-├── exercises/
-│   ├── README.md         # Exercise instructions
-│   ├── exercise-1/       # Self-contained exercise
-│   └── exercise-2/
-└── resources/            # Additional resources (optional)
-    ├── diagrams/
-    └── code-samples/
-```
-
-#### Content Guidelines
-
-1. **Progressive Complexity**: Each module should build on previous ones
-2. **Self-Contained**: Each topic file should be independently understandable
-3. **Practical Focus**: Include code examples and real-world scenarios
-4. **Clear Learning Objectives**: Start each module with clear goals
-5. **Exercises**: Provide hands-on practice opportunities
-
-#### Markdown Standards
-
-- Use clear headings (H2 for main sections, H3 for subsections)
-- Include code blocks with language specification
-- Add links to related modules and external resources
-- Use callouts for important notes (> **Note:** ...)
+For detailed structure, templates, and standards, see the [learning-structure skill documentation](.github/skills/learning-structure/references/structure.md).
 
 ## Module Overview
 
