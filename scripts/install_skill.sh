@@ -17,7 +17,7 @@ if [[ "$URL" == *"/tree/"* ]]; then
     BRANCH="${REST%%/*}"
     # The path is everything after the branch
     PATH_IN_REPO="${REST#*/}"
-    
+
     # If the path is the same as the branch (e.g. no path), handle it
     if [[ "$BRANCH" == "$PATH_IN_REPO" ]]; then
         PATH_IN_REPO=""
@@ -29,7 +29,7 @@ else
     # Handle root repo case (e.g., https://github.com/owner/repo)
     REPO_URL="$URL"
     BRANCH="main" # Default assumption, or we could query it, but let's default to main or master logic if git clone handles it.
-    # Actually, for sparse checkout of a specific subdirectory, we usually need the path. 
+    # Actually, for sparse checkout of a specific subdirectory, we usually need the path.
     # If the user gives a root URL, maybe they want to install the whole repo as a skill?
     # Let's simplify: require tree/structure for now as per request pattern, or just clone the whole thing if no tree.
     echo "Attempting to clone full repository..."
