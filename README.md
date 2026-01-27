@@ -1,5 +1,7 @@
 # Pydantic AI Production Ready
 
+> There is a difference between demo magic and enterprise reality. This project teaches you how to bring magic to reality.
+
 Build your production-ready AI application with Pydantic AI Framework
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
@@ -66,10 +68,10 @@ brew install just
    # Clone the repository
    git clone https://github.com/Th3Un1q3/pydantic-ai-production-ready.git
    cd pydantic-ai-production-ready
-   
+
    # Open in VS Code
    code .
-   
+
    # Press F1 and select "Dev Containers: Reopen in Container"
    ```
 
@@ -94,7 +96,7 @@ brew install just
    ```bash
    # Install uv
    curl -LsSf https://astral.sh/uv/install.sh | sh
-   
+
    # Install just
    curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
    ```
@@ -103,10 +105,10 @@ brew install just
    ```bash
    git clone https://github.com/Th3Un1q3/pydantic-ai-production-ready.git
    cd pydantic-ai-production-ready
-   
+
    # Initialize environment (installs all dependencies)
    just init
-   
+
    # Or manually
    # No need to cd && uv sync
    ```

@@ -13,8 +13,8 @@ A curated collection of high-quality resources for learning about AI application
 ## Books
 
 ### AI Engineering
-**Author:** Chip Huyen  
-**Repository:** [chiphuyen/aie-book](https://github.com/chiphuyen/aie-book)  
+**Author:** Chip Huyen
+**Repository:** [chiphuyen/aie-book](https://github.com/chiphuyen/aie-book)
 **Description:** Comprehensive guide covering most concepts related to AI application development nuances.
 
 **Key Topics Covered:**

@@ -20,6 +20,11 @@ if ! command -v uv &> /dev/null; then
     export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
+# Install GitHub Copilot CLI if not already installed
+if ! command -v copilot &> /dev/null; then
+    echo "Installing GitHub Copilot CLI..."
+    curl -fsSL https://gh.io/copilot-install | bash
+fi
 
 cd /workspace
 
