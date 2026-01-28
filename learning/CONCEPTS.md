@@ -18,6 +18,7 @@ Context Management - Techniques for managing conversational context in AI agents
 This page organizes the core ideas and techniques covered across the learning modules, grouped by logical areas to make it easier to find related content and examples.
 
 ### Related topics 🔗
+
 Quick cross-cutting topics and short descriptions you can reference from modules and examples:
 
 - **Evaluations** — designing and running agent evaluations: datasets, cases, and judges — [Module](00-misc/NOT_IMPLEMENTED.md)
@@ -35,8 +36,10 @@ Quick cross-cutting topics and short descriptions you can reference from modules
 - **Prompt Injection** — threats and mitigations for prompt security — [Module](00-misc/NOT_IMPLEMENTED.md)
 - **Harnessing LLMs** — best practices for working with large language models — [Module](00-misc/NOT_IMPLEMENTED.md)
 - **Runaway Agents** — detection and prevention of uncontrolled behavior — [Module](00-misc/NOT_IMPLEMENTED.md)
+- **Agent-to-Agent Communication (A2A Protocol)** — protocols and standards for direct communication between agents — [Module](00-misc/NOT_IMPLEMENTED.md)
 
 ### Core Concepts ✅
+
 Foundational elements for building and operating agents: data models, prompts, execution primitives, and message formats.
 
 - **Agents**
@@ -58,6 +61,7 @@ Foundational elements for building and operating agents: data models, prompts, e
   - *Serialization* (`ModelMessagesTypeAdapter`) — [Module](00-misc/NOT_IMPLEMENTED.md)
 
 ### Advanced Features 🔧
+
 Higher-level capabilities for reliability, scale, and evaluation.
 
 - **Durable Execution**
@@ -77,6 +81,7 @@ Higher-level capabilities for reliability, scale, and evaluation.
   - *Experiment Reporting* — [Module](00-misc/NOT_IMPLEMENTED.md)
 
 ### Ecosystem & Interfaces 🌐
+
 Integration points and observability for production systems.
 
 - **Observability**
@@ -96,6 +101,7 @@ Integration points and observability for production systems.
   - *Mistral, Groq, Cohere* — [Module](00-misc/NOT_IMPLEMENTED.md)
 
 ### Tools & Extensions 🧰
+
 Tooling for capabilities that extend agent behavior and enable retrieval, search, and runtime features.
 
 - **Function Tools**
