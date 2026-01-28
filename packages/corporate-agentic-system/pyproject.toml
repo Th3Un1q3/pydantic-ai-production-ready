@@ -2,9 +2,7 @@
 name = "corporate-agentic-system"
 version = "0.1.0"
 description = "Corporate agentic system using Pydantic AI"
-authors = [
-    { name = "Mikhail Gubenko" }
-]
+authors = [{ name = "Mikhail Gubenko" }]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -16,17 +14,13 @@ dependencies = [
     "httpx>=0.27.0",
 ]
 
+[tool.uv.sources]
+pydantic-ai-shared = { workspace = true }
+
 [project.optional-dependencies]
-anthropic = [
-    "anthropic>=0.18.0",
-]
-postgres = [
-    "psycopg[binary]>=3.1.0",
-    "sqlalchemy>=2.0.0",
-]
-redis = [
-    "redis>=5.0.0",
-]
+anthropic = ["anthropic>=0.18.0"]
+postgres = ["psycopg[binary]>=3.1.0", "sqlalchemy>=2.0.0"]
+redis = ["redis>=5.0.0"]
 
 [build-system]
 requires = ["hatchling"]

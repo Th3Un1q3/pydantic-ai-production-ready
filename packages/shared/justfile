@@ -3,7 +3,7 @@
 # Start the shared chatbot example
 start:
     @echo "🚀 Starting shared chatbot example..."
-    uv run python src/examples/chatbot.py
+    uv run python src/pydantic_ai_shared/examples/chatbot.py
 
 # Run tests
 test:

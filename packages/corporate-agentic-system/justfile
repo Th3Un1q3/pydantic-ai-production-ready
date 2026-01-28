@@ -3,7 +3,7 @@
 # Start the corporate agentic system
 start:
     @echo "🚀 Starting corporate-agentic-system..."
-    uv run python src/orchestrator.py
+    uv run python src/corporate_agentic_system/orchestrator.py
 
 # Run tests
 test:

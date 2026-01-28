@@ -10,35 +10,21 @@ This repository uses [just](https://github.com/casey/just) as a command runner f
 - **Ease of Use**: Dependencies are handled automatically
 - **Focus**: Only essential commands are included
 
-## Modular Architecture
+## Architecture
 
-The command system uses a **two-tier architecture** for maximum modularity:
+The command system leverages **uv workspaces** for efficient dependency management and command execution:
 
 ### Main Justfile (Root)
-Located at the repository root, handles:
-- Command discovery (`just --list`)
-- Package alias resolution (e.g., `support` → `internal-support-agent`)
-- Workspace-wide operations (install all, test all)
-- Delegation to package-specific justfiles
+Located at the repository root, acts as the primary interface:
+- **Workspace-aware**: Uses `uv sync` and `uv run` to manage the monorepo environment
+- **Alias resolution**: Maps short names (e.g., `support`) to full package names
+- **Centralized logic**: Defines standard commands (`start`, `test`) across the workspace
 
-### Package Justfiles
-Each package has its own `justfile` defining:
-- **Start command**: How to run the package
-- **Test command**: How to test the package
-- **Custom commands**: Package-specific operations
-
-**Example structure**:
-```
-.
-├── justfile                              # Main justfile
-└── packages/
-    ├── shared/
-    │   └── justfile                      # Defines: just start, just test
-    ├── internal-support-agent/
-    │   └── justfile                      # Defines: just start, just test
-    └── corporate-agentic-system/
-        └── justfile                      # Defines: just start, just test
-```
+### Package Structure
+Each package is a member of the updated uv workspace:
+- **pyproject.toml**: Defines package-specific dependencies
+- **Source layout**: Follows standard `src/<package_name>` structure
+- **Workspace integration**: Packages can be run from the root using `uv run --package <name>`
 
 **How it works**:
 ```bash
@@ -47,18 +33,14 @@ just start support
 
 # Main justfile:
 # 1. Resolves "support" → "internal-support-agent"
-# 2. Runs: just install support
-# 3. Delegates to: cd packages/internal-support-agent && just start
-
-# Package justfile executes:
-# uv run python src/agent.py
+# 2. Runs: uv run --package internal-support-agent python -m internal_support_agent.agent
 ```
 
 **Benefits**:
-- ✅ **Easy to extend**: Add new package by creating a justfile
-- ✅ **Decentralized**: Each package controls its own entrypoints
+- ✅ **Fast**: Uses uv for rapid dependency resolution
+- ✅ **Unified Environment**: Single lockfile for the entire workspace
 - ✅ **Consistent interface**: Same commands work for all packages
-- ✅ **No hardcoded paths**: Implementation details in packages
+- ✅ **Type Safe**: Centralized type checking across the workspace
 
 ## Installation
 
@@ -136,55 +118,42 @@ just info
 
 ### Installation Commands
 
-All installation commands use `uv sync` under the hood.
+All installation commands use `uv sync` to manage the workspace environment.
 
 ```bash
-# Install all packages
+# Sync workspace dependencies
 just install
-just install-all
-
-# Install specific package
-just install shared
-just install internal-support-agent
-just install corporate-agentic-system
-
-# Package aliases (shorter names)
-just install-shared
-just install-support
-just install-corporate
 ```
 
 **How it works:**
-- Reads workspace configuration from `pyproject.toml`
-- Installs package and its dependencies
-- Creates virtual environment if needed
-- Resolves cross-package dependencies
+- Reads workspace configuration from root `pyproject.toml`
+- Resolves all workspace members and dependencies
+- Creates/updates the unified `.venv` for the workspace
+- Ensures all packages are installed in editable mode
+
+Note: In `uv` workspaces, dependency installation is centralized. Run `just install` to prepare the environment for all packages.
 
 ### Start Commands
 
-Start commands automatically install dependencies if not already installed.
+Start commands delegate to the package's `justfile`.
 
 ```bash
-# Start specific project
-just start shared              # Runs chatbot example
-just start support             # Runs internal support agent
-just start corporate           # Runs corporate agentic system
+# Start a specific package by directory name
+just start shared
+just start internal-support-agent
+just start corporate-agentic-system
 
-# Convenient aliases
-just start-shared
-just start-support
-just start-corporate
+# Aliases also work if defined
+just start support
+just start corporate
 ```
 
 **How it works:**
-1. Checks if dependencies are installed
-2. Installs if needed (calls `just install-{package}`)
-3. Runs the main entry point for the package
+1. Resolves alias (if any) or uses directory name.
+2. Checks if `packages/<name>` exists.
+3. Delegates to `cd packages/<name> && just start`.
 
-**What each command runs:**
-- `shared`: Chatbot example (`src/examples/chatbot.py`)
-- `support`: Internal support agent demo (`src/agent.py`)
-- `corporate`: Corporate system orchestrator (`src/orchestrator.py`)
+This implies each package must have a `justfile` with a `start` recipe.
 
 ### Testing Commands
 
@@ -304,21 +273,17 @@ Both full names and aliases work with all commands.
 
 ## Dependency Management
 
-Commands that require other commands to run first will automatically run them:
+Commands leverage `uv`'s automatic environment synchronization:
 
 ### Implicit Dependencies
 
 - **`just start <package>`**:
-  1. Runs `just install-<package>` (if needed)
-  2. Runs the package
+  - `uv run` ensures the environment is up-to-date before execution.
 
-- **`just check <package>`**:
-  1. Runs `just format <package>`
-  2. Runs `just lint <package>`
-  3. Runs `just typecheck <package>`
-  4. Runs `just test <package>`
+- **`just check`**:
+  - Runs format, lint, typecheck, and test in sequence.
 
-This means you can run `just start support` even on a fresh clone, and it will install everything needed automatically.
+This means you can run `just start support` even on a fresh clone, and `uv` will install everything needed automatically.
 
 ## Working with Multiple Packages
 
@@ -392,9 +357,7 @@ just init
 
 Instead of:
 ```bash
-cd packages/internal-support-agent
-uv sync --package internal-support-agent
-uv run python src/agent.py
+uv run --package internal-support-agent python -m internal_support_agent.agent
 ```
 
 Do:
@@ -533,22 +496,16 @@ test:
 
 ### Step 3: Update Main Justfile
 
-Add your package to the main justfile's resolution logic in the `install`, `start`, and `test` commands:
+Add your package to the resolution logic in the `start` and `test` commands:
 
 ```just
-# In install command, add:
-elif [ "{{PACKAGE}}" = "my-new-agent" ]; then
-    echo "📦 Installing my-new-agent..."
-    uv sync --package my-new-agent
-    echo "✅ My-new-agent installed"
-
 # In start command, add:
-elif [ "{{PACKAGE}}" = "my-new-agent" ]; then
-    PKG_DIR="my-new-agent"
+elif [[ "$target" == "my-new-agent" ]]; then
+    uv run --package my-new-agent python -m my_new_agent.main
 
 # In test command, add:
-elif [ "{{PACKAGE}}" = "my-new-agent" ]; then
-    PKG_DIR="my-new-agent"
+elif [[ "$target" == "my-new-agent" ]]; then
+    uv run pytest packages/my-new-agent
 ```
 
 ### Step 4: Register in Workspace
@@ -646,10 +603,10 @@ just test-shared
 
 The `just` command system provides:
 
-✅ **Discoverability**: Run `just` to see all commands  
-✅ **Modularity**: Package-specific implementations  
-✅ **Consistency**: Predictable command structure  
-✅ **Ease of Use**: Automatic dependency handling  
-✅ **Focus**: Only essential commands included  
+✅ **Discoverability**: Run `just` to see all commands
+✅ **Modularity**: Package-specific implementations
+✅ **Consistency**: Predictable command structure
+✅ **Ease of Use**: Automatic dependency handling
+✅ **Focus**: Only essential commands included
 
 Start with `just init` and explore with `just --list`!
