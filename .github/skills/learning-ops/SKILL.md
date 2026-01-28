@@ -1,6 +1,6 @@
 ---
 name: learning-ops
-description: "Comprehensive toolset for managing the 'learning' directory. Use for structure validation, creating new modules, maintaining material freshness, synchronizing code examples, and cross-referencing content."
+description: Guide on managing learning materials. Use for structure validation, creating/editing new learning modules, maintaining material freshness, changing/synchronizing code examples, and cross-referencing learningcontent."
 ---
 
 # Learning Operations Skill
