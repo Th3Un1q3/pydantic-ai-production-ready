@@ -11,17 +11,19 @@ This skill helps you manage the lifecycle of educational content in `learning/`.
 
 ### Common Tasks
 
-1.  **Create a new module**:
+1. **Create a new module**:
+
     ```bash
     python .github/skills/learning-ops/scripts/init_learning_structure.py --path ./learning --add-module 05-new-topic --title "New Topic"
     ```
 
-2.  **Validate structure and links**:
+2. **Validate structure and links**:
+
     ```bash
     python .github/skills/learning-ops/scripts/init_learning_structure.py --path ./learning --validate
     ```
 
-3.  **Sync check (conceptual)**:
+3. **Sync check (conceptual)**:
     Refer to [syncing.md](./references/syncing.md) for verifying code examples match documentation.
 
 ## When to Use
@@ -41,15 +43,17 @@ This skill helps you manage the lifecycle of educational content in `learning/`.
 ## Included Resources
 
 ### Scripts
+
 - `scripts/init_learning_structure.py`: Idempotent structure generator and validator.
 
 ### Assets
+
 - `assets/template_readme.md`: Standard template for new modules.
 
 ## Workflow: Adding a New Educational Concept
 
-1.  **Identify the Code**: Find or create the example code in `packages/*/src/examples/`.
-2.  **Create Module**: Use the script to scaffold the `learning/XX-topic/` folder.
-3.  **Write Content**: Use the templates. Reference the code using `[File Link](../../packages/...)`.
-4.  **Cross-Ref**: Update previous modules to point to the new advanced topic if relevant.
-5.  **Validate**: Run the validation script to check file presence.
+1. **Identify the Code**: Find or create the example code in `packages/*/src/examples/`.
+2. **Create Module**: Use the script to scaffold the `learning/XX-topic/` folder.
+3. **Write Content**: Use the templates. Reference the code using `[File Link](../../packages/...)`.
+4. **Cross-Ref**: Update previous modules to point to the new advanced topic if relevant.
+5. **Validate**: Run the validation script to check file presence.
