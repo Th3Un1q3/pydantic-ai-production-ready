@@ -41,22 +41,6 @@ This repository provides a comprehensive framework for building production-ready
 
 ## 🚀 Quick Start
 
-### Prerequisites
-
-This repository uses [`just`](https://github.com/casey/just) as a command runner. Install it first:
-
-**macOS/Linux**:
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
-```
-
-**macOS (Homebrew)**:
-```bash
-brew install just
-```
-
-**See [COMMANDS.md](COMMANDS.md) for other installation methods.**
-
 ### Option 1: Using DevContainer (Recommended)
 
 1. **Prerequisites**
@@ -64,6 +48,7 @@ brew install just
    - [VS Code](https://code.visualstudio.com/) with [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
 2. **Open in Container**
+
    ```bash
    # Clone the repository
    git clone https://github.com/Th3Un1q3/pydantic-ai-production-ready.git
@@ -84,24 +69,21 @@ brew install just
    - Install all dependencies
 
 4. **Use Commands**
+
    ```bash
    just init          # Initialize environment
    just start support # Start internal support agent
    just test          # Run all tests
    ```
 
-### Option 2: Local Setup
+### Option 2: Local Setup (Not Recommended)
 
 1. **Install Prerequisites**
-   ```bash
-   # Install uv
-   curl -LsSf https://astral.sh/uv/install.sh | sh
 
-   # Install just
-   curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
-   ```
+   Ensure you have [uv](https://docs.astral.sh/uv/getting-started/installation/) and [just](https://just.systems/man/en/chapter_4.html) installed.
 
 2. **Clone and Setup**
+
    ```bash
    git clone https://github.com/Th3Un1q3/pydantic-ai-production-ready.git
    cd pydantic-ai-production-ready
@@ -114,6 +96,7 @@ brew install just
    ```
 
 3. **Explore Commands**
+
    ```bash
    just              # List all available commands
    just help         # Show detailed help
@@ -156,6 +139,7 @@ just info            # Show environment info
 ```
 
 **Key Features:**
+
 - ✅ **Discoverable**: Run `just` to see all commands
 - ✅ **Automatic Dependencies**: `just start` installs if needed
 - ✅ **Modular**: Per-package commands available
@@ -171,6 +155,7 @@ Start your journey with the modular learning materials in the `learning/` direct
 4. **[Production Deployment](learning/04-production-deployment/)** - Deploy and scale
 
 Each module includes:
+
 - 📖 Comprehensive guides
 - 💻 Hands-on exercises
 - 🔗 Links to working examples
@@ -214,6 +199,7 @@ uv run ruff check --fix .
 # Type checking
 uv run mypy packages/*/src
 ```
+
 ```
 
 ### Available Services (in DevContainer)
@@ -239,6 +225,7 @@ REDIS_URL=redis://redis:6379
 ## 🎓 For Content Creators
 
 The learning materials are designed to be extensible. See [learning/README.md](learning/README.md) for:
+
 - Module structure guidelines
 - Content creation templates
 - Best practices for educational content
@@ -246,6 +233,7 @@ The learning materials are designed to be extensible. See [learning/README.md](l
 ## 🤝 Contributing
 
 Contributions are welcome! Whether you're:
+
 - Adding new learning materials
 - Improving examples
 - Fixing bugs
@@ -256,12 +244,14 @@ Please feel free to open issues or pull requests.
 ## 📦 Dependencies
 
 Core dependencies:
+
 - **pydantic-ai**: The main framework
 - **pydantic**: Data validation
 - **loguru**: Logging
 - **httpx**: HTTP client
 
 Optional dependencies (install with `uv sync --extra <name>`):
+
 - `openai`: OpenAI integration
 - `anthropic`: Anthropic (Claude) integration
 - `postgres`: PostgreSQL support

@@ -28,13 +28,19 @@ To add a new agent or package to the monorepo:
     ```toml
     [tool.uv.workspace]
     members = [
-        # ... existing members
-        "packages/my-new-package",
+        "packages/shared",
+        "packages/internal-support-agent",
+        "packages/corporate-agentic-system",
+        "packages/my-new-package",  # Add this
     ]
     ```
 
-5. **Update Root `justfile`**:
-    Add logic to the root `justfile` to handle the new package name in `install`, `start`, and `test` commands.
-
-6. **Initialize**:
+5. **Initialize**:
     Run `just init` or `just install my-new-package` to set up dependencies.
+
+6. **Verify**:
+
+    ```bash
+    just start my-new-package
+    just test my-new-package
+    ```

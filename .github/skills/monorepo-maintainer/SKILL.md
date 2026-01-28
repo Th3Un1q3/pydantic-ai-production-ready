@@ -1,5 +1,5 @@
 ---
-name: project-navigator
+name: monorepo-maintainer
 description: Guide for navigating the project structure, understanding the monorepo architecture, and using the `just` command runner to manage packages and workflows. Use this skill when the user asks about the project layout, how to add new packages, or how to run/test existing components.
 ---
 
@@ -30,7 +30,7 @@ The project uses `just` as a unified interface for all operations. Do not run `u
 
 ### Common Commands
 
-- **Initialize**: `just init` (Installs all dependencies)
+- **Initialize**: `just init` (Installs all dependencies, creates env variables files)
 - **Start**: `just start [package]` (e.g., `just start support`)
 - **Test**: `just test [package]` (e.g., `just test shared` or just `just test` for all)
 - **Install**: `just install [package]` (e.g., `just install corporate`)
