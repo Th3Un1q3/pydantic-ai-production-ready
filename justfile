@@ -36,18 +36,17 @@ install PACKAGE="all":
         echo "📦 Installing shared package..."
         uv sync --package pydantic-ai-shared
         echo "✅ Shared package installed"
-    elif [ "{{PACKAGE}}" = "internal-support-agent" ] || [ "{{PACKAGE}}" = "support" ]; then
-        echo "📦 Installing internal-support-agent..."
-        uv sync --package internal-support-agent
-        echo "✅ Internal-support-agent installed"
-    elif [ "{{PACKAGE}}" = "corporate-agentic-system" ] || [ "{{PACKAGE}}" = "corporate" ]; then
-        echo "📦 Installing corporate-agentic-system..."
-        uv sync --package corporate-agentic-system
-        echo "✅ Corporate-agentic-system installed"
     else
-        echo "❌ Unknown package: {{PACKAGE}}"
-        echo "Available: all, shared, internal-support-agent (support), corporate-agentic-system (corporate)"
-        exit 1
+        # Use directory name as package name
+        PKG_DIR="{{PACKAGE}}"
+        if [ ! -d "packages/$PKG_DIR" ]; then
+            echo "❌ Package directory not found: packages/$PKG_DIR"
+            exit 1
+        fi
+
+        echo "📦 Installing {{PACKAGE}}..."
+        uv sync --package {{PACKAGE}}
+        echo "✅ {{PACKAGE}} installed"
     fi
 
 # ============================================================================
@@ -62,17 +61,11 @@ start PACKAGE:
     # Ensure dependencies are installed first
     just install {{PACKAGE}}
 
-    # Resolve package alias to directory name
-    PKG_DIR=""
-    if [ "{{PACKAGE}}" = "shared" ]; then
-        PKG_DIR="shared"
-    elif [ "{{PACKAGE}}" = "internal-support-agent" ] || [ "{{PACKAGE}}" = "support" ]; then
-        PKG_DIR="internal-support-agent"
-    elif [ "{{PACKAGE}}" = "corporate-agentic-system" ] || [ "{{PACKAGE}}" = "corporate" ]; then
-        PKG_DIR="corporate-agentic-system"
-    else
-        echo "❌ Unknown package: {{PACKAGE}}"
-        echo "Available: shared, internal-support-agent (support), corporate-agentic-system (corporate)"
+    # Use directory name as package name
+    PKG_DIR="{{PACKAGE}}"
+
+    if [ ! -d "packages/$PKG_DIR" ]; then
+        echo "❌ Package directory not found: packages/$PKG_DIR"
         exit 1
     fi
 
@@ -92,17 +85,11 @@ test PACKAGE="all":
         uv run pytest
         echo "✅ All tests passed"
     else
-        # Resolve package alias to directory name
-        PKG_DIR=""
-        if [ "{{PACKAGE}}" = "shared" ]; then
-            PKG_DIR="shared"
-        elif [ "{{PACKAGE}}" = "internal-support-agent" ] || [ "{{PACKAGE}}" = "support" ]; then
-            PKG_DIR="internal-support-agent"
-        elif [ "{{PACKAGE}}" = "corporate-agentic-system" ] || [ "{{PACKAGE}}" = "corporate" ]; then
-            PKG_DIR="corporate-agentic-system"
-        else
-            echo "❌ Unknown package: {{PACKAGE}}"
-            echo "Available: all, shared, internal-support-agent (support), corporate-agentic-system (corporate)"
+        # Use directory name as package name
+        PKG_DIR="{{PACKAGE}}"
+
+        if [ ! -d "packages/$PKG_DIR" ]; then
+            echo "❌ Package directory not found: packages/$PKG_DIR"
             exit 1
         fi
 
@@ -148,7 +135,7 @@ typecheck PACKAGE="all":
     set -euo pipefail
     if [ "{{PACKAGE}}" = "all" ]; then
         echo "🔎 Type checking all packages..."
-        uv run mypy packages/shared/src packages/internal-support-agent/src packages/corporate-agentic-system/src
+        uv run mypy packages/*/src
         echo "✅ All code type checked"
     else
         echo "🔎 Type checking {{PACKAGE}}..."
