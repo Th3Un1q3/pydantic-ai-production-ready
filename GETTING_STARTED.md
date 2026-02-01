@@ -1,295 +1,63 @@
 # Getting Started Guide
 
-Welcome! This guide will help you get started with the Pydantic AI Production Ready repository.
-
-## What You'll Find Here
-
-This repository is designed for both learners and practitioners who want to build production-ready AI applications using Pydantic AI Framework.
+> The primary technical steps to get the development environment running.
 
 ## Prerequisites
 
-1. **Install just** (command runner):
-   ```bash
-   # macOS/Linux
-   curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
-   
-   # macOS (Homebrew)
-   brew install just
-   ```
+- Docker (desktop or engine) — used for the Dev Container
+- Visual Studio Code
+- Dev Containers extension for VS Code
+- `just` command runner (installed inside the devcontainer)
+- `uv` (Python package manager)
 
-2. **Install uv** (Python package manager):
-   ```bash
-   curl -LsSf https://astral.sh/uv/install.sh | sh
-   ```
+## DevContainer (recommended)
 
-See [COMMANDS.md](COMMANDS.md) for other installation methods.
-
-### 🎯 For Learners
-
-Navigate to the `learning/` directory for structured learning materials:
-
-1. **Start Here**: [`learning/01-fundamentals/`](learning/01-fundamentals/)
-   - Introduction to Pydantic AI
-   - Environment setup
-   - Your first agent
-
-2. **Build Skills**: [`learning/02-core-concepts/`](learning/02-core-concepts/)
-   - Deep dive into agents
-   - Working with models
-   - Tool calling
-
-3. **Advanced Topics**: [`learning/03-advanced-patterns/`](learning/03-advanced-patterns/)
-   - Streaming responses
-   - Error handling
-   - Multi-agent systems
-
-4. **Go to Production**: [`learning/04-production-deployment/`](learning/04-production-deployment/)
-   - Monitoring
-   - Scaling
-   - Security
-
-### 💻 For Developers
-
-Use the `just` command runner for development:
+1. Open the repository in VS Code.
+2. Press `F1` → "Dev Containers: Reopen in Container".
+3. Wait for the container to build and start. The devcontainer will install system packages and dev tooling.
+4. Open a terminal inside the container and run:
 
 ```bash
-just              # List all available commands
-just init         # Install all dependencies
-just start support # Start internal support agent
-just test          # Run all tests
+just init # Should automatically open .env file to edit
+# Edit .env to add API keys (see below)
 ```
 
-See [COMMANDS.md](COMMANDS.md) for the complete command reference.
-
-## Quick Start Options
-
-### Option 1: DevContainer (Recommended)
-
-**Best for**: Complete, isolated development environment
-
-1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop)
-2. Install [VS Code](https://code.visualstudio.com/) + [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-3. Open this repo in VS Code
-4. Press `F1` → "Dev Containers: Reopen in Container"
-5. Wait for setup to complete (automatic!)
-
-**What you get:**
-- ✅ Python 3.12
-- ✅ uv package manager
-- ✅ just command runner
-- ✅ PostgreSQL database
-- ✅ Redis cache
-- ✅ All dependencies installed
-
-**After container starts:**
-```bash
-just              # List available commands
-just start support # Start internal support agent
-just test          # Run tests
-```
-
-### Option 2: Local Setup
-
-**Best for**: Working with existing local tools
-
-1. **Install prerequisites**
-   ```bash
-   # Install just
-   curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
-   
-   # Install uv
-   curl -LsSf https://astral.sh/uv/install.sh | sh
-   ```
-
-2. **Clone and setup**
-   ```bash
-   git clone https://github.com/Th3Un1q3/pydantic-ai-production-ready.git
-   cd pydantic-ai-production-ready
-   
-   # Initialize (installs all dependencies)
-   just init
-   ```
-
-3. **Configure environment**
-   ```bash
-   cp .env.example .env
-   # Edit .env and add your API keys
-   ```
-
-## Your First Steps
-
-### 1. Explore Commands
+1. Verify quick checks:
 
 ```bash
-# See all available commands
-just
-
-# Get detailed help
-just help
-
-# Show project structure
-just tree
+# inside the devcontainer
+just test    # run tests for the monorepo
+just start support   # run the internal support agent demo
 ```
 
-### 2. Run Examples
+## OpenRouter (recommended for development)
 
-The repository includes working examples:
+We recommend using **OpenRouter** as the primary routing layer for LLM access during development. OpenRouter helps avoid vendor lock-in by providing one API endpoint that can route requests to multiple model providers, and it offers free development models that are ideal for experimenting without incurring immediate costs. It also transparently passes through provider pricing for production use when you switch to paid models.
+
+### Quick OpenRouter setup
+
+1. Sign up or log in at OpenRouter (see: https://docs.openrouter.ai/).
+2. Create an API token and copy it.
+3. Add your OpenRouter token to the `.env` file as `OPEN_ROUTER_API_KEY` (see API keys example below).
+
+Example `.env` snippet:
 
 ```bash
-# Start internal support agent demo
-just start support
-
-# Start corporate agentic system demo
-just start corporate
-
-# Run shared examples (chatbot)
-just start shared
+# OpenRouter (recommended for development)
+OPEN_ROUTER_API_KEY=your_openrouter_api_key_here
 ```
 
-### 2. Run Tests
+If you prefer a direct provider integration (OpenAI, Anthropic, etc.), you can keep provider-specific keys as well (e.g., `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`). Using OpenRouter makes it easy to swap endpoints and test multiple models without changing your code.
 
-Verify everything works:
+---
 
-```bash
-# Test all packages
-just test
+## Local setup (Not recommended)
 
-# Test specific package
-just test shared
-just test support
-just test corporate
-```
+If you haven't tried using devcontainers yet, we recommend starting with that approach as it's not only easier but ensures consistency across environments. And that's how most of great productions are built nowadays.
 
-### 3. Start Learning
+If you nevertheless want to set up locally, you'd need to figure it out yourself based on the devcontainer configuration.
 
-Open and read through the learning materials:
+## Where to go next
 
-1. [`learning/01-fundamentals/01-introduction.md`](learning/01-fundamentals/01-introduction.md)
-2. Follow the lessons in order
-3. Complete exercises in each module
-
-### 4. Build Your Own Project
-
-Start building in the `src/` directory:
-
-```python
-# src/my_agent.py
-from pydantic_ai import Agent
-
-agent = Agent('openai:gpt-4')
-result = agent.run_sync('Hello!')
-print(result.data)
-```
-
-## Environment Variables
-
-Copy `.env.example` to `.env` and configure:
-
-```bash
-# No need to cd
-cp .env.example .env
-```
-
-Required variables:
-- `OPENAI_API_KEY` - Get from [OpenAI Platform](https://platform.openai.com/api-keys)
-
-Optional variables:
-- `ANTHROPIC_API_KEY` - For Claude models
-- `DATABASE_URL` - For PostgreSQL (auto-configured in devcontainer)
-- `REDIS_URL` - For Redis (auto-configured in devcontainer)
-
-## Repository Structure
-
-```
-pydantic-ai-production-ready/
-├── .devcontainer/          # DevContainer configuration
-│   ├── devcontainer.json   # VS Code devcontainer settings
-│   ├── docker-compose.yml  # Multi-service setup
-│   ├── Dockerfile          # Container image
-│   └── post-create.sh      # Setup script
-│
-├── learning/               # Learning materials
-│   ├── 01-fundamentals/    # Start here!
-│   ├── 02-core-concepts/   # Core Pydantic AI concepts
-│   ├── 03-advanced-patterns/ # Advanced topics
-│   ├── 04-production-deployment/ # Production guide
-│   └── README.md           # Learning materials overview
-│
-├──                # Python monorepo
-│   ├── src/               # Source code
-│   │   ├── examples/      # Example implementations
-│   │   └── __init__.py
-│   ├── tests/             # Test files
-│   ├── pyproject.toml     # Dependencies & config
-│   ├── .env.example       # Environment template
-│   └── README.md          # Project documentation
-│
-├── README.md              # Main documentation
-├── CONTRIBUTING.md        # Contribution guidelines
-├── LICENSE                # MIT License
-└── .gitignore            # Git ignore rules
-```
-
-## Common Tasks
-
-### Install Dependencies
-
-```bash
-# No need to cd
-uv sync                    # Install base dependencies
-uv sync --all-extras      # Install all optional dependencies
-uv sync --extra openai    # Install specific extras
-```
-
-### Run Code
-
-```bash
-# No need to cd
-uv run python -m src.examples.chatbot
-```
-
-### Test Code
-
-```bash
-# No need to cd
-uv run pytest              # Run all tests
-uv run pytest -v          # Verbose output
-uv run pytest tests/test_basic.py  # Run specific test
-```
-
-### Format and Lint
-
-```bash
-# No need to cd
-uv run black .            # Format code
-uv run ruff check --fix . # Lint and fix
-uv run mypy src           # Type checking
-```
-
-## Available Services (DevContainer)
-
-When using the devcontainer, these services are automatically available:
-
-- **PostgreSQL**: `localhost:5432`
-  - User: `postgres`
-  - Password: `postgres`
-  - Database: `pydantic_ai_db`
-
-- **Redis**: `localhost:6379`
-
-## Need Help?
-
-- 📖 **Documentation**: See [learning/](learning/) directory
-- 🐛 **Issues**: [GitHub Issues](https://github.com/Th3Un1q3/pydantic-ai-production-ready/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/Th3Un1q3/pydantic-ai-production-ready/discussions)
-- 📚 **Pydantic AI Docs**: https://ai.pydantic.dev/
-
-## Next Steps
-
-1. ✅ Choose your setup method (DevContainer or Local)
-2. ✅ Get the environment running
-3. ✅ Run the examples
-4. ✅ Start with [`learning/01-fundamentals/`](learning/01-fundamentals/)
-5. ✅ Build your first agent!
-
-Happy learning and building! 🚀
+- For high-level learning path and staged workflow, see `learning/01-fundamentals/`.
+- For optional deep-dive and background, `learning/01-fundamentals/02-setup.md` contains context and additional notes.
