@@ -5,12 +5,12 @@ Tests for Pydantic AI Shared utilities.
 import pytest
 
 
-def test_basic():
+def test_basic() -> None:
     """Test that basic assertions work."""
     assert True
 
 
-def test_config():
+def test_config() -> None:
     """Test configuration module."""
     from pydantic_ai_shared import config
 
@@ -25,6 +25,6 @@ def test_config():
 
 
 @pytest.mark.asyncio
-async def test_async():
+async def test_async() -> None:
     """Test that async tests work."""
     assert True

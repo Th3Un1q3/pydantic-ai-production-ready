@@ -6,7 +6,7 @@ import pytest
 from pydantic_ai_shared.resolver import resolve_model
 
 
-def test_resolve_no_provider_zero_exception():
+def test_resolve_no_provider_zero_exception() -> None:
     """
     ZOMBIE: Zero.
     Calling resolve_model() with no API keys in environment should raise an exception.
@@ -19,17 +19,18 @@ def test_resolve_no_provider_zero_exception():
             resolve_model()
 
 
-def test_resolve_default_with_openai_one():
+def test_resolve_default_with_openai_one() -> None:
     """
     ZOMBIE: One.
     Calling resolve_model() with just OpenAI key returns default OpenAI model.
     """
     with patch.dict(os.environ, {"OPENAI_API_KEY": "sk-oa-..."}, clear=True):
         model = resolve_model()
+        assert isinstance(model, str)
         assert model.startswith("openai:")
 
 
-def test_resolve_env_precedence_boundary():
+def test_resolve_env_precedence_boundary() -> None:
     """
     ZOMBIE: Boundary.
     Test precedence: OpenRouter > Anthropic > OpenAI.
@@ -43,20 +44,26 @@ def test_resolve_env_precedence_boundary():
             "OPENAI_API_KEY": "sk-oa-...",
         },
     ):
-        assert resolve_model().startswith("openrouter:")
+        model = resolve_model()
+        assert isinstance(model, str)
+        assert model.startswith("openrouter:")
 
     # 2. Anthropic (No OpenRouter)
     with patch.dict(
         os.environ, {"ANTHROPIC_API_KEY": "sk-ant-...", "OPENAI_API_KEY": "sk-oa-..."}, clear=True
     ):
-        assert resolve_model().startswith("anthropic:")
+        model = resolve_model()
+        assert isinstance(model, str)
+        assert model.startswith("anthropic:")
 
     # 3. OpenAI (No others)
     with patch.dict(os.environ, {"OPENAI_API_KEY": "sk-oa-..."}, clear=True):
-        assert resolve_model().startswith("openai:")
+        model = resolve_model()
+        assert isinstance(model, str)
+        assert model.startswith("openai:")
 
 
-def test_resolve_provider_default_overrides_boundary():
+def test_resolve_provider_default_overrides_boundary() -> None:
     """
     ZOMBIE: Boundary.
     Test that specific model overrides work when that provider is active.
@@ -79,11 +86,11 @@ def test_resolve_provider_default_overrides_boundary():
         assert resolve_model() == "anthropic:claude-3-opus"
 
 
-def test_interface_no_args():
+def test_interface_no_args() -> None:
     """
     ZOMBIE: Interface.
     Ensure we do NOT accept arguments as per requirement "don't even provide such an option".
     """
     # Attempting to pass an argument should raise TypeError
     with pytest.raises(TypeError):
-        resolve_model("some-tag")
+        resolve_model("some-tag")  # type: ignore[call-arg]
