@@ -63,6 +63,26 @@ Write the **simplest possible code** to make that specific test pass. Do not ove
 
 Repeat steps 3-4 for the next test case in the ZOMBIE list.
 
+## Strict Quality Enforcement
+
+### 1. Mandatory API Verification
+
+**STOP AND VERIFY**: Before implementing any code that interacts with an external library (e.g., `pydantic-ai`, `logfire`):
+
+1. **Query Documentation**: Run `mcp_context7_query-docs` to get the exact method signatures and return types.
+2. **Verify Attributes**: Do not "guess" attribute names (e.g., `.data` vs `.output`). **You must see the attribute in the documentation output or code snippet.**
+3. **No "Dreamed" APIs**: If you cannot verify the API, do not write the code. Ask the user for clarification or search again.
+
+### 2. Static Analysis Enforcement
+
+**RUN CHECKS**: You must run the static analysis suite to catch type errors immediately.
+
+1. **Command**: Run `just check` (or `just typecheck {{package_name}}`) after every implementation step.
+2. **Fix Errors**: If `just check` fails, **stop**. Fix the type errors before proceeding. Do not ignore them.
+3. **Spec-Compliant Mocks**: When using `unittest.mock`, you **MUST** use `spec=True` or `spec=Class` to ensures your mocks adhere to the real interface.
+    * *Bad*: `Mock()` (accepts anything)
+    * *Good*: `Mock(spec=Agent)` (raises AttributeError on invalid access)
+
 ## Testing Guidelines
 
 * Use `pytest` as the testing framework.

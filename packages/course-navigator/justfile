@@ -1,0 +1,5 @@
+start:
+    uv run python -m course_navigator.main
+
+test:
+    uv run pytest

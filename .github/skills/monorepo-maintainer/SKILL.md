@@ -34,6 +34,7 @@ The project uses `just` as a unified interface for all operations. Do not run `u
 - **Start**: `just start [package]` (e.g., `just start support`)
 - **Test**: `just test [package]` (e.g., `just test shared` or just `just test` for all)
 - **Install**: `just install [package]` (e.g., `just install corporate`)
+- **Fix**: `just fix [package]` (Auto-fixes lint and formatting issues)
 - **Check**: `just check [package]` (Runs format, lint, typecheck, and test)
 
 **Note**: Package names often have aliases (e.g., `internal-support-agent` -> `support`).

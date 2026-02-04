@@ -1,0 +1,20 @@
+[project]
+name = "course-navigator"
+version = "0.1.0"
+description = "Course Navigator - Hello World verification"
+requires-python = ">=3.12"
+dependencies = [
+    "logfire>=4.20.0",
+    "pydantic-ai>=1.48.0",
+    "pydantic-ai-shared",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatchling.build.targets.wheel]
+packages = ["src/course_navigator"]
+
+[tool.uv.sources]
+pydantic-ai-shared = { workspace = true }

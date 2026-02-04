@@ -2,12 +2,7 @@
 # This file defines the workspace and shared development dependencies
 
 [tool.uv.workspace]
-members = [
-    "packages/shared",
-    "packages/internal-support-agent",
-    "packages/corporate-agentic-system",
-    "packages/course-navigator",
-]
+members = ["packages/shared", "packages/course-navigator"]
 
 [tool.uv]
 dev-dependencies = [
@@ -28,6 +23,8 @@ include = '\.pyi?$'
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+
+[tool.ruff.lint]
 select = [
     "E",  # pycodestyle errors
     "W",  # pycodestyle warnings

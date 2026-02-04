@@ -1,6 +1,7 @@
 """
 Tests for Pydantic AI Shared utilities.
 """
+
 import pytest
 
 
@@ -27,4 +28,3 @@ def test_config():
 async def test_async():
     """Test that async tests work."""
     assert True
-

@@ -1,9 +1,11 @@
-from typing import Union
 import os
-from pydantic_ai.models import Model
-from .config import DEFAULT_MODEL_OPENAI, DEFAULT_MODEL_ANTHROPIC, DEFAULT_MODEL_OPENROUTER
 
-def resolve_model() -> Union[str, Model]:
+from pydantic_ai.models import Model
+
+from .config import DEFAULT_MODEL_ANTHROPIC, DEFAULT_MODEL_OPENAI, DEFAULT_MODEL_OPENROUTER
+
+
+def resolve_model() -> str | Model:
     """
     Resolve the default model based on environment variables.
 
@@ -31,5 +33,3 @@ def resolve_model() -> Union[str, Model]:
         "No LLM provider API keys found. "
         "Please set one of OPENROUTER_API_KEY, ANTHROPIC_API_KEY, or OPENAI_API_KEY environment variables."
     )
-
-

@@ -6,4 +6,3 @@ Shared configuration for all projects.
 DEFAULT_MODEL_OPENAI = "openai:gpt-4"
 DEFAULT_MODEL_ANTHROPIC = "anthropic:claude-3-5-sonnet-20241022"
 DEFAULT_MODEL_OPENROUTER = "openrouter:openai/gpt-4o"
-

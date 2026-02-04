@@ -57,15 +57,28 @@ Examples:
 
 ### 5. Quality Assurance
 
-Format, lint, and type check code.
+Run these commands to ensure code quality.
 
-```bash
-just format      # Format code (black)
-just lint        # Lint code (ruff)
-just check       # Run all checks (format + lint + typecheck + test)
-```
+*   **Check Everything (Recommended)**:
+    ```bash
+    just check       # Runs format + lint + typecheck + test
+    ```
+    *Use this before committing or pushing code.*
 
-You can also run these for specific packages: `just check support`
+*   **Auto-Fix Issues**:
+    ```bash
+    just fix         # Runs ruff check --fix AND black
+    ```
+    *Use this when `just check` reports style or lint errors.*
+
+*   **Individual Checks**:
+    ```bash
+    just format      # Format code (black) - does not fix lint errors
+    just lint        # Lint code (ruff) - checks only
+    just typecheck   # Static type check (mypy)
+    ```
+
+You can also run these for specific packages: `just check support` or `just fix shared`.
 
 ## Package Management
 

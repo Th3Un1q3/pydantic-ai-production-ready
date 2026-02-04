@@ -40,12 +40,12 @@ install:
 start PACKAGE:
     #!/usr/bin/env bash
     set -euo pipefail
-    
+
     # Alias mapping
     target="{{PACKAGE}}"
     if [[ "$target" == "support" ]]; then target="internal-support-agent"; fi
     if [[ "$target" == "corporate" ]]; then target="corporate-agentic-system"; fi
-    
+
     # Check if directory exists
     if [ ! -d "packages/$target" ]; then
         echo "❌ Package '$target' not found in packages/"
@@ -61,7 +61,7 @@ start PACKAGE:
 test PACKAGE="all":
     #!/usr/bin/env bash
     set -euo pipefail
-    
+
     if [ "{{PACKAGE}}" = "all" ]; then
         echo "🧪 Running tests for workspace..."
         uv run pytest
@@ -70,12 +70,12 @@ test PACKAGE="all":
         target="{{PACKAGE}}"
         if [[ "$target" == "support" ]]; then target="internal-support-agent"; fi
         if [[ "$target" == "corporate" ]]; then target="corporate-agentic-system"; fi
-        
+
         if [ ! -d "packages/$target" ]; then
             echo "❌ Package '$target' not found in packages/"
             exit 1
         fi
-        
+
         echo "🧪 Testing $target..."
         cd packages/$target && just test
         echo "✅ $target tests passed"
@@ -118,12 +118,12 @@ typecheck PACKAGE="all":
     fi
 
 # Run all quality checks
-check:
-    @echo "🔍 Running all quality checks..."
-    just format
-    just lint
-    just typecheck
-    just test
+check PACKAGE="all":
+    @echo "🔍 Running all quality checks for {{PACKAGE}}..."
+    just format {{PACKAGE}}
+    just lint {{PACKAGE}}
+    just typecheck {{PACKAGE}}
+    just test {{PACKAGE}}
     @echo "✅ All checks passed"
 
 # ============================================================================
@@ -181,3 +181,17 @@ init:
     just _open_startup_files
     @echo ""
     @echo "✅ Development environment ready"
+
+# Auto-fix code style and lint issues
+fix PACKAGE="all":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    if [ "{{PACKAGE}}" = "all" ]; then
+        echo "🔧 Fixing workspace..."
+        uv run ruff check --fix packages/
+        uv run black packages/
+    else
+        echo "🔧 Fixing {{PACKAGE}}..."
+        uv run ruff check --fix packages/{{PACKAGE}}/
+        uv run black packages/{{PACKAGE}}/
+    fi
