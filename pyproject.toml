@@ -6,6 +6,7 @@ members = [
     "packages/shared",
     "packages/internal-support-agent",
     "packages/corporate-agentic-system",
+    "packages/course-navigator",
 ]
 
 [tool.uv]

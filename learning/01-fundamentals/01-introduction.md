@@ -7,6 +7,7 @@ Pydantic AI is a Python framework for building production-ready applications wit
 ## Key Features
 
 ### 1. Type Safety
+
 Pydantic AI leverages Python's type hints and Pydantic's validation to ensure your AI interactions are type-safe.
 
 ```python
@@ -25,13 +26,16 @@ agent = Agent(
 ```
 
 ### 2. Model Agnostic
+
 Work with any LLM provider:
+
 - OpenAI (GPT-3.5, GPT-4, GPT-4o)
 - Anthropic (Claude 3)
 - Google (Gemini)
 - Local models (via Ollama)
 
 ### 3. Structured Outputs
+
 Get validated, structured data from LLMs instead of raw text:
 
 ```python
@@ -41,6 +45,7 @@ print(result.data.age)   # 30
 ```
 
 ### 4. Tool Calling
+
 Extend your agents with custom tools and functions:
 
 ```python
@@ -56,17 +61,19 @@ async def get_weather(ctx: RunContext[None], city: str) -> str:
 ## Why Use Pydantic AI?
 
 ### Traditional Approach Problems
+
 - Parsing unstructured LLM outputs
 - No type safety or validation
 - Complex error handling
 - Difficult to test and maintain
 
 ### Pydantic AI Solution
-✅ Structured, validated outputs  
-✅ Type-safe agent interactions  
-✅ Built-in retry and error handling  
-✅ Easy to test and mock  
-✅ Production-ready patterns  
+
+✅ Structured, validated outputs
+✅ Type-safe agent interactions
+✅ Built-in retry and error handling
+✅ Easy to test and mock
+✅ Production-ready patterns
 
 ## Use Cases
 
@@ -92,6 +99,10 @@ async def get_weather(ctx: RunContext[None], city: str) -> str:
 │  OpenAI │ Anthropic │ Google │ Local       │
 └─────────────────────────────────────────────┘
 ```
+
+## Course principles
+
+Throughout this course we treat AI assistance as a core part of the workflow. You will routinely use AI-powered coding assistants, prompt engineering techniques, and agent-based patterns to design, test, and refine solutions. All recommended best practices will be captured as reusable **skills**, **prompts**, and **agent templates** in the repository so you can apply them directly to your own projects.
 
 ## Next Steps
 

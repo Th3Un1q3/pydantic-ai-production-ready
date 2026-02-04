@@ -36,7 +36,7 @@ We recommend using **OpenRouter** as the primary routing layer for LLM access du
 
 ### Quick OpenRouter setup
 
-1. Sign up or log in at OpenRouter (see: https://docs.openrouter.ai/).
+1. Sign up or log in at OpenRouter (see: <https://openrouter.ai/docs/quickstart>).
 2. Create an API token and copy it.
 3. Add your OpenRouter token to the `.env` file as `OPEN_ROUTER_API_KEY` (see API keys example below).
 
