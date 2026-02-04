@@ -47,6 +47,8 @@ disallow_untyped_defs = true
 disallow_incomplete_defs = true
 check_untyped_defs = true
 strict_optional = true
+explicit_package_bases = true
+mypy_path = "packages/shared/src:packages/course-navigator/src"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
