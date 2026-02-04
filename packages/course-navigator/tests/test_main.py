@@ -1,4 +1,5 @@
-from typing import Any, Generator
+from collections.abc import Generator
+from typing import Any
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -82,7 +83,7 @@ def test_main_runs_sync_one(mock_dependencies: dict[str, Any]) -> None:
     mock_dependencies["agent_instance"].run_sync.return_value.usage.assert_called_once()
 
 
-def test_main_resolver_exception_exceptions(mock_dependencies):
+def test_main_resolver_exception_exceptions(mock_dependencies: dict[str, Any]) -> None:
     """
     ZOMBIE: Exceptions.
     Test behavior when resolver raises ValueError (e.g. no keys).
@@ -99,7 +100,7 @@ def test_main_resolver_exception_exceptions(mock_dependencies):
     mock_dependencies["create_agent"].assert_not_called()
 
 
-def test_main_agent_execution_error_exceptions(mock_dependencies):
+def test_main_agent_execution_error_exceptions(mock_dependencies: dict[str, Any]) -> None:
     """
     ZOMBIE: Exceptions.
     Test behavior when agent.run_sync raises an exception.
