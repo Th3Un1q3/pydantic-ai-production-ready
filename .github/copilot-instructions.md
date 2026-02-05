@@ -42,3 +42,33 @@ Strictly follow instructions on operational eficency and best practices when per
 ## Environment & Integration
 - **Apps**: `course-navigator` (single agent).
 - **Configuration**: Environment variables loaded via `dotenv`. Check `.env.example`.
+
+## Spec-Based Development
+
+For significant changes, use the specification-driven workflow:
+
+1. **Create Specification**: Use `/write-spec` or the `spec-writer` skill
+   - Discovery phase gathers requirements
+   - Produces structured spec in `specs/{type}/SPEC-{id}-{title}.md`
+
+2. **Implement Specification**: Use `/implement-spec` or the `spec-implementer` skill
+   - Phased implementation with validation gates
+   - TDD workflow for Python code
+   - Automatic documentation updates
+
+### Specification Types
+| Type | Use For | Location |
+|------|---------|----------|
+| `feature` | New functionality | `specs/features/` |
+| `package` | New packages | `specs/packages/` |
+| `learning` | Educational content | `specs/learning/` |
+| `change` | Refactoring | `specs/changes/` |
+
+### Quick Reference
+```bash
+# Write a new specification
+/write-spec
+
+# Implement an existing specification
+/implement-spec specs/features/SPEC-001-feature-name.md
+```
