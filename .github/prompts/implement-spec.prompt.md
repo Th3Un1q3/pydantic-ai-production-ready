@@ -152,6 +152,6 @@ completed: {{YYYY-MM-DD}}
 
 This prompt uses:
 
-- [spec-implementer skill](../.github/skills/spec-implementer/SKILL.md) for implementation patterns
-- [python-development skill](../.github/skills/python-development/SKILL.md) for TDD workflow
-- [command-runner skill](../.github/skills/command-runner/SKILL.md) for just commands
+- [spec-implementer skill](../skills/spec-implementer/SKILL.md) for implementation patterns
+- [python-development skill](../skills/python-development/SKILL.md) for TDD workflow
+- [command-runner skill](../skills/command-runner/SKILL.md) for just commands

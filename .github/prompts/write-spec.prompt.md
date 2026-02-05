@@ -70,10 +70,10 @@ Based on the user's input, determine the specification type:
 3. Generate concrete acceptance criteria
 
 Templates:
-- [feature.template.md](../.github/skills/spec-writer/templates/feature.template.md)
-- [package.template.md](../.github/skills/spec-writer/templates/package.template.md)
-- [learning.template.md](../.github/skills/spec-writer/templates/learning.template.md)
-- [change.template.md](../.github/skills/spec-writer/templates/change.template.md)
+- [feature.template.md](../skills/spec-writer/templates/feature.template.md)
+- [package.template.md](../skills/spec-writer/templates/package.template.md)
+- [learning.template.md](../skills/spec-writer/templates/learning.template.md)
+- [change.template.md](../skills/spec-writer/templates/change.template.md)
 
 ### Step 5: Validate
 
