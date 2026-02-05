@@ -24,8 +24,7 @@ If you are running locally (not recommended), please install \`just\` following 
 just init
 
 # Start a project (automatically installs if needed)
-just start support
-just start corporate
+just start course-navigator
 
 # Run tests
 just test          # All
@@ -40,12 +39,18 @@ just check         # Format, lint, typecheck, test
 ### Discovery
 
 - `just`: List commands
+- `just help`: Show detailed help
 - `just tree`: Show project structure
 - `just info`: Show environment info
 
+### Setup
+
+- `just init`: Initialize development environment (first time setup)
+- `just install`: Sync workspace dependencies
+
 ### Development
 
-- `just install [package]`: Sync dependencies
+- `just install-skill <url>`: Install a skill from a GitHub URL
 - `just start [package]`: Run the agent/package
 - `just test [package]`: Run pytest
 
@@ -53,13 +58,18 @@ just check         # Format, lint, typecheck, test
 
 - `just format`: Code formatting (black)
 - `just lint`: Linting (ruff)
+- `just fix`: Auto-fix code style and lint issues
 - `just typecheck`: Static analysis (mypy)
 - `just check`: Run all of the above
+
+### Utilities
+
+- `just clean`: Clean build artifacts
+
 
 ## Package Aliases
 
 | Full Name | Alias |
 |-----------|-------|
 | `shared` | `shared` |
-| `internal-support-agent` | `support` |
-| `corporate-agentic-system` | `corporate` |
+| `course-navigator` | `navigator` |

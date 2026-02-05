@@ -41,109 +41,18 @@ This repository provides a comprehensive framework for building production-ready
 
 ## 🚀 Quick Start
 
-### Option 1: Using DevContainer (Recommended)
+For detailed setup instructions, please refer to **[GETTING_STARTED.md](GETTING_STARTED.md)**.
 
-1. **Prerequisites**
-   - [Docker Desktop](https://www.docker.com/products/docker-desktop)
-   - [VS Code](https://code.visualstudio.com/) with [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+### In a Nutshell (DevContainer)
 
-2. **Open in Container**
-
-   ```bash
-   # Clone the repository
-   git clone https://github.com/Th3Un1q3/pydantic-ai-production-ready.git
-   cd pydantic-ai-production-ready
-
-   # Open in VS Code
-   code .
-
-   # Press F1 and select "Dev Containers: Reopen in Container"
-   ```
-
-3. **Start Coding**
-   The devcontainer will automatically:
-   - Set up Python 3.12
-   - Install `uv` package manager
-   - Install `just` command runner
-   - Start PostgreSQL and Redis
-   - Install all dependencies
-
-4. **Use Commands**
-
-   ```bash
-   just init          # Initialize environment
-   just start support # Start internal support agent
-   just test          # Run all tests
-   ```
-
-### Option 2: Local Setup (Not Recommended)
-
-1. **Install Prerequisites**
-
-   Ensure you have [uv](https://docs.astral.sh/uv/getting-started/installation/) and [just](https://just.systems/man/en/chapter_4.html) installed.
-
-2. **Clone and Setup**
-
-   ```bash
-   git clone https://github.com/Th3Un1q3/pydantic-ai-production-ready.git
-   cd pydantic-ai-production-ready
-
-   # Initialize environment (installs all dependencies)
-   just init
-
-   # Or manually
-   # No need to cd && uv sync
-   ```
-
-3. **Explore Commands**
-
-   ```bash
-   just              # List all available commands
-   just help         # Show detailed help
-   just start support # Start internal support agent
-   just test         # Run all tests
-   ```
+1. **Clone & Open**: `git clone ...` then open in VS Code.
+2. **Reopen in Container**: Use the "Dev Containers: Reopen in Container" command.
+3. **Initialize**: Run `just init` in the terminal.
+4. **Run**: `just start course-navigator`
 
 ## 📋 Command System
 
-This repository uses `just` for task automation. See **[COMMANDS.md](COMMANDS.md)** for detailed documentation.
-
-### Common Commands
-
-```bash
-# Discovery
-just                  # List all commands
-just help            # Show detailed help
-
-# Installation
-just install         # Install all packages
-just install support # Install specific package
-
-# Development
-just start support   # Start internal support agent (auto-installs)
-just start corporate # Start corporate system (auto-installs)
-
-# Testing
-just test            # Test all packages
-just test support    # Test specific package
-
-# Code Quality
-just format          # Format all code
-just lint            # Lint all code
-just check           # Run all checks (format + lint + typecheck + test)
-
-# Utilities
-just clean           # Clean build artifacts
-just tree            # Show project structure
-just info            # Show environment info
-```
-
-**Key Features:**
-
-- ✅ **Discoverable**: Run `just` to see all commands
-- ✅ **Automatic Dependencies**: `just start` installs if needed
-- ✅ **Modular**: Per-package commands available
-- ✅ **Consistent**: Predictable command structure
+This repository uses `just` for task automation. See **[COMMANDS.md](COMMANDS.md)** for detailed documentation, available commands, and usage examples.
 
 ## 📚 Learning Path
 
@@ -162,45 +71,7 @@ Each module includes:
 
 ## 🛠️ Development
 
-See **[COMMANDS.md](COMMANDS.md)** for complete command reference.
-
-### Quick Development Workflow
-
-```bash
-# Work on a package
-just install support        # Install dependencies
-just start support          # Start the application
-just test support           # Run tests
-just check support          # Run all quality checks
-
-# Or use convenient shortcuts
-just install-support
-just start-support
-just test-support
-```
-
-### Manual Development (without just)
-
-If you prefer to use uv directly:
-
-```bash
-# No need to cd
-
-# Install dependencies
-uv sync
-
-# Run tests
-uv run pytest
-
-# Format code
-uv run black .
-uv run ruff check --fix .
-
-# Type checking
-uv run mypy packages/*/src
-```
-
-```
+See **[COMMANDS.md](COMMANDS.md)** for the comprehensive command reference and development workflows.
 
 ### Available Services (in DevContainer)
 

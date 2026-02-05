@@ -26,7 +26,7 @@ Strictly follow instructions on operational eficency and best practices when per
 - **Command Runner**: Use `just` for all lifecycle tasks. Do not run raw `python` or `pytest` commands if a `just` recipe exists.
   - Install/Sync: `just install` (wraps `uv sync`)
   - Run Project: `just start <package_name>`
-    - aliases: `support` -> `internal-support-agent`, `corporate` -> `corporate-agentic-system`
+    - aliases: `navigator` -> `course-navigator`
   - Test: `just test <package_name>` or `just test` (all)
   - Format/Lint: `just format`, `just lint`
 - **Dependency Management**:
@@ -36,10 +36,10 @@ Strictly follow instructions on operational eficency and best practices when per
 ## Coding Conventions
 - **Framework**: Use `pydantic-ai` for all agent implementations.
 - **Pattern**: Agents are classes wrapping `pydantic_ai.Agent`.
-  - See [packages/internal-support-agent/src/internal_support_agent/agent.py](packages/internal-support-agent/src/internal_support_agent/agent.py) for the reference implementation.
+  - See [packages/course-navigator/src/course_navigator/agent.py](packages/course-navigator/src/course_navigator/agent.py) for the reference implementation.
 - **Typing**: Python 3.12+ features. Use `pydantic.BaseModel` for structured I/O.
 - **Async**: Prefer `asyncio` for I/O operations.
 
 ## Environment & Integration
-- **Apps**: `internal-support-agent` (single agent), `corporate-agentic-system` (multi-agent orchestrator).
+- **Apps**: `course-navigator` (single agent).
 - **Configuration**: Environment variables loaded via `dotenv`. Check `.env.example`.

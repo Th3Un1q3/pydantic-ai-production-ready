@@ -32,7 +32,6 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 ### Workspace Structure
 
 ```
-
 ├── pyproject.toml                      # Workspace root
 └── packages/
     ├── shared/                         # Common utilities
@@ -41,14 +40,11 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
     │   │   └── examples/              # Example implementations
     │   ├── tests/
     │   └── pyproject.toml
-    ├── internal-support-agent/         # Project 1
-    │   ├── src/
-    │   │   └── agent.py               # Support agent implementation
-    │   ├── tests/
-    │   └── pyproject.toml
-    └── corporate-agentic-system/       # Project 2
+    └── course-navigator/               # Course Navigation AI
         ├── src/
-        │   └── orchestrator.py        # Multi-agent orchestrator
+        │   └── course_navigator/      # Package source
+        │       ├── agent.py           # Agent implementation
+        │       └── main.py            # Entry point
         ├── tests/
         └── pyproject.toml
 ```
@@ -63,12 +59,11 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
             │
             ├──────────────┬──────────────┐
             ▼              ▼              ▼
-    ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-    │   shared     │ │  internal-   │ │  corporate-  │
-    │              │ │  support-    │ │  agentic-    │
-    │              │ │  agent       │ │  system      │
-    └──────────────┘ └──────────────┘ └──────────────┘
-                            │              │
+    ┌──────────────┐ ┌──────────────┐
+    │   shared     │ │    course-   │
+    │              │ │   navigator  │
+    └──────────────┘ └──────────────┘
+                            │
                             └──────┬───────┘
                                    ▼
                             ┌──────────────┐
@@ -106,41 +101,22 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 
 **Use Case**: Imported by other packages to avoid code duplication
 
-### 3. Internal Support Agent (`packages/internal-support-agent/`)
+### 3. Course Navigator (`packages/course-navigator/`)
 
-**Purpose**: AI-powered internal company support system
+**Purpose**: AI agent for navigating course materials and answering student queries.
 
 **Dependencies**:
 - Runtime: pydantic-ai-shared, openai
 - Optional: postgres, redis
 
 **Key Features**:
-- IT support ticket creation
-- HR policy questions
-- Automatic categorization and prioritization
-- Smart escalation
+- Student support
+- Material search
+- Progress tracking
 
 **Default Model**: OpenAI GPT-4
 
-**Deployment**: Standalone service or API endpoint
-
-### 4. Corporate Agentic System (`packages/corporate-agentic-system/`)
-
-**Purpose**: Multi-agent orchestrator for corporate workflows
-
-**Dependencies**:
-- Runtime: pydantic-ai-shared, anthropic
-- Optional: postgres, redis
-
-**Key Features**:
-- Multi-agent coordination
-- Workflow planning
-- Task delegation
-- Context-aware operations
-
-**Default Model**: Anthropic Claude (enhanced reasoning)
-
-**Deployment**: Standalone service or workflow engine
+**Deployment**: Standalone service or container
 
 ## Design Patterns
 
@@ -174,8 +150,7 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 **Implementation**: Package-level pyproject.toml with specific dependencies
 
 **Examples**:
-- `internal-support-agent`: Needs OpenAI for general queries
-- `corporate-agentic-system`: Needs Anthropic for complex reasoning
+- `course-navigator`: Needs OpenAI for student interactions and PostgreSQL for progress tracking
 
 ### 4. Optional Dependencies
 

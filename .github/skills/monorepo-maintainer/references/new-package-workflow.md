@@ -26,7 +26,10 @@ To add a new agent or package to the monorepo:
     version = "0.1.0"
     description = "Description of my new package"
     requires-python = ">=3.12"
-    dependencies = []
+    dependencies = [
+        "pydantic-ai-shared", # Use shared code
+        "pydantic-ai>=0.0.13",
+    ]
 
     [build-system]
     requires = ["hatchling"]
@@ -54,8 +57,7 @@ To add a new agent or package to the monorepo:
     [tool.uv.workspace]
     members = [
         "packages/shared",
-        "packages/internal-support-agent",
-        "packages/corporate-agentic-system",
+        "packages/course-navigator",
         "packages/my-new-package",  # Add this
     ]
     ```

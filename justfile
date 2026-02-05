@@ -13,7 +13,7 @@ help:
     @echo ""
     @echo "Common usage:"
     @echo "  just install            - Sync workspace dependencies"
-    @echo "  just start <package>    - Start a project (e.g. just start internal-support-agent)"
+    @echo "  just start <package>    - Start a project (e.g. just start course-navigator)"
     @echo "  just test [package]     - Run tests"
     @echo ""
     @echo "See COMMANDS.md for detailed documentation"
@@ -41,10 +41,7 @@ start PACKAGE:
     #!/usr/bin/env bash
     set -euo pipefail
 
-    # Alias mapping
     target="{{PACKAGE}}"
-    if [[ "$target" == "support" ]]; then target="internal-support-agent"; fi
-    if [[ "$target" == "corporate" ]]; then target="corporate-agentic-system"; fi
 
     # Check if directory exists
     if [ ! -d "packages/$target" ]; then
@@ -68,8 +65,6 @@ test PACKAGE="all":
         echo "✅ All tests passed"
     else
         target="{{PACKAGE}}"
-        if [[ "$target" == "support" ]]; then target="internal-support-agent"; fi
-        if [[ "$target" == "corporate" ]]; then target="corporate-agentic-system"; fi
 
         if [ ! -d "packages/$target" ]; then
             echo "❌ Package '$target' not found in packages/"

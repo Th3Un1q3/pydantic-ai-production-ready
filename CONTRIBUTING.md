@@ -15,7 +15,7 @@ Thank you for your interest in contributing! This document provides guidelines f
 
 1. **Choose a Module**: Determine which module your content fits into
 2. **Follow the Structure**: Use the module template in `learning/README.md`
-3. **Write Clear Content**: 
+3. **Write Clear Content**:
    - Use simple language
    - Include code examples
    - Test all examples
@@ -56,6 +56,9 @@ Thank you for your interest in contributing! This document provides guidelines f
    # OR
    # No need to cd
    uv sync --all-extras
+
+   # Tip: To sync only a specific package with extras
+   # uv sync --package course-navigator --extra postgres --extra redis
    ```
 
 2. **Make Changes**

@@ -1,4 +1,11 @@
-# Learning Materials
+---
+description: Root documentation for learning materials, including introduction, user guides, and module overviews.
+tags:
+  - status:draft
+  - verified:false
+---
+
+# Learning Roadmap
 
 This directory contains modular learning materials for building production-ready AI applications with Pydantic AI Framework.
 
@@ -60,12 +67,6 @@ graph TD
         H
     end
 ```
-
-## Structure
-
-The canonical directory layout and module structure for `learning/` is maintained by the [learning-structure skill](.github/skills/learning-structure). Use the skill's script to create, validate, or manage modules.
-
-For the canonical structure definition, see [learning-structure references](.github/skills/learning-structure/references/structure.md).
 
 ## How to Use
 

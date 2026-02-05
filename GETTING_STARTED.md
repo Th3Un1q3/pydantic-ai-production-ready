@@ -27,7 +27,7 @@ just init # Should automatically open .env file to edit
 ```bash
 # inside the devcontainer
 just test    # run tests for the monorepo
-just start support   # run the internal support agent demo
+just start course-navigator   # run the course navigator agent demo
 ```
 
 ## OpenRouter (recommended for development)
@@ -55,7 +55,28 @@ If you prefer a direct provider integration (OpenAI, Anthropic, etc.), you can k
 
 If you haven't tried using devcontainers yet, we recommend starting with that approach as it's not only easier but ensures consistency across environments. And that's how most of great productions are built nowadays.
 
-If you nevertheless want to set up locally, you'd need to figure it out yourself based on the devcontainer configuration.
+1. **Install Prerequisites**
+
+   Ensure you have [uv](https://docs.astral.sh/uv/getting-started/installation/) and [just](https://just.systems/man/en/chapter_4.html) installed.
+
+2. **Clone and Setup**
+
+   ```bash
+   git clone https://github.com/Th3Un1q3/pydantic-ai-production-ready.git
+   cd pydantic-ai-production-ready
+
+   # Initialize environment (installs all dependencies)
+   just init
+   ```
+
+3. **Explore Commands**
+
+   ```bash
+   just              # List all available commands
+   just help         # Show detailed help
+   just start course-navigator # Start course navigator agent
+   just test         # Run all tests
+   ```
 
 ## Where to go next
 
