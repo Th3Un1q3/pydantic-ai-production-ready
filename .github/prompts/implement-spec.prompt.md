@@ -85,7 +85,7 @@ For each phase in the implementation plan, use `agent/runSubagent` to:
 
 3. **Update TODO** after each deliverable:
    ```markdown
-   - [x] Phase 1: Core models ✓
+   - [x] Phase 1: Core models
    - [ ] Phase 2: Business logic
    ```
 

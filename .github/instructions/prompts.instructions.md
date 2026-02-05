@@ -23,7 +23,7 @@ tools: ['tool1', 'tool2']  # Optional: specific tools to enable
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `agent` | Yes | Always set to `'agent'` for agentic prompts |
+| `agent` | Yes | Set to `'agent'` for agentic prompts (standard for all prompts in this repo) |
 | `description` | Yes | Clear description of the prompt's purpose (1-200 chars) |
 | `tools` | No | Array of tools to enable for this prompt |
 
