@@ -1,15 +1,40 @@
 ---
-mode: 'agent'
+agent: 'agent'
 description: 'Create a professional specification document. Guides through discovery phase and produces a comprehensive spec for features, packages, learning modules, or changes.'
+tools: ['agent/runSubagent', 'todos']
 ---
 
 # Write Specification
 
 Create a comprehensive specification document for a feature, package, learning module, or change.
 
+## Orchestration Strategy
+
+This prompt decomposes spec writing into discrete subtasks:
+
+1. **Discovery** → Use `todos` to track discovery questions
+2. **Research** → Use `agent/runSubagent` for codebase exploration
+3. **Drafting** → Use `agent/runSubagent` for template population
+4. **Validation** → Use `todos` to track quality checklist
+
 ## Process
 
-### Step 1: Discovery
+### Step 1: Initialize Task Tracking
+
+Create a TODO list to track progress:
+
+```markdown
+## Specification TODO
+- [ ] Complete discovery phase
+- [ ] Determine specification type
+- [ ] Draft specification from template
+- [ ] Validate against quality standards
+- [ ] Save specification to specs/
+```
+
+Use the `todos` tool to maintain this checklist throughout the process.
+
+### Step 2: Discovery
 
 Before writing any specification, gather context by asking:
 
@@ -21,7 +46,12 @@ Before writing any specification, gather context by asking:
 
 Do NOT proceed until you have clear answers. Ask follow-up questions if needed.
 
-### Step 2: Type Selection
+**Subtask**: Use `agent/runSubagent` to explore the codebase for relevant context:
+- Existing similar implementations
+- Related packages and their patterns
+- Testing conventions in use
+
+### Step 3: Type Selection
 
 Based on the user's input, determine the specification type:
 
@@ -32,18 +62,22 @@ Based on the user's input, determine the specification type:
 | `learning` | Educational content, module, or tutorial |
 | `change` | Refactoring, modification, improvement |
 
-### Step 3: Draft Specification
+### Step 4: Draft Specification
 
-Use the appropriate template from the spec-writer skill:
+**Subtask**: Use `agent/runSubagent` to:
+1. Read the appropriate template from the spec-writer skill
+2. Populate template sections based on discovery findings
+3. Generate concrete acceptance criteria
 
+Templates:
 - [feature.template.md](../.github/skills/spec-writer/templates/feature.template.md)
 - [package.template.md](../.github/skills/spec-writer/templates/package.template.md)
 - [learning.template.md](../.github/skills/spec-writer/templates/learning.template.md)
 - [change.template.md](../.github/skills/spec-writer/templates/change.template.md)
 
-### Step 4: Validate
+### Step 5: Validate
 
-Ensure the specification meets quality standards:
+Use `todos` to track validation checklist:
 
 - [ ] Problem statement is clear and compelling
 - [ ] Success criteria are measurable (include specific numbers)
@@ -52,7 +86,7 @@ Ensure the specification meets quality standards:
 - [ ] Out of scope items are explicitly listed
 - [ ] Implementation phases are realistic
 
-### Step 5: Save
+### Step 6: Save
 
 Save the specification to:
 

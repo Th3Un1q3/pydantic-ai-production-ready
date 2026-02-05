@@ -1,11 +1,22 @@
 ---
-mode: 'agent'
+agent: 'agent'
 description: 'Implement a specification document. Reads a SPEC-*.md file and executes it with phased delivery, validation, and documentation updates.'
+tools: ['agent/runSubagent', 'todos']
 ---
 
 # Implement Specification
 
 Execute a specification document to produce a high-quality implementation.
+
+## Orchestration Strategy
+
+This prompt decomposes implementation into discrete subtasks:
+
+1. **Load & Parse** → Read specification, extract phases
+2. **Per-Phase Execution** → Use `agent/runSubagent` for each phase
+3. **Progress Tracking** → Use `todos` to track deliverables
+4. **Validation** → Use `agent/runSubagent` for testing and checks
+5. **Documentation** → Use `agent/runSubagent` for doc updates
 
 ## Input
 
@@ -19,7 +30,23 @@ If no specification is provided, list available specs in `specs/` directory.
 
 ## Process
 
-### Step 1: Load Specification
+### Step 1: Initialize Task Tracking
+
+Create a TODO list from the specification phases:
+
+```markdown
+## Implementation TODO
+- [ ] Load and validate specification
+- [ ] Phase 1: [deliverables from spec]
+- [ ] Phase 2: [deliverables from spec]
+- [ ] Phase 3: [deliverables from spec]
+- [ ] Documentation updates
+- [ ] Final validation
+```
+
+Use the `todos` tool to maintain this checklist throughout the process.
+
+### Step 2: Load Specification
 
 Read and validate the specification:
 
@@ -30,7 +57,7 @@ Read and validate the specification:
 
 If sections are missing, ask the user to complete them first.
 
-### Step 2: Confirm Understanding
+### Step 3: Confirm Understanding
 
 Summarize:
 
@@ -40,32 +67,42 @@ Summarize:
 
 Ask for confirmation before proceeding.
 
-### Step 3: Execute Phases
+### Step 4: Execute Phases
 
-For each phase in the implementation plan:
+For each phase in the implementation plan, use `agent/runSubagent` to:
 
-1. **Review deliverables** for this phase
-2. **Implement** following TDD workflow (see python-development skill)
-3. **Validate** using standard gates:
+1. **Implement deliverables** following TDD workflow:
+   - Create failing tests first (use python-development skill)
+   - Implement minimal code to pass
+   - Refactor while green
+
+2. **Validate** using standard gates:
    ```bash
    just check              # Type checking
    just lint {package}     # Linting
    just test {package}     # Tests
    ```
+
+3. **Update TODO** after each deliverable:
+   ```markdown
+   - [x] Phase 1: Core models ✓
+   - [ ] Phase 2: Business logic
+   ```
+
 4. **Report progress** after each successful phase
 
-### Step 4: Documentation
+### Step 5: Documentation
 
-After implementation:
+Use `agent/runSubagent` for documentation subtasks:
 
 - [ ] Update package README with usage examples
 - [ ] Add/update API documentation
 - [ ] Update CHANGELOG.md
 - [ ] Update learning materials if specified
 
-### Step 5: Final Validation
+### Step 6: Final Validation
 
-Run complete validation:
+Run complete validation using TODO tracking:
 
 ```markdown
 ## Completion Checklist
@@ -86,7 +123,7 @@ Run complete validation:
 - [ ] CHANGELOG updated
 ```
 
-### Step 6: Mark Complete
+### Step 7: Mark Complete
 
 Update specification status:
 
@@ -102,7 +139,7 @@ completed: {{YYYY-MM-DD}}
 **If validation fails after 3 attempts:**
 
 1. Document the blocking issue
-2. Mark phase as `blocked`
+2. Mark phase as `blocked` in TODO
 3. Report to user with what was attempted and suggested resolution
 
 **If specification is ambiguous:**
