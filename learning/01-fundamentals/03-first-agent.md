@@ -1,43 +1,53 @@
-# Your First Agent
+---
+description: Learn how to build your first type-safe agent with Pydantic AI. This lesson covers the basics of the Agent primitive, structured output validation, tool integration, and context management.
+tags:
+  - status:draft
+  - verified:false
+  - TODO
+references:
+    previous: "./02-setup.md"
+    next: "../02-core-concepts/README.md"
+---
 
-Let's create your first AI agent using Pydantic AI!
+# Building Your First Type-Safe Agent
 
-## Basic Agent
+In this lesson, we will instantiate the `Agent` class—the core orchestration primitive in Pydantic AI—and progressively add type safety, asynchronous capabilities, and context awareness.
 
-The simplest agent just needs a model and can respond to text prompts:
+## The Agent Primitive
 
-```python
-from pydantic_ai import Agent
+The `Agent` component manages the lifecycle of the LLM interaction, including:
 
-# Create an agent with a model
-agent = Agent('openai:gpt-4')
+1. State management (chat history)
+2. Tool execution and recursion
+3. Result validation
+4. Dependency injection
 
-# Run the agent synchronously
-result = agent.run_sync('What is the capital of France?')
-print(result.data)
-# Output: "The capital of France is Paris."
-```
+### Minimal Implementation
 
-## Async Agent
-
-Pydantic AI is built with async/await for better performance:
+At its simplest, an agent wraps a model string and returns unstructured text.
 
 ```python
 import asyncio
 from pydantic_ai import Agent
 
+# Create an agent instance bonded to a specific model
+agent = Agent('openai:gpt-4')
+
 async def main():
-    agent = Agent('openai:gpt-4')
+    # Asynchronous execution is the default and recommended pattern
     result = await agent.run('What is the capital of France?')
     print(result.data)
+    # Output: "The capital of France is Paris."
 
-# Run the async function
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
 ```
 
-## Structured Output Agent
+> **Note:** While `agent.run_sync()` exists for scripts and prototyping, enterprise applications should almost exclusively use `await agent.run()` to prevent blocking the event loop in high-throughput environments (e.g., FastAPI).
 
-Get validated, structured data instead of plain text:
+## Structured Output (The Validation Layer)
+
+The true power of Pydantic AI lies in `result_type`. By defining a Pydantic model for the output, you enforce a strict contract on the LLM's response. This is effectively a "runtime unit test" for the model's output.
 
 ```python
 from pydantic import BaseModel
@@ -51,15 +61,20 @@ class CityInfo(BaseModel):
 
 agent = Agent(
     'openai:gpt-4',
-    result_type=CityInfo,
+    result_type=CityInfo, # <--- The Contract
     system_prompt='Extract city information from user queries.',
 )
 
-result = agent.run_sync('Tell me about Paris')
-print(f"City: {result.data.name}")
-print(f"Country: {result.data.country}")
-print(f"Population: {result.data.population}")
-print(f"Famous for: {', '.join(result.data.famous_for)}")
+async def main():
+    result = await agent.run('Tell me about Paris')
+
+    # The result.data is guaranteed to be a valid CityInfo instance
+    # No more `json.loads()` or rigorous error checking needed here
+    print(f"City: {result.data.name}")
+    print(f"Country: {result.data.country}")
+
+import asyncio
+asyncio.run(main())
 ```
 
 ## Agent with Tools
@@ -75,11 +90,11 @@ agent = Agent('openai:gpt-4')
 @agent.tool
 async def get_weather(ctx: RunContext[None], city: str) -> str:
     """Get the current weather for a city.
-    
+
     Args:
         ctx: The run context
         city: The name of the city
-    
+
     Returns:
         Weather information as a string
     """
@@ -166,15 +181,15 @@ async def handle_support_request(message: str, customer_id: str):
         customer_id=customer_id,
         ticket_history=[]
     )
-    
+
     result = await agent.run(message, deps=context)
     ticket = result.data
-    
+
     print(f"Category: {ticket.category}")
     print(f"Priority: {ticket.priority}")
     print(f"Summary: {ticket.summary}")
     print(f"Needs human: {ticket.requires_human}")
-    
+
     return ticket
 
 # Example usage
@@ -196,6 +211,7 @@ asyncio.run(handle_support_request(
 ## Common Patterns
 
 ### Retry Logic
+
 ```python
 from pydantic_ai import Agent
 
@@ -206,6 +222,7 @@ agent = Agent(
 ```
 
 ### Model Selection
+
 ```python
 # Different models for different tasks
 cheap_agent = Agent('openai:gpt-3.5-turbo')  # Fast and cheap

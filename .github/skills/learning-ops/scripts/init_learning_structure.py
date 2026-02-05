@@ -29,9 +29,11 @@ TEMPLATE_README = """# {title}
 
 A short description of the module.
 
-## Exercises
+## Implementation
 
-See the `exercises/` directory for hands-on tasks.
+See the implementation in `packages/` directory.
+
+- [Reference Implementation](../../packages/README.md)
 """
 
 
@@ -39,7 +41,6 @@ def create_module(root: Path, name: str, title: Optional[str] = None, dry_run: b
     """Create a module skeleton under root with given name and optional title."""
     mod_path = root / name
     readme_path = mod_path / "README.md"
-    exercises_path = mod_path / "exercises"
     resources_path = mod_path / "resources"
 
     if dry_run:
@@ -47,7 +48,6 @@ def create_module(root: Path, name: str, title: Optional[str] = None, dry_run: b
         return mod_path
 
     mod_path.mkdir(parents=True, exist_ok=True)
-    exercises_path.mkdir(parents=True, exist_ok=True)
     resources_path.mkdir(parents=True, exist_ok=True)
 
     if not readme_path.exists():
@@ -57,19 +57,11 @@ def create_module(root: Path, name: str, title: Optional[str] = None, dry_run: b
     else:
         print(f"README exists: {readme_path}")
 
-    # Ensure exercises README exists
-    ex_readme = exercises_path / "README.md"
-    if not ex_readme.exists():
-        ex_readme.write_text("# Exercises\n\nAdd exercises for this module.", encoding="utf8")
-        print(f"Created exercises README: {ex_readme}")
-    else:
-        print(f"Exercises README exists: {ex_readme}")
-
     return mod_path
 
 
 def validate_structure(root: Path) -> bool:
-    """Validate root has expected top-level modules and that each module has README and exercises/ directory."""
+    """Validate root has expected top-level modules and that each module has a README."""
     ok = True
     if not root.exists():
         print(f"Path does not exist: {root}")
@@ -78,12 +70,8 @@ def validate_structure(root: Path) -> bool:
     for child in sorted(root.iterdir()):
         if child.is_dir():
             readme = child / "README.md"
-            exercises = child / "exercises"
             if not readme.exists():
                 print(f"Missing README in module: {child}")
-                ok = False
-            if not exercises.exists() or not exercises.is_dir():
-                print(f"Missing exercises/ in module: {child}")
                 ok = False
     if ok:
         print("Validation passed: structure looks good.")

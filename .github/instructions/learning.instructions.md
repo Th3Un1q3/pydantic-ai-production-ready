@@ -6,6 +6,7 @@ applyTo: "**/learning/**/*.md"
 # Materials Metadata
 
 Each learning material file should start with a YAML front matter block containing metadata about the material. The required fields are:
+
 ```markdown
 ---
 description: A brief description of the learning material.
@@ -15,8 +16,6 @@ tags:
 ---
 ```
 
-# Structure
+# Use Learning Ops Skill
 
-The canonical directory layout and module structure for `learning/` is maintained by the [learning-structure skill](.github/skills/learning-structure). Use the skill's script to create, validate, or manage modules.
-
-For the canonical structure definition, see [learning-structure references](.github/skills/learning-structure/references/structure.md).
+Important: As you work within the `learning/` directory, you must read the `learning-ops` [skill](../skills/learning-ops/SKILL.md).

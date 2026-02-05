@@ -1,6 +1,16 @@
+---
+description: Short description of the learning module.
+tags:
+    - status:draft # Possible values: draft, published, archived
+    - verified:false  # Optional list of tags for the document
+references:
+    previous: "./previous-lesson.md" # Optional link to the previous lesson
+    next: "./next-lesson.md" # Optional link to the next lesson
+---
+
 # {title}
 
-**Learning objectives**
+## Learning Objectives
 
 - Objective 1
 - Objective 2
@@ -9,6 +19,13 @@
 
 A short description of the module.
 
-## Exercises
+## Lessons
 
-See the `exercises/` directory for hands-on tasks.
+- [Getting Started](./01-getting-started.md)
+- [Advanced Concepts](./02-advanced-concepts.md)
+
+## Implementation
+
+See the implementation in `packages/` directory.
+
+- [Reference Implementation](../../packages/README.md)

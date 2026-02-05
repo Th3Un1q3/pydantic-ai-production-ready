@@ -85,9 +85,11 @@ graph TD
 To add or modify modules, use the `learning-structure` skill:
 
 1. Run the script to create a new module:
+
    ```bash
    python .github/skills/learning-structure/scripts/init_learning_structure.py --add-module XX-module-name --title "Module Title"
    ```
+
 2. Add content to markdown files following these guidelines:
    - **Progressive Complexity**: Build on previous modules
    - **Self-Contained**: Each topic should be independently understandable
@@ -100,33 +102,41 @@ For detailed structure, templates, and standards, see the [learning-structure sk
 ## Module Overview
 
 ### 01-fundamentals
+
 Introduction to Pydantic AI, environment setup, and basic concepts.
 
 **Learning Objectives:**
+
 - Understand what Pydantic AI is and its use cases
 - Set up development environment
 - Create your first AI agent
 
 ### 02-core-concepts
+
 Deep dive into Pydantic AI core concepts and components.
 
 **Learning Objectives:**
+
 - Understand agents, models, and tools
 - Work with structured outputs using Pydantic models
 - Implement tool calling and function execution
 
 ### 03-advanced-patterns
+
 Advanced implementation patterns for production applications.
 
 **Learning Objectives:**
+
 - Implement streaming responses
 - Handle errors and retries gracefully
 - Build complex multi-agent systems
 
 ### 04-production-deployment
+
 Production deployment, monitoring, and scaling strategies.
 
 **Learning Objectives:**
+
 - Monitor AI applications in production
 - Scale AI workloads efficiently
 - Implement security best practices
@@ -134,6 +144,7 @@ Production deployment, monitoring, and scaling strategies.
 ## Contributing
 
 Content creators are encouraged to:
+
 1. Follow the modular structure
 2. Maintain consistency in formatting and style
 3. Test all code examples

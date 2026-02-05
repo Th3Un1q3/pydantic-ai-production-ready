@@ -1,24 +1,34 @@
-# Fundamentals
+---
+description: Overview of the fundamentals module, including learning objectives, lessons, exercises, and prerequisites for getting started with Pydantic AI.
+tags:
+  - status:draft
+  - verified:false
+references:
+  next: "./01-introduction.md"
+---
 
-Welcome to the fundamentals module! This is your starting point for learning Pydantic AI.
+# Fundamentals: The Pydantic AI Architecture
+
+This module establishes the foundational architectural patterns for building reliable, production-grade AI agents. It focuses on how Pydantic AI leverages the Python type system to bring rigorous engineering practices to non-deterministic LLM interactions.
 
 ## Learning Objectives
 
-By the end of this module, you will:
-- Understand what Pydantic AI is and when to use it
-- Set up your development environment
-- Create your first AI agent
-- Understand basic agent patterns
+By the completion of this module, you will be able to:
+
+- **Evaluate Pydantic AI's Fit:** Understand where Pydantic AI fits in an enterprise stack compared to orchestration engines like LangGraph/Temporal.
+- **Architect for Type Safety:** specific strategies to force structured, validatable outputs from models.
+- **Establish a Dev Environment:** Configure a reproducible environment capable of debugging and tracing agent interactions.
+- **Implement a Baseline Agent:** Build a minimal, testable agent that demonstrates the core loop of dependency injection and result validation.
 
 ## Lessons
 
-1. [Introduction to Pydantic AI](01-introduction.md)
-2. [Environment Setup](02-setup.md)
-3. [Your First Agent](03-first-agent.md)
+1. [Architectural Introduction to Pydantic AI](01-introduction.md)
+2. [Production Environment Setup](02-setup.md)
+3. [Building Your First Type-Safe Agent](03-first-agent.md)
 
 ## Exercises
 
-Complete the exercises in the `exercises/` directory to practice what you've learned.
+Apply these concepts in the `exercises/` directory. Focus on implementing the "Hello World" scope with strict typing enforcement.
 
 ## Estimated Time
 
@@ -26,6 +36,6 @@ Complete the exercises in the `exercises/` directory to practice what you've lea
 
 ## Prerequisites
 
-- Basic Python knowledge
-- Familiarity with async/await (helpful but not required)
-- Understanding of AI/LLM concepts (helpful but not required)
+- **Python Proficiency:** Strong grasp of Python 3.10+, specifically `asyncio` and typing (`typing.Annotated`, `Generic`).
+- **Pydantic Fundamentals:** Familiarity with `BaseModel`, validators, and serialization.
+- **LLM Context:** Understanding of basic API constraints (context windows, tool calling schemas).

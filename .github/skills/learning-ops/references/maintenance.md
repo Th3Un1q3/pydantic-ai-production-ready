@@ -16,5 +16,5 @@ Guidelines for maintaining the quality and relevance of learning materials.
 
 ## Synchronization
 
-- **Code Snippets**: Never hardcode long code snippets in markdown if possible. Reference actual files in `packages/shared/examples` or `packages/*/examples`.
+- **Code Snippets**: Never hardcode long code snippets in markdown if possible. Reference actual files in `packages/`.
 - **Validation**: Run the `scripts/validate_links.py` (if available) to ensure all file references point to existing files.

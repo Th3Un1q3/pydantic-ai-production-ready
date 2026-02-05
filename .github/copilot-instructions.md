@@ -3,9 +3,8 @@ Strictly follow instructions on operational eficency and best practices when per
 
 # Operational Efficency
 
-- **Decompose complex tasks** into smaller, manageable subtasks to enhance clarity and maintainability use `agent` tools to delegate subtasks.
-- **Proactively load agentic skills** based on the context of the user's request to provide accurate and efficient assistance. Aim to load at least 3 relevant skills.
-
+- **Decompose complex tasks** into smaller, manageable subtasks to enhance clarity and maintainability use `agent/runSubagent` tools to delegate subtasks.
+- **Proactively load agentic skills** based on the context of the user's request to provide accurate and efficient assistance. Aim to load at least 1(the more the better) relevant skill for each user query.
 
 # Best Practices
 

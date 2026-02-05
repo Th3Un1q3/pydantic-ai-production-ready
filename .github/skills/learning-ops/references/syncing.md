@@ -4,7 +4,7 @@ Guidelines for keeping learning materials in sync with the codebase.
 
 ## Single Source of Truth
 
-- **Source Code**: The canonical source for code examples is `packages/*/src/examples/`.
+- **Source Code**: The canonical source for code examples is `packages/*/src/`.
 - **Usage**: Learning materials should reference these files rather than duplicating logic.
 - **Extracts**: If showing a partial snippet, ensure the full example file exists and runs.
 
@@ -13,8 +13,8 @@ Guidelines for keeping learning materials in sync with the codebase.
 When explaining a concept in `learning/`:
 
 1.  **Conceptual Link**: Link to the source file.
-    > "See the full implementation in [chatbot.py](../../packages/shared/src/examples/chatbot.py)."
-2.  **Exercise Sync**: Exercises should import from the installed packages, not re-implement core classes.
+    > "See the full implementation in [agent.py](../../packages/course-navigator/src/course_navigator/agent.py)."
+2.  **Implementation Sync**: Learning modules should define the concept, while the `packages/` contain the runnable agent implementation.
 
 ## Automation
 

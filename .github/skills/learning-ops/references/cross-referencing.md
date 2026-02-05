@@ -11,14 +11,15 @@ Strategies for linking between learning materials and code.
 ## Material to Code
 
 - **Relative Paths**: Always use relative paths from the markdown file.
-    - Correct: `[Chatbot Example](../../packages/shared/src/examples/chatbot.py)`
-    - Incorrect: `/workspace/packages/shared/src/examples/chatbot.py`
+  - Correct: `[Chatbot Example](../../packages/shared/src/examples/chatbot.py)`
+  - Incorrect: `/workspace/packages/shared/src/examples/chatbot.py`
 - **Line Numbers**: Use line numbers for specific block references, but be aware they are brittle.
     > "The `__init__` method (lines 10-15) initializes the agent."
 
 ## Code to Material
 
 - **Docstrings**: In the source code examples, link back to the learning module that explains the concept.
+
     ```python
     # For a detailed explanation, see learning/02-core-concepts/01-agents.md
     ```
