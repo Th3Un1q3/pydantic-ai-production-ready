@@ -36,7 +36,7 @@ agent = Agent('openai:gpt-4')
 async def main():
     # Asynchronous execution is the default and recommended pattern
     result = await agent.run('What is the capital of France?')
-    print(result.data)
+    print(result.output)
     # Output: "The capital of France is Paris."
 
 if __name__ == "__main__":
@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
 ## Structured Output (The Validation Layer)
 
-The true power of Pydantic AI lies in `result_type`. By defining a Pydantic model for the output, you enforce a strict contract on the LLM's response. This is effectively a "runtime unit test" for the model's output.
+The true power of Pydantic AI lies in `output_type`. By defining a Pydantic model for the output, you enforce a strict contract on the LLM's response. This is effectively a "runtime unit test" for the model's output.
 
 ```python
 from pydantic import BaseModel
@@ -61,17 +61,17 @@ class CityInfo(BaseModel):
 
 agent = Agent(
     'openai:gpt-4',
-    result_type=CityInfo, # <--- The Contract
+    output_type=CityInfo, # <--- The Contract
     system_prompt='Extract city information from user queries.',
 )
 
 async def main():
     result = await agent.run('Tell me about Paris')
 
-    # The result.data is guaranteed to be a valid CityInfo instance
+    # The result.output is guaranteed to be a valid CityInfo instance
     # No more `json.loads()` or rigorous error checking needed here
-    print(f"City: {result.data.name}")
-    print(f"Country: {result.data.country}")
+    print(f"City: {result.output.name}")
+    print(f"Country: {result.output.country}")
 
 import asyncio
 asyncio.run(main())
@@ -104,7 +104,7 @@ async def get_weather(ctx: RunContext[None], city: str) -> str:
 
 # The agent can now call the get_weather tool
 result = agent.run_sync('What is the weather like in Paris?')
-print(result.data)
+print(result.output)
 # The agent will call get_weather('Paris') and incorporate the result
 ```
 
@@ -157,7 +157,7 @@ class SupportContext:
 
 agent = Agent(
     'openai:gpt-4',
-    result_type=SupportTicket,
+    output_type=SupportTicket,
     deps_type=SupportContext,
     system_prompt='''You are a customer support AI assistant.
     Analyze customer inquiries and create support tickets.
@@ -183,7 +183,7 @@ async def handle_support_request(message: str, customer_id: str):
     )
 
     result = await agent.run(message, deps=context)
-    ticket = result.data
+    ticket = result.output
 
     print(f"Category: {ticket.category}")
     print(f"Priority: {ticket.priority}")

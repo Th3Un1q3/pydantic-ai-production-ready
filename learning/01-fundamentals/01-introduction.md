@@ -35,7 +35,7 @@ class UserInfo(BaseModel):
 
 agent = Agent(
     'openai:gpt-4',
-    result_type=UserInfo, # Enforces structured output validation
+    output_type=UserInfo, # Enforces structured output validation
 )
 ```
 
@@ -51,7 +51,7 @@ Get **structured output** from LLMs and use Pydantic validators to detect and bl
 result = await agent.run("Extract user info: John Doe, 30, john@example.com")
 # The framework ensures this data conforms to your strict schema
 # before any downstream code executes.
-print(result.data.name)  # "John Doe"
+print(result.output.name)  # "John Doe"
 ```
 
 ### 4. Secure & Governed Tool Execution
