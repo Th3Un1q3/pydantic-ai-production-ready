@@ -12,27 +12,30 @@ Create a comprehensive specification document for a feature, package, learning m
 
 This prompt decomposes spec writing into discrete subtasks:
 
-1. **Discovery** → Use `todos` to track discovery questions
+1. **Discovery** → Track progress in the specification file itself
 2. **Research** → Use `agent/runSubagent` for codebase exploration
 3. **Drafting** → Use `agent/runSubagent` for template population
-4. **Validation** → Use `todos` to track quality checklist
+4. **Validation** → Track quality checklist in the specification file
 
 ## Process
 
-### Step 1: Initialize Task Tracking
+### Step 1: Initialize Specification Draft
 
-Create a TODO list to track progress:
+Create the specification file early to track progress persistently:
 
 ```markdown
-## Specification TODO
+## Specification Progress
 - [ ] Complete discovery phase
 - [ ] Determine specification type
 - [ ] Draft specification from template
 - [ ] Validate against quality standards
-- [ ] Save specification to specs/
+- [ ] Finalize specification
+
+## Discovery Notes
+(Capture answers to discovery questions here)
 ```
 
-Use the `todos` tool to maintain this checklist throughout the process.
+Store progress in the specification file to maintain state across sessions.
 
 ### Step 2: Discovery
 

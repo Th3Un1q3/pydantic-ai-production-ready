@@ -78,9 +78,9 @@ For each phase in the implementation plan, use `agent/runSubagent` to:
 
 2. **Validate** using standard gates:
    ```bash
-   just check              # Type checking
-   just lint {package}     # Linting
-   just test {package}     # Tests
+   just check
+   just lint {package}
+   just test {package}
    ```
 
 3. **Update TODO** after each deliverable:

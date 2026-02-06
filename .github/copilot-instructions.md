@@ -64,11 +64,6 @@ For significant changes, use the specification-driven workflow:
 | `learning` | Educational content | `specs/learning/` |
 | `change` | Refactoring | `specs/changes/` |
 
-### Quick Reference
-```bash
-# Write a new specification
-/write-spec
-
-# Implement an existing specification
-/implement-spec specs/features/SPEC-001-feature-name.md
-```
+### Prompts
+- `/write-spec` - Invoke to create a new specification
+- `/implement-spec` - Invoke to execute a specification file
