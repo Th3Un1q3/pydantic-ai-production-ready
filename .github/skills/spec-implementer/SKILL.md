@@ -137,7 +137,7 @@ Commit after each successful validation:
 
 After each phase:
 1. Verify all validation checks pass
-2. Use report_progress with:
+2. Commit changes with:
    - Descriptive commit message
    - Updated checklist in PR description
 ```

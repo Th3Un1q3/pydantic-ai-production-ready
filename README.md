@@ -126,11 +126,11 @@ This repository supports specification-driven development for AI-assisted implem
 
 ### Quick Start
 
-```bash
-# Create a specification (interactive)
+```text
+# In GitHub Copilot Chat: create a specification (interactive)
 /write-spec
 
-# Implement an existing specification
+# In GitHub Copilot Chat: implement an existing specification
 /implement-spec specs/features/SPEC-001-feature-name.md
 ```
 

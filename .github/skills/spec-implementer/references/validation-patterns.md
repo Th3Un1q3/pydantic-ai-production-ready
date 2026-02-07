@@ -24,8 +24,7 @@ def test_search_returns_within_500ms():
     assert elapsed < 0.5
     assert result is not None
 
-# Performance criteria → benchmark
-@pytest.mark.benchmark
+# Performance criteria → timing-based pytest test
 def test_response_time_p95():
     times = [measure_response() for _ in range(100)]
     p95 = sorted(times)[94]
@@ -49,8 +48,8 @@ Success criteria from the Executive Summary must be measurable. Use this pattern
 
 | Criterion | Measurement Method | Target | Actual | Status |
 |-----------|-------------------|--------|--------|--------|
-| Response time < 200ms | `just benchmark` | <200ms | 185ms | ✓ PASS |
-| Test coverage > 90% | `just coverage` | >90% | 92% | ✓ PASS |
+| Response time < 200ms | `just test` | <200ms | 185ms | ✓ PASS |
+| Test coverage > 90% | `just test` | >90% | 92% | ✓ PASS |
 | Zero type errors | `just check` | 0 | 0 | ✓ PASS |
 
 ## Phase Gate Validation
@@ -61,19 +60,18 @@ Before proceeding to the next phase, run validation gates:
 
 ```bash
 # Run after each phase
-just check              # Type checking must pass
-just lint {package}     # Linting must pass  
-just test {package}     # All tests must pass
+just check
+just lint {package}
+just test {package}
 ```
 
 ### Extended Validation (for production-critical phases)
 
 ```bash
 # Full validation
-just test               # All monorepo tests
-just coverage           # Coverage report
-just check              # Type checking
-just lint               # Full lint
+just test
+just check
+just lint
 ```
 
 ## Iterative Refinement Pattern

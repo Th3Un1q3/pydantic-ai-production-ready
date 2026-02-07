@@ -98,20 +98,24 @@ Each specification has a status in its frontmatter:
 
 ### Create a Specification
 
-```bash
-# Interactive
+```text
+# In GitHub Copilot Chat: create a specification interactively
 /write-spec
+```
 
+```bash
 # Or manually copy a template
 cp .github/skills/spec-writer/templates/feature.template.md specs/features/SPEC-XXX-title.md
 ```
 
 ### Implement a Specification
 
-```bash
-# With spec file
+```text
+# In GitHub Copilot Chat: implement a specification
 /implement-spec specs/features/SPEC-001-feature-name.md
+```
 
+```bash
 # Or list available specs
 ls specs/*/
 ```

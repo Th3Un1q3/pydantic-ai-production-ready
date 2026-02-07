@@ -126,7 +126,7 @@ class {{ModelName}}(BaseModel):
 
 | Dependency | Version | Purpose |
 |------------|---------|---------|
-| pydantic-ai | >=0.1.0 | {{Purpose}} |
+| pydantic-ai | {{version}} | {{Purpose}} |
 | {{package}} | {{version}} | {{Purpose}} |
 
 ### Internal Dependencies
@@ -259,6 +259,6 @@ class {{PackageName}}Config(BaseModel):
 
 ## References
 
-- [Monorepo Guide](../../packages/README.md)
+- [Monorepo Guide](/packages/README.md)
 - [Pydantic AI Documentation](https://ai.pydantic.dev/)
 - {{Additional references}}
