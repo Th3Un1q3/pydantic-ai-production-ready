@@ -6,20 +6,20 @@ tools: ['agent/runSubagent', 'todos']
 
 # Write Specification
 
-Create a comprehensive specification document for a feature, package, learning module, or change.
+Create a comprehensive specification document using the [spec-writer skill](../skills/spec-writer/SKILL.md).
 
 ## Orchestration Strategy
 
 This prompt decomposes spec writing into discrete subtasks:
 
-1. **Discovery** → Track progress in the specification file itself
-2. **Research** → Use `agent/runSubagent` for codebase exploration
-3. **Drafting** → Use `agent/runSubagent` for template population
+1. **Discovery** → Track progress in the specification file itself (file-based for human-in-loop persistence)
+2. **Research** → Use `agent/runSubagent` to explore codebase for context
+3. **Drafting** → Use `agent/runSubagent` to populate template from skill
 4. **Validation** → Track quality checklist in the specification file
 
-## Process
+## Agentic Tools Usage
 
-### Step 1: Initialize Specification Draft
+### File-Based Progress Tracking
 
 Create the specification file early to track progress persistently:
 
@@ -32,99 +32,28 @@ Create the specification file early to track progress persistently:
 - [ ] Finalize specification
 
 ## Discovery Notes
-(Capture answers to discovery questions here)
+(Capture answers here for persistence across sessions)
 ```
 
-Store progress in the specification file to maintain state across sessions.
+### Subtask Delegation
 
-### Step 2: Discovery
+Use `agent/runSubagent` for parallel/specialized work:
 
-Before writing any specification, gather context by asking:
+| Subtask | Agent Purpose |
+|---------|---------------|
+| Codebase exploration | Find existing patterns, similar implementations |
+| Template population | Read skill template and generate draft |
+| Quality validation | Check criteria against standards |
 
-1. **What are we building?** Get a clear description of the feature, package, module, or change.
-2. **Why now?** Understand the problem being solved and its urgency.
-3. **How will we measure success?** Define 3-5 measurable KPIs.
-4. **What's explicitly out of scope?** Prevent scope creep.
-5. **Any constraints?** Technology, timeline, dependencies.
+## Workflow
 
-Do NOT proceed until you have clear answers. Ask follow-up questions if needed.
+Follow the workflow defined in [spec-writer skill](../skills/spec-writer/SKILL.md):
 
-**Subtask**: Use `agent/runSubagent` to explore the codebase for relevant context:
-- Existing similar implementations
-- Related packages and their patterns
-- Testing conventions in use
-
-### Step 3: Type Selection
-
-Based on the user's input, determine the specification type:
-
-| Type | Indicators |
-|------|------------|
-| `feature` | New functionality for existing package |
-| `package` | New package or major component |
-| `learning` | Educational content, module, or tutorial |
-| `change` | Refactoring, modification, improvement |
-
-### Step 4: Draft Specification
-
-**Subtask**: Use `agent/runSubagent` to:
-1. Read the appropriate template from the spec-writer skill
-2. Populate template sections based on discovery findings
-3. Generate concrete acceptance criteria
-
-Templates:
-- [feature.template.md](../skills/spec-writer/templates/feature.template.md)
-- [package.template.md](../skills/spec-writer/templates/package.template.md)
-- [learning.template.md](../skills/spec-writer/templates/learning.template.md)
-- [change.template.md](../skills/spec-writer/templates/change.template.md)
-
-### Step 5: Validate
-
-Track validation in the specification file (file-based for persistence):
-
-```markdown
-## Validation Checklist
-- [ ] Problem statement is clear and compelling
-- [ ] Success criteria are measurable (include specific numbers)
-- [ ] All user stories have testable acceptance criteria
-- [ ] Technical constraints are documented
-- [ ] Out of scope items are explicitly listed
-- [ ] Implementation phases are realistic
-```
-
-### Step 6: Save
-
-Save the specification to:
-
-```
-specs/{type}/SPEC-{id}-{kebab-case-title}.md
-```
-
-Create the specs directory if it doesn't exist.
-
-## Output Quality
-
-**Concrete criteria** (not vague):
-
-```diff
-# Bad
-- The API should be fast and reliable.
-
-# Good
-+ The API must respond within 200ms at p95 under 100 RPS.
-```
-
-**Testable acceptance criteria**:
-
-```diff
-# Bad
-- User can search for courses
-
-# Good
-+ Search endpoint returns results within 500ms
-+ Results are ranked by relevance score
-+ Empty query returns validation error with helpful message
-```
+1. **Discovery Phase** - Ask clarifying questions (see skill for question list)
+2. **Type Selection** - Choose template based on work type
+3. **Drafting** - Populate template from skill's templates directory
+4. **Validation** - Verify against skill's quality checklist
+5. **Save** - Store to `specs/{type}/SPEC-{id}-{title}.md`
 
 ## Next Steps
 

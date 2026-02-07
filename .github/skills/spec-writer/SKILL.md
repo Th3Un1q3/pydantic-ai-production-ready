@@ -16,7 +16,16 @@ This skill generates structured specifications following a discovery-first appro
 - Technical requirements and constraints
 - Implementation phases and validation steps
 
-## Operational Workflow
+## Templates
+
+| Type | Use When | Template |
+|------|----------|----------|
+| `feature` | New functionality for existing package | [feature.template.md](./templates/feature.template.md) |
+| `package` | New package or major component | [package.template.md](./templates/package.template.md) |
+| `learning` | New educational module | [learning.template.md](./templates/learning.template.md) |
+| `change` | Refactoring or modification | [change.template.md](./templates/change.template.md) |
+
+## Workflow
 
 ### Phase 1: Discovery (Required)
 
@@ -34,20 +43,28 @@ Before writing a specification, interrogate to fill knowledge gaps. Do not assum
 
 ### Phase 2: Specification Type Selection
 
-Choose the appropriate template based on the work type:
-
-| Type | Use When | Template |
-|------|----------|----------|
-| `feature` | New functionality for existing package | [feature.template.md](./templates/feature.template.md) |
-| `package` | New package or major component | [package.template.md](./templates/package.template.md) |
-| `learning` | New educational module | [learning.template.md](./templates/learning.template.md) |
-| `change` | Refactoring or modification | [change.template.md](./templates/change.template.md) |
+Choose the appropriate template based on the work type (see Templates table above).
 
 ### Phase 3: Drafting
 
-Generate the specification using the selected template. Apply these quality standards:
+Generate the specification using the selected template.
 
-#### Quality Standards
+### Phase 4: Validation
+
+Before finalizing, verify the specification against this checklist:
+
+```markdown
+## Validation Checklist
+- [ ] Problem statement is clear and compelling
+- [ ] Success criteria are measurable
+- [ ] All user stories have testable acceptance criteria
+- [ ] Technical constraints are documented
+- [ ] Out of scope items are explicitly listed
+- [ ] Implementation phases are realistic
+- [ ] Dependencies are identified
+```
+
+## Quality Standards
 
 **Concrete, Measurable Criteria:**
 
@@ -74,21 +91,6 @@ As a user, I want to search courses by topic so that I can find relevant content
 - [ ] Results are ranked by relevance score
 - [ ] Empty query returns validation error with helpful message
 - [ ] Results include title, description, and match score
-```
-
-### Phase 4: Validation
-
-Before finalizing, verify the specification against this checklist:
-
-```markdown
-## Validation Checklist
-- [ ] Problem statement is clear and compelling
-- [ ] Success criteria are measurable
-- [ ] All user stories have testable acceptance criteria
-- [ ] Technical constraints are documented
-- [ ] Out of scope items are explicitly listed
-- [ ] Implementation phases are realistic
-- [ ] Dependencies are identified
 ```
 
 ## Output Location
@@ -121,25 +123,6 @@ Example: `SPEC-001-course-search-api.md`
 | **Phased delivery** | Enables incremental validation and course correction |
 | **Acceptance criteria** | Enables automated and manual validation |
 
-## Integration with Implementation
+## Integration
 
-Once a specification is complete, it becomes input for the [spec-implementer](../spec-implementer/SKILL.md) skill which:
-
-1. Reads the specification
-2. Creates an implementation plan
-3. Executes in phases with validation
-4. Updates documentation
-5. Reports completion status
-
-## Quick Reference
-
-```markdown
-## Spec Writing Checklist
-1. [ ] Run discovery phase with stakeholder
-2. [ ] Select appropriate template type
-3. [ ] Fill all required sections
-4. [ ] Ensure all criteria are measurable
-5. [ ] Validate against checklist
-6. [ ] Save to specs/{type}/SPEC-{id}-{title}.md
-7. [ ] Hand off to spec-implementer or human reviewer
-```
+Once a specification is complete, it becomes input for the [spec-implementer](../spec-implementer/SKILL.md) skill.

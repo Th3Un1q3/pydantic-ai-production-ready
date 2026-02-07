@@ -48,8 +48,7 @@ FOR each phase in specification.implementation_plan:
         - Analyze failure
         - Refine implementation
         - Re-validate (max 3 attempts)
-    5. Report phase completion
-    6. Commit progress
+    5. Commit progress
 ```
 
 **TDD Integration**: For Python code, follow the [python-development](../python-development/SKILL.md) skill's ZOMBIE TDD methodology.
@@ -57,10 +56,9 @@ FOR each phase in specification.implementation_plan:
 **Validation Between Phases**:
 
 ```bash
-# Standard validation gate
-just check              # Type checking
-just lint {package}     # Linting
-just test {package}     # Tests
+just check
+just lint {package}
+just test {package}
 ```
 
 ### Phase 3: Documentation Updates
@@ -137,9 +135,8 @@ Commit after each successful validation:
 
 After each phase:
 1. Verify all validation checks pass
-2. Commit changes with:
-   - Descriptive commit message
-   - Updated checklist in PR description
+2. Commit changes with descriptive message
+3. Update checklist in spec file or PR description
 ```
 
 ## Integration with Other Skills
@@ -159,7 +156,7 @@ If validation fails after 3 attempts:
 
 1. Document the blocking issue
 2. Mark phase as `blocked`
-3. Report to user with:
+3. Report with:
    - What was attempted
    - Why it failed
    - Suggested resolution
@@ -194,30 +191,3 @@ Implementation is complete when:
 - [ ] Documentation updated
 - [ ] Code review completed (if applicable)
 - [ ] Specification status updated to `implemented`
-
-## Quick Reference
-
-```markdown
-## Implementation Checklist
-
-### Preparation
-- [ ] Read and understand specification
-- [ ] Verify all required sections present
-- [ ] Identify dependencies
-
-### Execution
-- [ ] Phase 1: Foundation (tests + core)
-- [ ] Phase 2: Implementation (features)
-- [ ] Phase 3: Documentation (docs + polish)
-
-### Validation
-- [ ] All tests pass
-- [ ] Type checking passes
-- [ ] Linting passes
-- [ ] Acceptance criteria verified
-
-### Completion
-- [ ] Documentation updated
-- [ ] Specification marked as implemented
-- [ ] Final commit with summary
-```
