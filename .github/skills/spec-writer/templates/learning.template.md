@@ -243,5 +243,5 @@ Link to implementation: `packages/{{package-name}}/src/{{module}}.py`
 ## References
 
 - [Enterprise Architect Persona](/learning/00-misc/reports/enterprise-architect.persona.md)
-- [Learning Ops Skill](/../learning-ops/SKILL.md)
+- [Learning Ops Skill](/.github/skills/learning-ops/SKILL.md)
 - {{Additional references}}
