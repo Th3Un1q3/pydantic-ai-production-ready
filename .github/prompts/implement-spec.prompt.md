@@ -14,8 +14,8 @@ This prompt decomposes implementation into discrete subtasks:
 
 1. **Load & Parse** → Read specification, extract phases
 2. **Per-Phase Execution** → Use `agent/runSubagent` for each phase
-3. **Progress Tracking** → Use `todos` to track deliverables
-4. **Validation** → Use `agent/runSubagent` for testing and checks
+3. **Progress Tracking** → Use file-based checklist in spec file for deliverables
+4. **Validation** → Use `todos` for autonomous TDD cycles
 5. **Documentation** → Use `agent/runSubagent` for doc updates
 
 ## Input
@@ -30,13 +30,12 @@ If no specification is provided, list available specs in `specs/` directory.
 
 ## Process
 
-### Step 1: Initialize Task Tracking
+### Step 1: Initialize Deliverables Tracking
 
-Create a TODO list from the specification phases:
+Update the specification file with implementation progress (file-based for persistence):
 
 ```markdown
-## Implementation TODO
-- [ ] Load and validate specification
+## Implementation Progress
 - [ ] Phase 1: [deliverables from spec]
 - [ ] Phase 2: [deliverables from spec]
 - [ ] Phase 3: [deliverables from spec]
@@ -44,16 +43,16 @@ Create a TODO list from the specification phases:
 - [ ] Final validation
 ```
 
-Use the `todos` tool to maintain this checklist throughout the process.
+This persists across sessions and tracks high-level deliverables.
 
 ### Step 2: Load Specification
 
 Read and validate the specification:
 
-- [ ] Executive Summary with success criteria exists
-- [ ] User stories with acceptance criteria exist
-- [ ] Implementation plan with phases exists
-- [ ] Testing strategy exists
+- Executive Summary with success criteria exists
+- User stories with acceptance criteria exist
+- Implementation plan with phases exists
+- Testing strategy exists
 
 If sections are missing, ask the user to complete them first.
 
@@ -71,10 +70,15 @@ Ask for confirmation before proceeding.
 
 For each phase in the implementation plan, use `agent/runSubagent` to:
 
-1. **Implement deliverables** following TDD workflow:
-   - Create failing tests first (use python-development skill)
-   - Implement minimal code to pass
-   - Refactor while green
+1. **Implement deliverables** following TDD workflow.
+   
+   Use `todos` to track the autonomous TDD cycle:
+   - Write failing test for the feature
+   - Run test, confirm it fails for the expected reason
+   - Write minimal implementation to pass
+   - Run test, confirm it passes
+   - Refactor while keeping tests green
+   - Move to next priority
 
 2. **Validate** using standard gates:
    ```bash
@@ -83,7 +87,7 @@ For each phase in the implementation plan, use `agent/runSubagent` to:
    just test {package}
    ```
 
-3. **Update TODO** after each deliverable:
+3. **Update file-based checklist** after each deliverable:
    ```markdown
    - [x] Phase 1: Core models
    - [ ] Phase 2: Business logic
@@ -95,32 +99,32 @@ For each phase in the implementation plan, use `agent/runSubagent` to:
 
 Use `agent/runSubagent` for documentation subtasks:
 
-- [ ] Update package README with usage examples
-- [ ] Add/update API documentation
-- [ ] Update CHANGELOG.md
-- [ ] Update learning materials if specified
+- Update package README with usage examples
+- Add/update API documentation
+- Update CHANGELOG.md
+- Update learning materials if specified
 
 ### Step 6: Final Validation
 
-Run complete validation using TODO tracking:
+Update the specification file with completion status:
 
 ```markdown
 ## Completion Checklist
 
 ### Code Quality
-- [ ] All tests pass
-- [ ] Type checking passes
-- [ ] Linting passes
+- [x] All tests pass
+- [x] Type checking passes
+- [x] Linting passes
 
 ### Specification Compliance
-- [ ] All acceptance criteria verified
-- [ ] Success criteria met
-- [ ] Non-goals were not implemented
+- [x] All acceptance criteria verified
+- [x] Success criteria met
+- [x] Non-goals were not implemented
 
 ### Documentation
-- [ ] README updated
-- [ ] Examples executable
-- [ ] CHANGELOG updated
+- [x] README updated
+- [x] Examples executable
+- [x] CHANGELOG updated
 ```
 
 ### Step 7: Mark Complete
@@ -139,7 +143,7 @@ completed: {{YYYY-MM-DD}}
 **If validation fails after 3 attempts:**
 
 1. Document the blocking issue
-2. Mark phase as `blocked` in TODO
+2. Mark phase as `blocked` in file-based checklist
 3. Report to user with what was attempted and suggested resolution
 
 **If specification is ambiguous:**

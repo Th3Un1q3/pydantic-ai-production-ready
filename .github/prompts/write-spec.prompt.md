@@ -80,14 +80,17 @@ Templates:
 
 ### Step 5: Validate
 
-Use `todos` to track validation checklist:
+Track validation in the specification file (file-based for persistence):
 
+```markdown
+## Validation Checklist
 - [ ] Problem statement is clear and compelling
 - [ ] Success criteria are measurable (include specific numbers)
 - [ ] All user stories have testable acceptance criteria
 - [ ] Technical constraints are documented
 - [ ] Out of scope items are explicitly listed
 - [ ] Implementation phases are realistic
+```
 
 ### Step 6: Save
 

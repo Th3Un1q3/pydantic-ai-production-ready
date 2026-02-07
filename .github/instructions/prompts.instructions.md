@@ -77,8 +77,63 @@ Use `agent/runSubagent` to perform specialized work.
 - Use `agent: 'agent'` (NOT `mode: 'agent'`)
 - Include `tools` array when specific tools are needed
 - Decompose complex work into subtasks
-- Use `todos` for progress tracking
 - Use `agent/runSubagent` for specialized or parallel work
+
+## Progress Tracking: `todos` vs File-Based Checklists
+
+### When to Use `todos` Tool
+
+Use `todos` for **autonomous multi-step tasks** where the agent works without user interruption:
+
+**Good use cases for `todos`:**
+- TDD cycle steps (write test → validate fails → implement → validate passes → refactor)
+- Build/lint/test validation sequences
+- Multi-file refactoring operations
+- Sequential code generation steps
+
+**Example - TDD Cycle with `todos`:**
+```markdown
+Use `todos` to track the TDD cycle:
+1. Write failing test for the feature
+2. Run test, confirm it fails for the expected reason
+3. Write minimal implementation to pass
+4. Run test, confirm it passes
+5. Refactor implementation while keeping tests green
+6. Move to next priority
+```
+
+### When to Use File-Based Checklists
+
+Use **file-based checklists** for tracking that must persist across sessions or involves human-in-the-loop:
+
+**Good use cases for file-based checklists:**
+- Discovery phases requiring user input
+- Deliverables tracking across multiple sessions
+- Specification progress (stored in the spec file itself)
+- Any workflow where user interruption is expected
+
+**Example - Discovery in Specification File:**
+```markdown
+## Specification Progress
+- [x] Complete discovery phase
+- [ ] Determine specification type
+- [ ] Draft specification from template
+- [ ] Validate against quality standards
+
+## Discovery Notes
+(Answers captured here persist across sessions)
+```
+
+### Key Distinction
+
+| Scenario | Use `todos` | Use File-Based |
+|----------|-------------|----------------|
+| Agent works autonomously | ✓ | |
+| User may interrupt/resume | | ✓ |
+| TDD cycle within a session | ✓ | |
+| Tracking deliverables over time | | ✓ |
+| Build/test sequences | ✓ | |
+| Discovery with user Q&A | | ✓ |
 
 ## Anti-Patterns
 
@@ -86,5 +141,5 @@ Use `agent/runSubagent` to perform specialized work.
 |--------------|------------------|
 | `mode: 'agent'` | `agent: 'agent'` |
 | Monolithic prompts | Decompose into subtasks |
-| No progress tracking | Use `todos` for checklists |
-| Manual sequential work | Use `agent/runSubagent` for parallelization |
+| `todos` for human-in-loop tracking | Use file-based checklists |
+| File-based for ephemeral TDD steps | Use `todos` for autonomous cycles |
