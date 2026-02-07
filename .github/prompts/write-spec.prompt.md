@@ -51,9 +51,18 @@ Follow the workflow defined in [spec-writer skill](../skills/spec-writer/SKILL.m
 
 1. **Discovery Phase** - Ask clarifying questions (see skill for question list)
 2. **Type Selection** - Choose template based on work type
-3. **Drafting** - Populate template from skill's templates directory
-4. **Validation** - Verify against skill's quality checklist
-5. **Save** - Store to `specs/{type}/SPEC-{id}-{title}.md`
+3. **Drafting** - Populate template with prioritized stories (P1, P2, P3) and parallel markers [P]
+4. **Clarification** - Mark unclear items with `NEEDS CLARIFICATION:` and resolve before finalizing
+5. **Validation** - Verify against skill's quality checklist
+6. **Save** - Store to `specs/{type}/SPEC-{id}-{title}.md`
+
+## Key Concepts from spec-kit
+
+- **Prioritized User Stories**: Order by importance (P1 = MVP, P2, P3)
+- **Independent Testing**: Each story testable as standalone MVP
+- **Parallel Markers [P]**: Tasks that can run simultaneously
+- **NEEDS CLARIFICATION**: Explicit markers for unclear items
+- **Checkpoints**: Validation points after each story phase
 
 ## Next Steps
 

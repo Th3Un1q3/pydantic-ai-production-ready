@@ -7,8 +7,9 @@ This directory contains specifications for features, packages, learning modules,
 Specifications are the **single source of truth** for what to build and how to validate it. They bridge the gap between vision and implementation by providing:
 
 - Clear problem statements and success criteria
-- User stories with testable acceptance criteria
-- Phased implementation plans with validation gates
+- User stories **prioritized by importance** (P1 = MVP, P2, P3)
+- Phased implementation with **checkpoints** after each story
+- **Parallel task markers** [P] for concurrent execution
 - Technical constraints and non-goals
 
 ## Directory Structure
@@ -39,8 +40,9 @@ Use the `/write-spec` prompt or invoke the `spec-writer` skill:
 The skill guides you through:
 
 1. **Discovery**: Clarifying questions to understand the scope
-2. **Drafting**: Generating a structured specification
-3. **Validation**: Ensuring quality standards are met
+2. **Drafting**: Generating a structured specification with prioritized stories
+3. **Clarification**: Mark unclear items with `NEEDS CLARIFICATION:`
+4. **Validation**: Ensuring quality standards are met
 
 ### 2. Review and Refine
 
@@ -48,8 +50,11 @@ Before implementation, ensure:
 
 - [ ] Problem statement is clear
 - [ ] Success criteria are measurable
-- [ ] All user stories have acceptance criteria
-- [ ] Implementation phases are realistic
+- [ ] User stories are prioritized (P1, P2, P3)
+- [ ] Each story is independently testable as MVP
+- [ ] Tasks have parallel markers [P] where applicable
+- [ ] No `NEEDS CLARIFICATION` markers remain
+- [ ] Implementation phases have checkpoints
 
 ### 3. Implement the Specification
 
@@ -61,10 +66,13 @@ Use the `/implement-spec` prompt or invoke the `spec-implementer` skill:
 
 The skill:
 
-1. Reads and validates the specification
-2. Executes phases with validation gates
-3. Updates documentation
-4. Marks specification as complete
+1. Validates specification (checks for `NEEDS CLARIFICATION`)
+2. Completes **foundational phase** first (blocking prerequisites)
+3. Executes **P1 story** → **CHECKPOINT** → validates as MVP
+4. Continues with P2, P3 in priority order
+5. Runs [P] tasks in parallel within each story
+6. Updates documentation
+7. Marks specification as `implemented`
 
 ## Naming Convention
 
@@ -125,10 +133,25 @@ ls specs/*/
 All specifications should include:
 
 1. **Executive Summary**: Problem, solution, success criteria
-2. **User Stories**: With acceptance criteria
-3. **Technical Specification**: API, models, dependencies
-4. **Implementation Plan**: Phased deliverables with validation
-5. **Testing Strategy**: What to test and how
+2. **User Stories**: Prioritized (P1, P2, P3) with acceptance criteria
+3. **Requirements**: Functional requirements with `NEEDS CLARIFICATION` for unclear items
+4. **Technical Specification**: API, models, dependencies
+5. **Implementation Plan**: Phased deliverables with checkpoints
+6. **Task Breakdown**: Tasks with [P] parallel markers
+7. **Testing Strategy**: What to test and how
+
+## Key Concepts
+
+Inspired by [GitHub's spec-kit](https://github.com/github/spec-kit):
+
+| Concept | Description |
+|---------|-------------|
+| **Prioritized Stories (P1, P2, P3)** | P1 = MVP, higher priority first |
+| **Independent Testing** | Each story testable as standalone MVP |
+| **Parallel Markers [P]** | Tasks that can run simultaneously |
+| **NEEDS CLARIFICATION** | Explicit markers for unclear items |
+| **Checkpoints** | Validation after each story |
+| **Foundational Phase** | Blocking prerequisites before ANY story |
 
 ## Related Resources
 

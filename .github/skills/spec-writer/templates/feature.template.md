@@ -40,9 +40,19 @@ author: {{author}}
 
 ## User Stories
 
-### Story 1: {{Story Title}}
+<!--
+  IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance (P1, P2, P3).
+  Each story must be INDEPENDENTLY TESTABLE - if you implement just ONE of them,
+  you should still have a viable MVP that delivers value.
+-->
+
+### Story 1: {{Story Title}} (Priority: P1) 🎯 MVP
 
 As a {{user type}}, I want to {{action}} so that {{benefit}}.
+
+**Why this priority**: {{Explain the value and why it's most critical}}
+
+**Independent Test**: {{How this story can be tested on its own as an MVP}}
 
 **Acceptance Criteria:**
 
@@ -50,14 +60,38 @@ As a {{user type}}, I want to {{action}} so that {{benefit}}.
 - [ ] {{Testable criterion 2}}
 - [ ] {{Testable criterion 3}}
 
-### Story 2: {{Story Title}}
+---
+
+### Story 2: {{Story Title}} (Priority: P2)
 
 As a {{user type}}, I want to {{action}} so that {{benefit}}.
+
+**Why this priority**: {{Explain the value and why it has this priority}}
+
+**Independent Test**: {{How this story can be tested independently}}
 
 **Acceptance Criteria:**
 
 - [ ] {{Testable criterion 1}}
 - [ ] {{Testable criterion 2}}
+
+### Edge Cases
+
+<!-- What happens when boundary conditions occur? -->
+
+- {{Edge case 1: boundary condition or error scenario}}
+- {{Edge case 2: boundary condition or error scenario}}
+
+## Requirements
+
+### Functional Requirements
+
+<!-- Use NEEDS CLARIFICATION for unclear items -->
+
+- **FR-001**: System MUST {{specific capability}}
+- **FR-002**: System MUST {{specific capability}}
+- **FR-003**: Users MUST be able to {{key interaction}}
+- **FR-004**: {{requirement or NEEDS CLARIFICATION: describe what's unclear}}
 
 ## Technical Specification
 
@@ -117,19 +151,50 @@ class {{ModelName}}(BaseModel):
 
 ## Implementation Plan
 
-### Phase 1: Foundation
+### Phase 0: Foundational (Blocking Prerequisites)
+
+<!--
+  ⚠️ CRITICAL: Core infrastructure that MUST be complete before ANY user story.
+  No story work can begin until this phase is complete.
+-->
 
 **Deliverables:**
 
-- [ ] {{Deliverable 1}}
-- [ ] {{Deliverable 2}}
+- [ ] {{Core dependency or infrastructure}}
+- [ ] {{Database/API foundation if applicable}}
+
+**Validation:**
+
+- [ ] Foundation ready for story implementation
+- [ ] Type checking passes
+
+**Checkpoint**: Foundation complete - story implementation can begin
+
+---
+
+### Phase 1: User Story 1 (P1) 🎯 MVP
+
+**Goal**: {{Brief description of what this story delivers}}
+
+**Deliverables:**
+
+- [ ] [P] {{Deliverable 1 - can run in parallel}}
+- [ ] [P] {{Deliverable 2 - can run in parallel}}
+- [ ] {{Deliverable 3 - depends on above}}
 
 **Validation:**
 
 - [ ] Unit tests pass
-- [ ] Type checking passes
+- [ ] Acceptance criteria verified
+- [ ] Story independently testable
 
-### Phase 2: Core Implementation
+**Checkpoint**: Story 1 functional - can demo/deploy as MVP
+
+---
+
+### Phase 2: User Story 2 (P2)
+
+**Goal**: {{Brief description of what this story delivers}}
 
 **Deliverables:**
 
@@ -140,6 +205,10 @@ class {{ModelName}}(BaseModel):
 
 - [ ] Integration tests pass
 - [ ] Acceptance criteria verified
+
+**Checkpoint**: Stories 1 AND 2 both work independently
+
+---
 
 ### Phase 3: Documentation & Polish
 
@@ -158,18 +227,50 @@ class {{ModelName}}(BaseModel):
 
 ### Unit Tests
 
-- {{Test category 1}}
-- {{Test category 2}}
+- [ ] {{Test category 1}}
+- [ ] {{Test category 2}}
 
 ### Integration Tests
 
-- {{Integration test 1}}
-- {{Integration test 2}}
+- [ ] {{Integration test 1}}
+- [ ] {{Integration test 2}}
 
 ### Edge Cases
 
-- {{Edge case 1}}
-- {{Edge case 2}}
+- [ ] {{Edge case test 1}}
+- [ ] {{Edge case test 2}}
+
+## Task Breakdown
+
+<!--
+  [P] = Can run in parallel (different files, no dependencies)
+  [US1/US2] = Which user story this belongs to
+  Tasks are organized by user story for independent implementation
+-->
+
+### Parallel Markers
+
+| Marker | Meaning |
+|--------|---------|
+| `[P]` | Can run in parallel with other [P] tasks |
+| `[US1]` | Belongs to User Story 1 |
+| `[US2]` | Belongs to User Story 2 |
+
+### Task List
+
+- [ ] T001 [P] [US1] {{Task description with file path}}
+- [ ] T002 [P] [US1] {{Task description with file path}}
+- [ ] T003 [US1] {{Task that depends on T001, T002}}
+- [ ] T004 [P] [US2] {{Task description with file path}}
+- [ ] T005 [US2] {{Task description with file path}}
+
+## Complexity Tracking
+
+<!-- Fill ONLY if constitution/principles violations must be justified -->
+
+| Violation | Why Needed | Simpler Alternative Rejected Because |
+|-----------|------------|-------------------------------------|
+| {{e.g., Extra abstraction}} | {{Specific need}} | {{Why simpler approach insufficient}} |
 
 ## Risks and Mitigations
 

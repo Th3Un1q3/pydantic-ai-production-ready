@@ -12,11 +12,14 @@ Execute a specification document using the [spec-implementer skill](../skills/sp
 
 This prompt decomposes implementation into discrete subtasks:
 
-1. **Load & Parse** → Read specification, extract phases
-2. **Per-Phase Execution** → Use `agent/runSubagent` for each phase
-3. **Progress Tracking** → File-based checklist for deliverables (human-in-loop persistence)
-4. **TDD Cycles** → Use `todos` for autonomous TDD within phases
-5. **Documentation** → Use `agent/runSubagent` for doc updates
+1. **Load & Validate** → Check for `NEEDS CLARIFICATION` markers
+2. **Foundational Phase** → Complete blocking prerequisites first
+3. **Per-Story Execution** → Use `agent/runSubagent` for each user story (P1 first)
+4. **Parallel Tasks** → Execute [P] marked tasks simultaneously
+5. **Progress Tracking** → File-based checklist for deliverables (human-in-loop persistence)
+6. **TDD Cycles** → Use `todos` for autonomous TDD within stories
+7. **Checkpoints** → Validate each story independently before next
+8. **Documentation** → Use `agent/runSubagent` for doc updates
 
 ## Agentic Tools Usage
 
@@ -26,16 +29,33 @@ Update the specification file with implementation progress (persistent across se
 
 ```markdown
 ## Implementation Progress
-- [ ] Phase 1: [deliverables from spec]
-- [ ] Phase 2: [deliverables from spec]
-- [ ] Phase 3: [deliverables from spec]
+- [ ] Phase 0: Foundational (blocking prerequisites)
+- [ ] CHECKPOINT: Foundation ready
+- [ ] Phase 1: User Story 1 (P1) 🎯 MVP
+- [ ] CHECKPOINT: Story 1 independently testable
+- [ ] Phase 2: User Story 2 (P2)
+- [ ] CHECKPOINT: Story 2 independently testable
 - [ ] Documentation updates
 - [ ] Final validation
 ```
 
+### Parallel Task Execution
+
+Execute [P] marked tasks simultaneously:
+
+```markdown
+## Parallel Execution
+Tasks marked [P] within same story run together:
+- [ ] T001 [P] [US1] Create User model → Execute
+- [ ] T002 [P] [US1] Create Auth model → Execute (parallel)
+
+Then sequential:
+- [ ] T003 [US1] Implement UserService → Execute (after T001, T002)
+```
+
 ### `todos` for TDD Cycles
 
-Use `todos` to track autonomous TDD cycle within a phase:
+Use `todos` to track autonomous TDD cycle within a story:
 
 ```markdown
 Use `todos` to track:
@@ -71,12 +91,22 @@ If no specification is provided, list available specs in `specs/` directory.
 
 Follow the workflow defined in [spec-implementer skill](../skills/spec-implementer/SKILL.md):
 
-1. **Load Specification** - Read and validate structure
+1. **Load Specification** - Read and check for `NEEDS CLARIFICATION` markers
 2. **Confirm Understanding** - Summarize and confirm with user
-3. **Execute Phases** - Implement each phase with validation gates
-4. **Update Documentation** - README, CHANGELOG, API docs
-5. **Final Validation** - Complete QA checklist
-6. **Mark Complete** - Update specification status
+3. **Foundational Phase** - Complete Phase 0 blocking prerequisites
+4. **CHECKPOINT** - Foundation ready, stories can begin
+5. **Execute Stories** - Implement P1 first (MVP), then P2, P3
+6. **Per-Story Checkpoints** - Validate story independently before next
+7. **Update Documentation** - README, CHANGELOG, API docs
+8. **Final Validation** - Complete QA checklist
+9. **Mark Complete** - Update specification status to `implemented`
+
+## Key Concepts from spec-kit
+
+- **MVP First**: Complete P1 story, validate, then continue
+- **Parallel Execution**: Run [P] tasks simultaneously
+- **Checkpoints**: Verify each story independently
+- **Foundational Phase**: Complete blocking prerequisites before ANY story
 
 ## Integration
 

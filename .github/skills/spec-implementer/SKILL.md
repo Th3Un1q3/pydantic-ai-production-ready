@@ -25,35 +25,62 @@ This skill transforms specifications into working implementations through:
 1. Read the specification file (e.g., `specs/features/SPEC-001-*.md`)
 2. Verify required sections are present:
    - [ ] Executive Summary with success criteria
-   - [ ] User stories with acceptance criteria
-   - [ ] Implementation plan with phases
+   - [ ] User stories with acceptance criteria (prioritized P1, P2, P3)
+   - [ ] Implementation plan with phases and checkpoints
+   - [ ] Task breakdown with parallel markers [P]
    - [ ] Testing strategy
-3. Identify dependencies and constraints
-4. Confirm understanding with the user if ambiguities exist
+3. Check for `NEEDS CLARIFICATION` markers - resolve before proceeding
+4. Identify dependencies and constraints
+5. Confirm understanding with the user if ambiguities exist
 
-**Output**: Implementation plan with clear phases.
+**Output**: Validated specification ready for implementation.
 
-### Phase 2: Phased Implementation
+### Phase 2: Foundational Implementation
 
-Execute each phase defined in the specification:
+**⚠️ CRITICAL**: Complete foundational/blocking prerequisites before ANY user story.
 
 ```markdown
-## Implementation Loop
+## Foundational Phase
 
-FOR each phase in specification.implementation_plan:
-    1. Review phase deliverables
-    2. Implement deliverables following TDD workflow
-    3. Run validation checks
-    4. IF validation fails:
-        - Analyze failure
-        - Refine implementation
-        - Re-validate (max 3 attempts)
-    5. Commit progress
+1. Execute Phase 0 tasks (core infrastructure)
+2. Run validation checks
+3. Confirm foundation ready
+4. **CHECKPOINT**: Foundation complete - story work can begin
+```
+
+### Phase 3: User Story Implementation (Priority Order)
+
+Execute user stories in priority order (P1 → P2 → P3):
+
+```markdown
+## Story Implementation Loop
+
+FOR each user_story in priority_order (P1 first):
+    1. Identify [P] parallel tasks - execute together
+    2. Execute sequential tasks in dependency order
+    3. Implement following TDD workflow
+    4. Run story validation checks
+    5. **CHECKPOINT**: Story independently testable
+    6. Commit progress with story status
+```
+
+**Parallel Execution**:
+
+```markdown
+## Parallel Task Execution
+
+Tasks marked [P] can run simultaneously:
+- [ ] T001 [P] [US1] Create User model
+- [ ] T002 [P] [US1] Create Auth model
+→ Execute T001 and T002 in parallel
+
+Then execute dependent tasks:
+- [ ] T003 [US1] Implement UserService (depends on T001, T002)
 ```
 
 **TDD Integration**: For Python code, follow the [python-development](../python-development/SKILL.md) skill's ZOMBIE TDD methodology.
 
-**Validation Between Phases**:
+**Validation Between Stories**:
 
 ```bash
 just check
@@ -61,7 +88,7 @@ just lint {package}
 just test {package}
 ```
 
-### Phase 3: Documentation Updates
+### Phase 4: Documentation Updates
 
 After implementation, update relevant documentation:
 
@@ -70,7 +97,7 @@ After implementation, update relevant documentation:
 3. **Learning materials**: If specified, update `learning/` modules
 4. **Specification status**: Mark as `implemented`
 
-### Phase 4: Quality Assurance
+### Phase 5: Quality Assurance
 
 Final validation checklist:
 
@@ -96,7 +123,36 @@ Final validation checklist:
 
 ## Execution Patterns
 
-### Pattern 1: Evaluator-Optimizer Loop
+### Pattern 1: MVP First (P1 Only)
+
+Deliver value incrementally:
+
+```markdown
+## MVP Strategy
+
+1. Complete Phase 0: Foundational
+2. Complete P1 User Story only
+3. **STOP and VALIDATE**: Test P1 independently
+4. Deploy/demo if ready (this is your MVP!)
+5. Continue with P2, P3 as capacity allows
+```
+
+### Pattern 2: Parallel Task Execution
+
+Execute [P] marked tasks simultaneously:
+
+```markdown
+## Parallel Execution
+
+# All [P] tasks within same story can run together:
+T001 [P] [US1] → Execute
+T002 [P] [US1] → Execute (in parallel with T001)
+
+# Wait for parallel tasks, then sequential:
+T003 [US1] → Execute (after T001, T002 complete)
+```
+
+### Pattern 3: Evaluator-Optimizer Loop
 
 For quality-critical implementations, use iterative refinement:
 
@@ -118,7 +174,7 @@ def implement_with_refinement(deliverable: str, criteria: list[str]) -> str:
     return implementation
 ```
 
-### Pattern 2: Test-Driven Phases
+### Pattern 4: Test-Driven Phases
 
 For each deliverable:
 
@@ -126,17 +182,18 @@ For each deliverable:
 2. **Green**: Implement minimal code to pass
 3. **Refactor**: Clean up while maintaining green
 
-### Pattern 3: Incremental Commits
+### Pattern 5: Incremental Commits with Checkpoints
 
 Commit after each successful validation:
 
 ```markdown
 ## Commit Pattern
 
-After each phase:
+After each story checkpoint:
 1. Verify all validation checks pass
 2. Commit changes with descriptive message
-3. Update checklist in spec file or PR description
+3. Update specification status
+4. **CHECKPOINT**: Story X complete and independently testable
 ```
 
 ## Integration with Other Skills

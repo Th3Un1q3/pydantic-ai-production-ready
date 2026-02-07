@@ -12,9 +12,10 @@ Create production-grade specifications that bridge vision and implementation. Sp
 This skill generates structured specifications following a discovery-first approach. Every specification includes:
 
 - Clear problem statement and success criteria
-- User stories with acceptance criteria
+- User stories with acceptance criteria (prioritized as P1, P2, P3)
 - Technical requirements and constraints
-- Implementation phases and validation steps
+- Implementation phases with validation checkpoints
+- Task breakdown with parallel execution markers
 
 ## Templates
 
@@ -49,7 +50,30 @@ Choose the appropriate template based on the work type (see Templates table abov
 
 Generate the specification using the selected template.
 
-### Phase 4: Validation
+**Key Principles:**
+
+- **Prioritized User Stories**: Order stories by importance (P1, P2, P3)
+- **Independent Testing**: Each story must be testable as a standalone MVP
+- **Parallel Markers**: Mark tasks that can run in parallel with `[P]`
+- **NEEDS CLARIFICATION**: Use explicit markers for unclear items
+
+### Phase 4: Clarification (Recommended)
+
+Before planning, run a structured clarification to reduce rework:
+
+```markdown
+## Clarification Checklist
+
+For each requirement, confirm:
+- [ ] Is the requirement specific enough to implement?
+- [ ] Are edge cases identified?
+- [ ] Are error scenarios defined?
+- [ ] Is the scope boundary clear?
+```
+
+Mark unclear items with: `NEEDS CLARIFICATION: {{what's unclear}}`
+
+### Phase 5: Validation
 
 Before finalizing, verify the specification against this checklist:
 
@@ -58,13 +82,32 @@ Before finalizing, verify the specification against this checklist:
 - [ ] Problem statement is clear and compelling
 - [ ] Success criteria are measurable
 - [ ] All user stories have testable acceptance criteria
+- [ ] Stories are prioritized (P1, P2, P3)
+- [ ] Each story is independently testable as MVP
 - [ ] Technical constraints are documented
 - [ ] Out of scope items are explicitly listed
-- [ ] Implementation phases are realistic
+- [ ] Implementation phases have checkpoints
+- [ ] Tasks have parallel markers [P] where applicable
 - [ ] Dependencies are identified
+- [ ] No NEEDS CLARIFICATION markers remain
 ```
 
 ## Quality Standards
+
+**Prioritized User Stories:**
+
+```markdown
+### Story 1: [Title] (Priority: P1) 🎯 MVP
+
+As a user, I want to [action] so that [benefit].
+
+**Why this priority**: Core functionality that delivers immediate value
+**Independent Test**: Can be tested by [specific action] and delivers [specific value]
+
+**Acceptance Criteria:**
+- [ ] Testable criterion 1
+- [ ] Testable criterion 2
+```
 
 **Concrete, Measurable Criteria:**
 
@@ -76,6 +119,16 @@ Before finalizing, verify the specification against this checklist:
 # Concrete (GOOD)
 + The API must respond within 200ms at p95 under 100 RPS.
 + The module must cover all 5 core concepts with 3+ exercises each.
+```
+
+**Parallel Task Markers:**
+
+```markdown
+## Task Breakdown
+
+- [ ] T001 [P] [US1] Create User model in src/models/user.py
+- [ ] T002 [P] [US1] Create Auth model in src/models/auth.py
+- [ ] T003 [US1] Implement UserService (depends on T001, T002)
 ```
 
 **Testable Acceptance Criteria:**
@@ -118,10 +171,15 @@ Example: `SPEC-001-course-search-api.md`
 | Practice | Rationale |
 |----------|-----------|
 | **Discovery first** | Specifications written without context lead to rework |
+| **Prioritize stories (P1, P2, P3)** | Enables MVP delivery and incremental value |
+| **Independent story testing** | Each story can be demo'd/deployed on its own |
+| **Mark parallel tasks [P]** | Enables efficient parallel execution |
+| **NEEDS CLARIFICATION markers** | Explicit about unknowns, prevents assumptions |
 | **Measurable criteria** | Vague requirements cannot be validated |
 | **Explicit non-goals** | Prevents scope creep during implementation |
-| **Phased delivery** | Enables incremental validation and course correction |
+| **Phased delivery with checkpoints** | Enables incremental validation and course correction |
 | **Acceptance criteria** | Enables automated and manual validation |
+| **Complexity tracking** | Documents violations with justifications |
 
 ## Integration
 
