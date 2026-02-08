@@ -31,15 +31,44 @@ tools: ['tool1', 'tool2']  # Optional: specific tools to enable
 
 The `tools` array constrains which tools the agent can use. Select tools strategically to maximize agent capability.
 
-### Available Tool Categories
+### Built-in Tool Sets
+
+These are the core tool sets available in VS Code and CLI environments:
+
+| Tool Set | Purpose | Example Tools |
+|----------|---------|---------------|
+| `vscode` | VS Code integration | `vscode/askQuestions`, `vscode/openFile`, `vscode/showDiff` |
+| `execute` | Command execution | Terminal commands, script running |
+| `read` | File reading | Read file contents, directory listings |
+| `agent` | Agent orchestration | `agent/runSubagent` for task delegation |
+| `edit` | File editing | Create, modify, delete files |
+| `search` | Code search | Find symbols, references, grep patterns |
+| `web` | Web access | Fetch URLs, external documentation |
+| `todo` | Task tracking | `todos` for ephemeral progress tracking |
+
+### MCP-Based Tools
+
+MCP (Model Context Protocol) servers extend capabilities. Check `.vscode/mcp.json` for available servers.
 
 | Category | Tools | Use For |
 |----------|-------|---------|
-| **Core Agentic** | `agent/runSubagent`, `todos` | Subtask delegation, progress tracking |
-| **VS Code** | `vscode/askQuestions` | Interactive clarification with user |
-| **MCP Servers** | `context7/*` | Context-aware code understanding |
+| **Context** | `context7/*` | Context-aware code understanding |
 | **GitHub** | `gh_readonly/*` | Repository exploration, issue reading |
-| **Web** | `web` | Fetching external documentation, research |
+| **Search** | `tavily/*` | Advanced web search and research |
+| **Filesystem** | `filesystem/*` | Advanced file operations |
+
+### Combined Tool Strategy
+
+Combine built-in tools with MCP tools for maximum capability:
+
+| Category | Built-in | MCP Extensions |
+|----------|----------|----------------|
+| **Subtask Delegation** | `agent/runSubagent`, `todos` | - |
+| **User Interaction** | `vscode/askQuestions` | - |
+| **Code Understanding** | `read`, `search` | `context7/*` |
+| **Repository Access** | `read` | `gh_readonly/*` |
+| **External Research** | `web` | `tavily/*` |
+| **File Operations** | `edit`, `read` | `filesystem/*` |
 
 ### Repository MCP Servers
 
@@ -49,12 +78,14 @@ Check `.vscode/mcp.json` for available MCP servers. Currently configured:
 
 ### Tool Selection by Prompt Type
 
-| Prompt Type | Recommended Tools |
-|-------------|-------------------|
-| **Discovery/Spec Writing** | `agent/runSubagent`, `todos`, `vscode/askQuestions`, `context7/*`, `gh_readonly/*`, `web` |
-| **Implementation** | `agent/runSubagent`, `todos`, `context7/*`, `gh_readonly/*`, `web` |
-| **Research/Exploration** | `agent/runSubagent`, `context7/*`, `gh_readonly/*`, `web` |
-| **Documentation** | `agent/runSubagent`, `web` |
+Select a comprehensive combination of built-in and MCP tools based on prompt requirements:
+
+| Prompt Type | Built-in Tools | MCP Tools |
+|-------------|----------------|-----------|
+| **Discovery/Spec Writing** | `agent/runSubagent`, `todos`, `vscode/askQuestions` | `context7/*`, `gh_readonly/*`, `web` |
+| **Implementation** | `agent/runSubagent`, `todos`, `edit`, `read`, `search` | `context7/*`, `gh_readonly/*`, `web` |
+| **Research/Exploration** | `agent/runSubagent`, `read`, `search` | `context7/*`, `gh_readonly/*`, `web`, `tavily/*` |
+| **Documentation** | `agent/runSubagent`, `edit`, `read` | `web` |
 
 ### Missing MCP Suggestions
 
@@ -65,16 +96,22 @@ Consider adding these MCPs if prompts would benefit:
 | `tavily/*` | Web search and research | Prompts need external research beyond `web` |
 | `filesystem/*` | Advanced file operations | Complex file manipulation needed |
 
-### Common Tools
+### Common Tool Combinations
 
-| Tool | Purpose |
-|------|---------|
-| `agent/runSubagent` | Delegate subtasks to specialized agents |
-| `todos` | Track tasks and checklists (ephemeral, for autonomous work) |
-| `vscode/askQuestions` | Ask user clarifying questions interactively |
-| `context7/*` | Context-aware code understanding via MCP |
-| `gh_readonly/*` | Read-only GitHub access (issues, PRs, code) |
-| `web` | Fetch content from URLs |
+For most prompts, combine these built-in and MCP tools:
+
+| Tool | Type | Purpose |
+|------|------|---------|
+| `agent/runSubagent` | Built-in | Delegate subtasks to specialized agents |
+| `todos` | Built-in | Track tasks and checklists (ephemeral, for autonomous work) |
+| `vscode/askQuestions` | Built-in | Ask user clarifying questions interactively |
+| `read` | Built-in | Read file contents for analysis |
+| `edit` | Built-in | Create and modify files |
+| `search` | Built-in | Find code patterns and symbols |
+| `execute` | Built-in | Run commands and scripts |
+| `context7/*` | MCP | Context-aware code understanding |
+| `gh_readonly/*` | MCP | Read-only GitHub access (issues, PRs, code) |
+| `web` | Built-in | Fetch content from URLs |
 
 ## Prompt Structure
 
