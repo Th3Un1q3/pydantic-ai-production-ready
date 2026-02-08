@@ -1,31 +1,46 @@
 ---
-description: 'Guidelines for creating reusable prompts for GitHub Copilot'
-applyTo: '**/.github/prompts/*.prompt.md'
+description: 'Guidelines for creating high-quality prompt files for GitHub Copilot'
+applyTo: '**/*.prompt.md'
 ---
 
-# Prompt File Guidelines
+# Copilot Prompt Files Guidelines
 
-Instructions for creating effective and reusable prompt files for GitHub Copilot.
+Instructions for creating effective and maintainable prompt files that guide GitHub Copilot in delivering consistent, high-quality outcomes across any repository.
 
-## Required Frontmatter
+## Scope and Principles
 
-Every prompt file must include YAML frontmatter with the following fields:
+- Target audience: maintainers and contributors authoring reusable prompts for Copilot Chat.
+- Goals: predictable behaviour, clear expectations, minimal permissions, and portability across repositories.
+- Primary references: VS Code documentation on prompt files and organization-specific conventions.
 
-```yaml
----
-agent: 'agent'
-description: 'Brief description of what the prompt does'
-tools: ['tool1', 'tool2']  # Optional: specific tools to enable
----
-```
+## Frontmatter Requirements
 
-### Frontmatter Fields
+Every prompt file should include YAML frontmatter with the following fields:
+
+### Required/Recommended Fields
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `agent` | Yes | Set to `'agent'` for agentic prompts (standard for all prompts in this repo) |
-| `description` | Yes | Clear description of the prompt's purpose (1-200 chars) |
-| `tools` | No | Array of tools to enable for this prompt |
+| `description` | Recommended | A short description of the prompt (single sentence, actionable outcome) |
+| `name` | Optional | The name shown after typing `/` in chat. Defaults to filename if not specified |
+| `agent` | Recommended | The agent to use: `ask`, `edit`, `agent`, or a custom agent name. Defaults to current agent |
+| `model` | Optional | The language model to use. Defaults to the currently selected model |
+| `tools` | Optional | List of tool/tool set names available for this prompt |
+| `argument-hint` | Optional | Hint text shown in chat input to guide user interaction |
+
+### Frontmatter Guidelines
+
+- Use consistent quoting (single quotes recommended) and keep one field per line for readability and version control clarity
+- If `tools` are specified and the current agent is `ask` or `edit`, the default agent becomes `agent`
+- Preserve any additional metadata (`language`, `tags`, `visibility`, etc.) required by your organization
+- Use `agent: 'agent'` (NOT `mode: 'agent'`) for agentic prompts
+
+## File Naming and Placement
+
+- Use kebab-case for file names (e.g., `write-spec.prompt.md`, `add-educational-comments.prompt.md`)
+- Place prompt files in `.github/prompts/` directory
+- Extension must be `.prompt.md`
+- Name should describe the action/outcome (verb-noun pattern preferred)
 
 ## Strategic Tool Selection
 
