@@ -232,7 +232,7 @@ Update specification frontmatter as work progresses:
 
 ```yaml
 ---
-status: in-progress  # draft → in-progress → review → implemented
+status: in-progress  # draft → ready → in-progress → review → implemented → deprecated
 current-phase: 2
 last-updated: {{YYYY-MM-DD}}
 ---

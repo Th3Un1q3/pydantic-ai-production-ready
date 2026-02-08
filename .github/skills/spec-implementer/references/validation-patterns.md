@@ -10,26 +10,32 @@ For each acceptance criterion in a user story:
 
 1. **Identify the criterion type**:
    - Functional: Test with unit/integration test
-   - Performance: Measure and compare to target
+   - Performance: Use dedicated perf tests/benchmarks (e.g., pytest-benchmark)
    - Documentation: Manual verification
 
 2. **Create verification method**:
 
 ```python
 # Functional criteria → pytest
-def test_search_returns_within_500ms():
-    start = time.time()
+def test_search_returns_result():
     result = search("query")
-    elapsed = time.time() - start
-    assert elapsed < 0.5
     assert result is not None
 
-# Performance criteria → timing-based pytest test
-def test_response_time_p95():
-    times = [measure_response() for _ in range(100)]
-    p95 = sorted(times)[94]
-    assert p95 < 0.2  # 200ms
+# Performance criteria → dedicated perf/benchmark test (not regular unit test)
+# Use pytest-benchmark or dedicated perf runs for stable measurements
+# Wall-clock assertions in regular tests are often flaky across CI environments
+def test_search_latency_benchmark(benchmark):
+    """Performance test using pytest-benchmark for stable measurements."""
+    def _run():
+        search("query")
+    
+    result = benchmark(_run)
+    # Check benchmark results with generous margins for CI variability
 ```
+
+> **Note**: Avoid hard-coded time assertions in regular tests (e.g., `assert elapsed < 0.5`).
+> These are flaky across CI environments and produce non-deterministic failures.
+> Reserve strict latency SLO checks for controlled performance runs.
 
 3. **Document verification status**:
 

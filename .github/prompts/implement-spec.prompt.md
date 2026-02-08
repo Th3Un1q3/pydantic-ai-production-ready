@@ -1,7 +1,7 @@
 ---
 agent: 'agent'
 description: 'Implement a specification document. Reads a SPEC-*.md file and executes it with phased delivery, validation, and documentation updates.'
-tools: ['agent/runSubagent', 'todos']
+tools: ['agent/runSubagent', 'todos', 'context7/*', 'gh_readonly/*', 'web']
 ---
 
 # Implement Specification

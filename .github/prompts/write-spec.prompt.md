@@ -1,7 +1,7 @@
 ---
 agent: 'agent'
 description: 'Create a professional specification document. Guides through discovery phase and produces a comprehensive spec for features, packages, learning modules, or changes.'
-tools: ['agent/runSubagent', 'todos']
+tools: ['agent/runSubagent', 'todos', 'vscode/askQuestions', 'context7/*', 'gh_readonly/*', 'web']
 ---
 
 # Write Specification
