@@ -1,7 +1,7 @@
 ---
 agent: 'agent'
 description: 'Execute a SPEC-*.md file with phased delivery and validation gates'
-tools: ['agent/runSubagent', 'todos', 'edit', 'read', 'search', 'execute', 'context7/*', 'gh_readonly/*', 'web']
+tools: ['vscode', 'execute', 'read', 'agent', 'edit', 'search', 'web', 'context7/*', 'todo']
 argument-hint: 'Path to specification file (e.g., specs/features/SPEC-001-*.md)'
 ---
 

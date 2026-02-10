@@ -1,7 +1,7 @@
 ---
 agent: 'agent'
 description: 'Create a professional specification document through guided discovery'
-tools: ['agent/runSubagent', 'todos', 'vscode/askQuestions', 'context7/*', 'gh_readonly/*', 'web']
+tools: ['vscode/askQuestions', 'execute', 'read', 'agent', 'edit', 'search', 'web', 'context7/*', 'todo']
 argument-hint: 'Optionally specify the type: feature, package, learning, or change'
 ---
 
