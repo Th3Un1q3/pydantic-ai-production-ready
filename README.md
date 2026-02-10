@@ -25,15 +25,22 @@ This repository provides a comprehensive framework for building production-ready
 │   ├── docker-compose.yml
 │   ├── Dockerfile
 │   └── post-create.sh
+├── .github/                # GitHub Copilot skills and prompts
+│   ├── skills/             # AI agent skills
+│   └── prompts/            # Reusable prompts
 ├── learning/               # Modular learning materials
 │   ├── 01-fundamentals/
 │   ├── 02-core-concepts/
 │   ├── 03-advanced-patterns/
 │   └── 04-production-deployment/
-├──                # Python monorepo with uv
-│   ├── src/               # Source code
-│   ├── tests/             # Test files
-│   └── pyproject.toml     # Project configuration
+├── packages/               # Python monorepo with uv
+│   ├── course-navigator/   # Example agent implementation
+│   └── shared/             # Shared utilities
+├── specs/                  # Specification documents
+│   ├── features/           # Feature specifications
+│   ├── packages/           # Package specifications
+│   ├── learning/           # Learning module specifications
+│   └── changes/            # Change specifications
 ├── .gitignore
 ├── LICENSE
 └── README.md
@@ -100,6 +107,34 @@ The learning materials are designed to be extensible. See [learning/README.md](l
 - Module structure guidelines
 - Content creation templates
 - Best practices for educational content
+
+## 📝 Spec-Based Development
+
+This repository supports specification-driven development for AI-assisted implementation:
+
+### Workflow
+
+1. **Write a Specification**: Use `/write-spec` in GitHub Copilot to create a comprehensive spec
+2. **Implement the Specification**: Use `/implement-spec` to execute with validation
+
+### Benefits
+
+- **AI-Assisted Authoring**: Discovery phase ensures complete requirements
+- **Phased Implementation**: Validation gates prevent regressions
+- **Quality Assurance**: Measurable success criteria and acceptance tests
+- **Documentation**: Automatic updates to docs and changelog
+
+### Quick Start
+
+```text
+# In GitHub Copilot Chat: create a specification (interactive)
+/write-spec
+
+# In GitHub Copilot Chat: implement an existing specification
+/implement-spec specs/features/SPEC-001-feature-name.md
+```
+
+See [specs/README.md](specs/README.md) for full documentation.
 
 ## 🤝 Contributing
 
