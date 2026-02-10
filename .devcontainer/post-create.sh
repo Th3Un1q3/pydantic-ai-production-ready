@@ -30,6 +30,9 @@ cd /workspace
 
 just init # Non interactive mode setup
 
+# Configure git to use merge strategy for reconciliation
+git config --global pull.rebase false
+
 # Pretty success message
 # Uses ANSI colors for terminals that support them
 echo -e "\n\033[1;32m+----------------------------------------------+\033[0m"

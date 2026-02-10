@@ -10,6 +10,11 @@ Strictly follow instructions on operational eficency and best practices when per
 
 - **Single Source of Truth**: When considering add a new file/change existing one always make sure if there is other file that already contains the information. If you found such duplication consider if creation of a new file serves a purpose and re-distribute the information accordingly.
 
+# Automation & Reproducibility
+
+- **Codify Reusable Commands**: When a new script or complex command sequence is introduced and likely to be reused, encapsulate it as a `just` command. This ensures auditability and ease of use.
+- **Persist Environment Configuration**: If a configuration change is "global" or part of the default setup (e.g., git config, package installation), modify the `.devcontainer` configuration (e.g., `post-create.sh` or `Dockerfile`) to ensure reproducibility for all users.
+
 # Pydantic AI Monorepo Guidelines
 
 ## Architecture & Organization

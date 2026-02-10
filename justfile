@@ -125,6 +125,23 @@ check PACKAGE="all":
 # Utility Commands
 # ============================================================================
 
+# Sync with remote repository (stash, pull, pop)
+repo sync:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo "🔄 Syncing with remote repository..."
+    if git diff --quiet && git diff --staged --quiet; then
+        echo "No local changes to stash."
+        git pull --tags origin main
+    else
+        echo "Stashing local changes..."
+        git stash push -m "Auto-stash before sync"
+        git pull --tags origin main
+        echo "Re-applying stashed changes..."
+        git stash pop
+    fi
+    echo "✅ Synced successfully"
+
 # Clean build artifacts
 clean:
     @echo "🧹 Cleaning build artifacts..."
