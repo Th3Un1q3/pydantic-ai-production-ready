@@ -42,3 +42,93 @@ Strictly follow instructions on operational eficency and best practices when per
 ## Environment & Integration
 - **Apps**: `course-navigator` (single agent).
 - **Configuration**: Environment variables loaded via `dotenv`. Check `.env.example`.
+
+## Spec-Based Development
+
+For significant changes, use the specification-driven workflow:
+
+1. **Create Specification**: Use `/write-spec` or the `spec-writer` skill
+   - Discovery phase gathers requirements
+   - Produces structured spec in `specs/{type}/SPEC-{id}-{title}.md`
+
+2. **Implement Specification**: Use `/implement-spec` or the `spec-implementer` skill
+   - Phased implementation with validation gates
+   - TDD workflow for Python code
+   - Automatic documentation updates
+
+### Specification Types
+| Type | Use For | Location |
+|------|---------|----------|
+| `feature` | New functionality | `specs/features/` |
+| `package` | New packages | `specs/packages/` |
+| `learning` | Educational content | `specs/learning/` |
+| `change` | Refactoring | `specs/changes/` |
+
+### Prompts
+- `/write-spec` - Invoke to create a new specification
+- `/implement-spec` - Invoke to execute a specification file
+
+## Reliable Execution and Task Decomposition
+
+### Subtask Decomposition
+
+Break complex workflows into discrete phases:
+- Use `agent/runSubagent` for parallel or specialized work
+- Each subtask should have clear inputs and outputs
+- Validate results before proceeding to next phase
+
+### Progress Tracking: `todos` vs File-Based Checklists
+
+#### When to Use `todos` Tool
+
+Use `todos` for **autonomous multi-step tasks** where the agent works without user interruption:
+
+**Good use cases:**
+- TDD cycle steps (write test → validate fails → implement → validate passes → refactor)
+- Build/lint/test validation sequences
+- Multi-file refactoring operations
+- Sequential code generation steps
+
+**Example - TDD Cycle:**
+```markdown
+Use `todos` to track the TDD cycle:
+1. Write failing test for the feature
+2. Run test, confirm it fails for the expected reason
+3. Write minimal implementation to pass
+4. Run test, confirm it passes
+5. Refactor implementation while keeping tests green
+6. Move to next priority
+```
+
+#### When to Use File-Based Checklists
+
+Use **file-based checklists** for tracking that must persist across sessions or involves human-in-the-loop:
+
+**Good use cases:**
+- Discovery phases requiring user input
+- Deliverables tracking across multiple sessions
+- Specification progress (stored in the spec file itself)
+- Any workflow where user interruption is expected
+
+**Example - Discovery in Specification File:**
+```markdown
+## Specification Progress
+- [x] Complete discovery phase
+- [ ] Determine specification type
+- [ ] Draft specification from template
+- [ ] Validate against quality standards
+
+## Discovery Notes
+(Answers captured here persist across sessions)
+```
+
+#### Decision Matrix
+
+| Scenario | Use `todos` | Use File-Based |
+|----------|-------------|----------------|
+| Agent works autonomously | ✓ | |
+| User may interrupt/resume | | ✓ |
+| TDD cycle within a session | ✓ | |
+| Tracking deliverables over time | | ✓ |
+| Build/test sequences | ✓ | |
+| Discovery with user Q&A | | ✓ |
