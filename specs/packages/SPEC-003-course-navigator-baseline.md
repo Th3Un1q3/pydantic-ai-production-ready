@@ -27,6 +27,9 @@
 4. **Constraints**: Technology stack, timeline, dependencies?
    - Tech stack: Python 3.12+, pydantic-ai, existing monorepo structure.
    - Dependencies: Must use pydantic-ai.Agent (validated: exists in codebase), integrate with shared config.
+   - Operational: Must use `uv` and `just`.
+   - Observability: Must instrument with Pydantic Logfire.
+   - Safety: Must enforce Usage Limits (request limit, tool call limit).
 
 5. **Users**: Who benefits? What are their needs?
    - Learners studying agent development need a baseline implementation to understand patterns.
@@ -54,8 +57,10 @@ Learners need a reference implementation that shows how to build an agent that c
 - Agent returns `CourseAnswer` (summary + references list).
 - Agent can find and read the content of specific files via `read_lesson` tool.
 - Agent personalizes output based on injected `NavigatorDeps`.
+- Agent is instrumented with **Pydantic Logfire** for observability.
+- Agent enforces **Usage Limits** to prevent infinite loops.
 - 100% Test Coverage.
-- CLI (`main.py`) prints formatted JSON or rich text.
+- CLI (`main.py`) implements a command capability pattern to support multiple modes (`cli`, `ui`), using `Agent.to_cli()` for the terminal interface.
 
 ## 5. User Stories
 
@@ -102,6 +107,21 @@ As a maintainer, I want full test coverage to ensure the architectural changes a
 - [ ] Unit tests for Agent logic in `agent.py` (mocking the tool and LLM, test prompt injection and tool registration).
 - [ ] Integration test verifying the full flow from CLI to agent response.
 
+### Story 5: CLI Entry Points & Observability (Priority: P2)
+
+As a developer, I want to run the agent in the terminal with safety limits and visibility into its actions, complying with framework best practices, and having the flexibility to switch between CLI and UI modes.
+
+**Acceptance Criteria:**
+
+- [ ] `main.py` accepts command line arguments to switch modes (e.g., `cli` [default], `ui`).
+- [ ] `cli` mode initializes dependencies and runs `agent.to_cli(deps=deps)`.
+- [ ] `ui` mode is defined as a placeholder for future web UI implementation.
+- [ ] `justfile` in `packages/course-navigator` is updated to accept variable arguments (`+ARGS`) and pass them to python module.
+- [ ] Root `justfile` is updated to pass arguments to package-level `just start`.
+- [ ] `main.py` configures `logfire.instrument_pydantic_ai()` for observability.
+- [ ] `logfire` is configured to `send_to_logfire='if-token-present'`.
+- [ ] Execution sets `UsageLimits` (e.g., request_limit=5) to prevent infinite loops.
+
 ## Clarification Checklist
 
 For each requirement, confirm:
@@ -134,6 +154,65 @@ LEARNING_ROOT = Path(__file__).parent.parent.parent.parent / "learning"
 ```
 
 This ensures the learning directory path is centralized and cannot be overridden, providing security through configuration.
+
+### Observability & Safety
+
+- **Logfire**: The CLI entry point must initialize Pydantic Logfire:
+
+  ```python
+  import logfire
+  logfire.configure(send_to_logfire='if-token-present')
+  logfire.instrument_pydantic_ai()
+  ```
+
+- **Usage Limits**: Execution must enforce limits to prevent runaway agents:
+
+  ```python
+  from pydantic_ai.usage import UsageLimits
+  usage_limits = UsageLimits(request_limit=10)
+  ```
+
+### CLI Implementation
+
+The `main.py` file should serve as the entry point for the application, handling command-line arguments to switch between different modes of operation.
+
+```python
+import sys
+import asyncio
+import logfire
+from pydantic_ai_shared.resolver import resolve_model
+from .agent import create_agent
+from .models import NavigatorDeps
+
+async def run_cli(deps: NavigatorDeps):
+    model = resolve_model()
+    agent = create_agent(model, deps)
+    print("Starting Course Navigator CLI...")
+    # .to_cli() handles the interactive loop
+    await agent.to_cli(deps=deps)
+
+def main():
+    # Configure Logfire
+    logfire.configure(send_to_logfire='if-token-present')
+    logfire.instrument_pydantic_ai()
+
+    # Simple argument parsing
+    command = sys.argv[1] if len(sys.argv) > 1 else 'cli'
+
+    # Dependencies (could be loaded from env/args)
+    deps = NavigatorDeps(user_name="Student", difficulty="Beginner")
+
+    if command == 'cli':
+        asyncio.run(run_cli(deps))
+    elif command == 'ui':
+        print("UI mode not yet implemented.")
+    else:
+        print(f"Unknown command: {command}")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### Index Collection Process
 
@@ -249,7 +328,7 @@ def create_agent(model: str | Model, deps: NavigatorDeps) -> Agent:
     agent = Agent(
         model,
         deps_type=NavigatorDeps,
-        result_type=CourseAnswer,
+        output_type=CourseAnswer,
         system_prompt=system_prompt,
     )
 
@@ -285,11 +364,13 @@ def create_agent(model: str | Model, deps: NavigatorDeps) -> Agent:
 ### Phase 2: Agent Logic
 
 - [ ] T006 [US3] Update `create_agent` to accept `NavigatorDeps` parameter (without learning_root), use `build_index` with `LEARNING_ROOT`, inject personalized system prompt with index and deps, and instruct agent to only use indexed paths.
-- [ ] T007 [US3] Configure agent with `deps_type=NavigatorDeps`, `result_type=CourseAnswer`, and register tools from `tools.py`.
+- [ ] T007 [US3] Configure agent with `deps_type=NavigatorDeps`, `output_type=CourseAnswer`, and register tools from `tools.py`.
 
 ### Phase 3: Integration
 
-- [ ] T006 [US4] Update `main.py` to instantiate `NavigatorDeps`, build index during startup, run the agent.
+- [ ] T006 [US4] Update `main.py` to instantiate `NavigatorDeps` and implement command dispatching (`cli` vs `ui`).
+- [ ] T008 [US5] Implement `run_cli` using `agent.to_cli()`, including calls to `logfire` configuration.
+- [ ] T009 [US5] Update `justfile`s (root and package) to propagate arguments to `python -m course_navigator.main`.
 - [ ] T007 [US4] Write unit and integration tests.
 
 ## 9. Validation Checklist
@@ -317,3 +398,4 @@ def create_agent(model: str | Model, deps: NavigatorDeps) -> Agent:
 - [x] `read_lesson` tool only allows access within `LEARNING_ROOT` using secure path resolution
 - [x] `LEARNING_ROOT` is defined as a constant in shared config and used consistently
 - [x] Agent prompt instructs to only use indexed file paths
+- [x] Observability (Logfire) and Usage Limits described in implementation
