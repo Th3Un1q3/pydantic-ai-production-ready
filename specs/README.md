@@ -14,7 +14,7 @@ Specifications are the **single source of truth** for what to build and how to v
 
 ## Directory Structure
 
-```
+```markdown
 specs/
 ├── README.md           # This file
 ├── features/           # New functionality for existing packages
@@ -33,7 +33,7 @@ specs/
 
 Use the `/write-spec` prompt or invoke the `spec-writer` skill:
 
-```
+```bash
 /write-spec
 ```
 
@@ -60,7 +60,7 @@ Before implementation, ensure:
 
 Use the `/implement-spec` prompt or invoke the `spec-implementer` skill:
 
-```
+```bash
 /implement-spec specs/features/SPEC-001-course-search.md
 ```
 
@@ -76,7 +76,7 @@ The skill:
 
 ## Naming Convention
 
-```
+```text
 SPEC-{id}-{kebab-case-title}.md
 ```
 
@@ -93,14 +93,14 @@ Examples:
 
 Each specification has a status in its frontmatter:
 
-| Status | Description |
-|--------|-------------|
-| `draft` | Work in progress, not ready for implementation |
-| `ready` | Reviewed and approved for implementation |
-| `in-progress` | Currently being implemented |
-| `review` | Implementation complete, awaiting review |
-| `implemented` | Fully implemented and verified |
-| `deprecated` | No longer relevant |
+|Status|Description|
+|-------|------------|
+|`draft`|Work in progress, not ready for implementation|
+|`ready`|Reviewed and approved for implementation|
+|`in-progress`|Currently being implemented|
+|`review`|Implementation complete, awaiting review|
+|`implemented`|Fully implemented and verified|
+|`deprecated`|No longer relevant|
 
 ## Quick Reference
 
@@ -144,14 +144,14 @@ All specifications should include:
 
 Inspired by [GitHub's spec-kit](https://github.com/github/spec-kit):
 
-| Concept | Description |
-|---------|-------------|
-| **Prioritized Stories (P1, P2, P3)** | P1 = MVP, higher priority first |
-| **Independent Testing** | Each story testable as standalone MVP |
-| **Parallel Markers [P]** | Tasks that can run simultaneously |
-| **NEEDS CLARIFICATION** | Explicit markers for unclear items |
-| **Checkpoints** | Validation after each story |
-| **Foundational Phase** | Blocking prerequisites before ANY story |
+|Concept|Description|
+|--------|-----------|
+|**Prioritized Stories (P1, P2, P3)**|P1 = MVP, higher priority first|
+|**Independent Testing**|Each story testable as standalone MVP|
+|**Parallel Markers [P]**|Tasks that can run simultaneously|
+|**NEEDS CLARIFICATION**|Explicit markers for unclear items|
+|**Checkpoints**|Validation after each story|
+|**Foundational Phase**|Blocking prerequisites before ANY story|
 
 ## Related Resources
 

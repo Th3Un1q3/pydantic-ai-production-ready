@@ -6,7 +6,7 @@ This document describes the architecture and design decisions for the Pydantic A
 
 ### High-Level Organization
 
-```
+```text
 pydantic-ai-production-ready/
 ├── .devcontainer/          # Development environment
 ├── learning/               # Educational content
@@ -31,7 +31,7 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 
 ### Workspace Structure
 
-```
+```text
 ├── pyproject.toml                      # Workspace root
 └── packages/
     ├── shared/                         # Common utilities
@@ -51,7 +51,7 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 
 ### Package Dependency Graph
 
-```
+```text
 ┌─────────────────────────────────────────┐
 │         Workspace Root                  │
 │    (Development dependencies)           │
@@ -79,6 +79,7 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 **Purpose**: Define workspace members and shared development dependencies
 
 **Key Features**:
+
 - Workspace member declaration
 - Shared dev dependencies (pytest, black, ruff, mypy)
 - No runtime dependencies
@@ -91,10 +92,12 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 **Purpose**: Common utilities and reusable components
 
 **Dependencies**:
+
 - Core: pydantic-ai, pydantic, loguru, httpx
 - Optional: openai, anthropic
 
 **Exports**:
+
 - Configuration management (`config.py`)
 - Example implementations
 - Common utilities
@@ -106,10 +109,12 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 **Purpose**: AI agent for navigating course materials and answering student queries.
 
 **Dependencies**:
+
 - Runtime: pydantic-ai-shared, openai
 - Optional: postgres, redis
 
 **Key Features**:
+
 - Student support
 - Material search
 - Progress tracking
@@ -127,6 +132,7 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 **Implementation**: uv workspace with explicit member declaration
 
 **Benefits**:
+
 - Single dependency resolution
 - Simplified cross-package imports
 - Unified tooling
@@ -139,6 +145,7 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 **Implementation**: `shared/src/config.py` with environment variable overrides
 
 **Benefits**:
+
 - Centralized defaults
 - Environment-specific configuration
 - Type-safe configuration access
@@ -150,6 +157,7 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 **Implementation**: Package-level pyproject.toml with specific dependencies
 
 **Examples**:
+
 - `course-navigator`: Needs OpenAI for student interactions and PostgreSQL for progress tracking
 
 ### 4. Optional Dependencies
@@ -159,6 +167,7 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 **Implementation**: `[project.optional-dependencies]` groups
 
 **Examples**:
+
 - `--extra openai`: OpenAI integration
 - `--extra postgres`: PostgreSQL support
 - `--extra redis`: Redis caching
@@ -168,12 +177,14 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 ### uv Package Manager
 
 **Why uv?**
+
 - ✅ **Fast**: 10-100x faster than pip
 - ✅ **Workspace Support**: Native monorepo support
 - ✅ **Lock Files**: Reproducible builds
 - ✅ **Modern**: Built with Rust, active development
 
 **Alternatives Considered**:
+
 - Poetry: Good but slower, less monorepo focus
 - pip-tools: Lacks workspace support
 - PDM: Good but less mature workspace support
@@ -181,6 +192,7 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 ### Pydantic AI Framework
 
 **Why Pydantic AI?**
+
 - ✅ **Type Safety**: Full type checking
 - ✅ **Validation**: Structured outputs with Pydantic
 - ✅ **Tool Calling**: Native function execution
@@ -189,6 +201,7 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 ### Project Structure
 
 **Why src/ layout?**
+
 - ✅ **Import Safety**: Prevents accidental imports from dev directory
 - ✅ **Testing**: Forces proper package installation
 - ✅ **Standards**: Follows Python packaging best practices
@@ -197,7 +210,7 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 
 ### Multi-Service Setup
 
-```
+```text
 ┌─────────────────────────────────────┐
 │     VS Code Dev Container           │
 ├─────────────────────────────────────┤
@@ -214,11 +227,13 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 ```
 
 **Services**:
+
 - **App Container**: Python development environment
 - **PostgreSQL**: Database for persistent storage
 - **Redis**: Caching and pub/sub
 
 **Benefits**:
+
 - Reproducible environment
 - All dependencies included
 - No local setup required
@@ -229,6 +244,7 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 ### Adding New Projects
 
 **Steps**:
+
 1. Create package directory: `packages/new-project/`
 2. Add `pyproject.toml` with dependencies
 3. Register in workspace root
@@ -241,6 +257,7 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 Each package can be deployed separately:
 
 **Docker**:
+
 ```dockerfile
 COPY packages/shared ./packages/shared
 COPY packages/my-project ./packages/my-project
@@ -248,17 +265,20 @@ RUN uv sync --package my-project
 ```
 
 **Serverless**:
+
 - Each package is small enough for Lambda/Cloud Functions
 - Share layer for common dependencies
 
 ### Testing Strategy
 
 **Levels**:
+
 1. **Unit Tests**: Per-package tests
 2. **Integration Tests**: Cross-package interactions
 3. **E2E Tests**: Full workflow tests
 
 **Execution**:
+
 ```bash
 # All packages
 uv run pytest
@@ -277,12 +297,14 @@ uv run pytest --cov=src
 **Philosophy**: Progressive, self-contained modules
 
 **Structure**:
+
 - Each module is independent
 - Progressive complexity
 - Hands-on exercises
 - References to working code
 
 **Benefits**:
+
 - Easy for learners to follow
 - Simple for content creators to extend
 - Clear learning path

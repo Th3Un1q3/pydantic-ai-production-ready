@@ -26,6 +26,12 @@ if ! command -v copilot &> /dev/null; then
     curl -fsSL https://gh.io/copilot-install | bash
 fi
 
+# Install markdownlint-cli for automatic markdown linting
+if ! command -v markdownlint &> /dev/null; then
+    echo "Installing markdownlint-cli..."
+    npm install -g markdownlint-cli
+fi
+
 cd /workspace
 
 just init # Non interactive mode setup

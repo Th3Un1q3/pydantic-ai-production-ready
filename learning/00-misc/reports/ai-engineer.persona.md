@@ -5,7 +5,7 @@
 * **Background:** Extensive experience in cybersecurity, GDPR/HIPAA compliance, and static analysis. He treats AI models as "untrusted components" by default.
 * **Goal:** To deploy AI agents that are not just functional but **rigorously verifiable, auditable, and incapable of executing unauthorized actions**, specifically defending against sophisticated attacks like indirect prompt injection.
 
-## Why David's Interests are Not Widely Covered:
+## Why David's Interests are Not Widely Covered
 
 Current resources largely focus on *functionality* (making the agent work) rather than *restriction* (stopping it from doing the wrong thing). David needs defensive programming patterns specific to Pydantic AI that go beyond basic validation.
 

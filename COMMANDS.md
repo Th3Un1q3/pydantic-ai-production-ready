@@ -66,10 +66,9 @@ just check         # Format, lint, typecheck, test
 
 - `just clean`: Clean build artifacts
 
-
 ## Package Aliases
 
-| Full Name | Alias |
-|-----------|-------|
-| `shared` | `shared` |
-| `course-navigator` | `navigator` |
+|Full Name|Alias|
+|----------|------|
+|`shared`|`shared`|
+|`course-navigator`|`navigator`|

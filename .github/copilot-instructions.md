@@ -9,11 +9,9 @@ Strictly follow instructions on operational eficency and best practices when per
 # Best Practices
 
 - **Single Source of Truth**: When considering add a new file/change existing one always make sure if there is other file that already contains the information. If you found such duplication consider if creation of a new file serves a purpose and re-distribute the information accordingly.
-
-# Automation & Reproducibility
-
 - **Codify Reusable Commands**: When a new script or complex command sequence is introduced and likely to be reused, encapsulate it as a `just` command. This ensures auditability and ease of use.
-- **Persist Environment Configuration**: If a configuration change is "global" or part of the default setup (e.g., git config, package installation), modify the `.devcontainer` configuration (e.g., `post-create.sh` or `Dockerfile`) to ensure reproducibility for all users.
+- **Never Call CLI Tools Directly**: Always wrap CLI tool invocations in `just` commands. Do not run `npm`, `python`, `pytest`, or other tools directly - use the appropriate `just` recipe instead.
+- **Environment Configuration**: As you always operate in dev container, follow the [dev container configuration guidelines](.github/instructions/devcontainer.instructions.md) when adding new software, packages, tools, or modifying existing ones. These instructions ensure maintainable, modular, and performant dev container setups by routing changes to the appropriate files (devcontainer.json, Dockerfile, or post-create.sh). Never install or configure software manually without updating the dev container configuration.
 
 # Pydantic AI Monorepo Guidelines
 

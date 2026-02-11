@@ -30,7 +30,7 @@ We recommend using **OpenRouter** as the primary routing layer for LLM access du
 just init # Should automatically open .env file to edit
 ```
 
-5. **Configure Environment**: The previous command creates a `.env` file. Paste your OpenRouter API key (or other provider keys) into it.
+1. **Configure Environment**: The previous command creates a `.env` file. Paste your OpenRouter API key (or other provider keys) into it.
 
 Example `.env` snippet:
 
@@ -39,7 +39,7 @@ Example `.env` snippet:
 OPEN_ROUTER_API_KEY=your_openrouter_api_key_here
 ```
 
-6. Verify quick checks:
+1. Verify quick checks:
 
 ```bash
 # inside the devcontainer

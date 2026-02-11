@@ -5,6 +5,7 @@ Learn advanced implementation patterns for production AI applications.
 ## Learning Objectives
 
 By the end of this module, you will:
+
 - Implement streaming responses
 - Build robust error handling
 - Create retry mechanisms

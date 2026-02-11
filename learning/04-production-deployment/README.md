@@ -5,6 +5,7 @@ Deploy, monitor, and scale your AI applications in production.
 ## Learning Objectives
 
 By the end of this module, you will:
+
 - Deploy AI applications to production
 - Implement monitoring and observability
 - Scale AI workloads

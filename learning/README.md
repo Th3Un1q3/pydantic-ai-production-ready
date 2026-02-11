@@ -16,7 +16,6 @@ This directory contains modular learning materials for building production-ready
 Developers and teams who are moving into standardization and strategic adoption of AI technologies within their organizations.
 
 > **Note:** This is not an introductory tutorial for beginners. It assumes familiarity with AI concepts and certain programming skills.
-
 > **Final Note:** If you feel a little bit late to join AI adoption, you're wrong, it's just the right time as we finally have great tools and frameworks to build upon!
 
 ### AI Adoption Journey

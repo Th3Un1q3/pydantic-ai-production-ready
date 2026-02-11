@@ -18,7 +18,7 @@ This repository provides a comprehensive framework for building production-ready
 
 ## 🏗️ Repository Structure
 
-```
+```text
 .
 ├── .devcontainer/          # DevContainer configuration with Docker Compose
 │   ├── devcontainer.json
@@ -134,6 +134,13 @@ This repository supports specification-driven development for AI-assisted implem
 /implement-spec specs/features/SPEC-001-feature-name.md
 ```
 
+### GitHub Copilot Hooks
+
+This repository includes automated hooks for GitHub Copilot:
+
+- **Markdown Linting**: All markdown files are automatically linted and formatted using `markdownlint` after edits
+- **Configuration**: See `.github/hooks/hooks.json` and `.markdownlint.json`
+
 See [specs/README.md](specs/README.md) for full documentation.
 
 ## 🤝 Contributing
@@ -189,4 +196,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Happy Building! 🚀**
+## Happy Building! 🚀

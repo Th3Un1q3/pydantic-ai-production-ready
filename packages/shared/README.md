@@ -5,6 +5,7 @@ Common utilities and code shared across Pydantic AI projects.
 ## Overview
 
 This package contains:
+
 - Shared utilities and helpers
 - Common Pydantic models
 - Reusable agent components
@@ -20,7 +21,7 @@ from pydantic_ai_shared.examples import ChatbotExample
 
 ## Structure
 
-```
+```text
 shared/
 ├── src/
 │   ├── __init__.py

@@ -1,4 +1,9 @@
 {
     "chat.useAgentSkills": true,
-    "chat.useNestedAgentsMdFiles": true
+    "chat.useNestedAgentsMdFiles": true,
+    "markdownlint.configFile": "/workspace/.markdownlint.json",
+    "[markdown]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true,
+    },
 }

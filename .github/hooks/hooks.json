@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "hooks": {
+    "postToolUse": [
+      {
+        "type": "command",
+        "bash": "just lint-md",
+        "cwd": ".",
+        "timeoutSec": 30
+      }
+    ]
+  }
+}

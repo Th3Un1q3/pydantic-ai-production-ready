@@ -100,6 +100,12 @@ lint PACKAGE="all":
         uv run ruff check packages/{{PACKAGE}}/
     fi
 
+# Lint and fix markdown files
+lint-md:
+    @echo "📝 Linting and fixing markdown files..."
+    markdownlint --fix .
+    @echo "✅ Markdown files linted"
+
 # Type check
 typecheck PACKAGE="all":
     #!/usr/bin/env bash

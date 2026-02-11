@@ -8,7 +8,7 @@ module-number: 01
 author: Th3Un1q3
 ---
 
-# SPEC-001: Refine Foundations Introduction Lesson
+## SPEC-001: Refine Foundations Introduction Lesson
 
 ## Executive Summary
 

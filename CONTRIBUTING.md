@@ -48,9 +48,18 @@ Thank you for your interest in contributing! This document provides guidelines f
 - Use proper markdown formatting
 - Link to related content
 
+### Markdown Standards
+
+- All markdown files are automatically linted and formatted using `markdownlint`
+- Follow standard markdown conventions
+- Use consistent heading levels
+- Include alt text for images
+- Markdown formatting issues are automatically fixed after edits
+
 ## Development Workflow
 
 1. **Setup Environment**
+
    ```bash
    # Use devcontainer (recommended)
    # OR
@@ -62,18 +71,21 @@ Thank you for your interest in contributing! This document provides guidelines f
    ```
 
 2. **Make Changes**
+
    ```bash
    # Edit files
    # Add tests
    ```
 
 3. **Run Tests**
+
    ```bash
    # No need to cd
    uv run pytest
    ```
 
 4. **Format and Lint**
+
    ```bash
    uv run black .
    uv run ruff check --fix .
@@ -81,6 +93,7 @@ Thank you for your interest in contributing! This document provides guidelines f
    ```
 
 5. **Commit**
+
    ```bash
    git add .
    git commit -m "Description of changes"
@@ -104,8 +117,20 @@ Thank you for your interest in contributing! This document provides guidelines f
 ## Questions?
 
 Feel free to:
+
 - Open an issue for questions
 - Start a discussion in GitHub Discussions
 - Reach out to maintainers
+
+## Troubleshooting
+
+### Markdown Linting Issues
+
+If you encounter issues with automatic markdown linting:
+
+- **Hook not running**: Ensure `markdownlint-cli` is installed (`npm install -g markdownlint-cli`)
+- **Linting errors**: Check `.markdownlint.json` for configuration
+- **Manual fix**: Run `markdownlint --fix <file.md>` manually
+- **Disable hook**: Remove or comment out the hook in `.github/hooks/hooks.json`
 
 Thank you for contributing! 🎉
