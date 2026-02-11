@@ -120,6 +120,17 @@ By the end of this module, learners will be able to:
 - **Respect the Reader**: Do not explain what a Virtual Environment is. Explain why `uv` is faster/better for locking.
 - **Linearity**: Ensure L02 context (Monorepo structure) helps L03 (Where is `agent.py`?).
 
+## Implementation Progress
+
+- [x] Phase 0: Foundational (blocking prerequisites)
+- [x] CHECKPOINT: Foundation ready
+- [x] Phase 1: User Story 1 (P1) 🎯 MVP
+- [x] CHECKPOINT: Story 1 independently testable
+- [x] Phase 2: User Story 2 (P2)
+- [x] CHECKPOINT: Story 2 independently testable
+- [x] Documentation updates
+- [x] Final validation
+
 ## Implementation Plan
 
 ### Phase 1: Clean Up & Link (Content)

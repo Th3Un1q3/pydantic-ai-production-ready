@@ -23,8 +23,8 @@ By the completion of this module, you will be able to:
 ## Lessons
 
 1. [Architectural Introduction to Pydantic AI](01-introduction.md)
-2. [Production Environment Setup](02-setup.md)
-3. [Building Your First Type-Safe Agent](03-first-agent.md)
+2. [Architecture of the Sandbox](02-setup.md)
+3. [Anatomy of an Enterprise Agent](03-agent-anatomy.md)
 
 ## Exercises
 

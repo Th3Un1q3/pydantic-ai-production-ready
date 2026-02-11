@@ -57,6 +57,15 @@ Generate the specification using the selected template.
 - **Parallel Markers**: Mark tasks that can run in parallel with `[P]`
 - **NEEDS CLARIFICATION**: Use explicit markers for unclear items
 
+**Code Interface Validation:**
+
+When including code samples, interfaces, or API references in the specification:
+
+1. Use available search tools to verify all referenced interfaces exist in the codebase
+2. Cross-reference proposed new interfaces with existing patterns and conventions
+3. Flag any inconsistencies, hallucinations, or non-existing APIs with `INTERFACE VALIDATION NEEDED: {{issue}}`
+4. Ensure new interfaces align with established coding standards and patterns
+
 ### Phase 4: Clarification (Recommended)
 
 Before planning, run a structured clarification to reduce rework:
@@ -90,6 +99,11 @@ Before finalizing, verify the specification against this checklist:
 - [ ] Tasks have parallel markers [P] where applicable
 - [ ] Dependencies are identified
 - [ ] No NEEDS CLARIFICATION markers remain
+- [ ] All code interfaces and samples are validated against existing codebase
+- [ ] No hallucinated interfaces or non-existing APIs are referenced
+- [ ] No INTERFACE VALIDATION NEEDED markers remain
+- [ ] All libraries referenced are real and used correctly
+- [ ] Library versions and dependencies are validated
 ```
 
 ## Quality Standards
@@ -143,8 +157,40 @@ As a user, I want to search courses by topic so that I can find relevant content
 - [ ] Search endpoint returns results within 500ms
 - [ ] Results are ranked by relevance score
 - [ ] Empty query returns validation error with helpful message
-- [ ] Results include title, description, and match score
-```
+## Code Interface Validation
+
+When specifications include code samples, interfaces, or API references, rigorous validation is required to prevent hallucinations and ensure consistency.
+
+### Validation Process
+
+1. **Interface Existence Check**: Use available search and file reading tools to confirm all referenced classes, functions, and APIs exist in the current codebase.
+
+2. **Pattern Alignment**: Verify that proposed new interfaces follow existing code patterns, naming conventions, and architectural principles.
+
+3. **Hallucination Detection**: Flag any references to non-existing interfaces with explicit markers:
+   ```
+   INTERFACE VALIDATION NEEDED: {{interface_name}} does not exist in codebase
+   ```
+
+4. **Consistency Review**: Ensure new interfaces integrate seamlessly with existing code without introducing breaking changes.
+5. **Library Validation**: Verify that all libraries referenced in code samples are real, correctly spelled, and used appropriately according to their documentation and best practices.
+### Tools for Validation
+
+Use available search and file reading tools to:
+- Search for exact interface names and signatures
+- Find related code patterns and implementations
+- Verify usage patterns of existing interfaces
+- Examine actual interface definitions
+
+### Common Issues to Check
+
+- Method signatures that don't match existing implementations
+- Class hierarchies that conflict with current architecture
+- API endpoints that don't align with routing patterns
+- Data models that don't match existing schemas
+- Libraries that don't exist or are misspelled
+- Incorrect library usage or version incompatibilities
+- Dependencies not properly declared or managed
 
 ## Output Location
 
@@ -180,6 +226,7 @@ Example: `SPEC-001-course-search-api.md`
 | **Phased delivery with checkpoints** | Enables incremental validation and course correction |
 | **Acceptance criteria** | Enables automated and manual validation |
 | **Complexity tracking** | Documents violations with justifications |
+| **Validate code interfaces** | Prevents hallucination of non-existing APIs and ensures consistency |
 
 ## Integration
 
