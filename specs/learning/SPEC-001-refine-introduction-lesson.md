@@ -1,7 +1,4 @@
-# SPEC-001: Refine Foundations Introduction Lesson
-
 ---
-
 spec-id: SPEC-001
 title: Refine Foundations Introduction Lesson
 type: learning
@@ -11,6 +8,8 @@ module-number: 01
 author: Th3Un1q3
 ---
 
+# SPEC-001: Refine Foundations Introduction Lesson
+
 ## Executive Summary
 
 ### Problem Statement
@@ -19,7 +18,7 @@ The current introduction lesson [learning/01-fundamentals/01-introduction.md](le
 
 ### Proposed Solution
 
-Refine the lesson to incorporate hands-on verification steps, an explanation of the development environment (tooling and file structure), and a code-level walkthrough of the [packages/course-navigator/](packages/course-navigator/) sample. This will transform the introduction into a practical starting point for the "Foundations" module, tailored for the **Enterprise AI Architect** persona (Sarah Jenkins), emphasizing local setup and production-ready patterns.
+Refine the lesson to incorporate hands-on verification steps, an explanation of the development environment (tooling and file structure), and a code-level walkthrough of the [packages/course-navigator/](packages/course-navigator/) sample. This will transform the introduction into a practical starting point for the "Foundations" module. Content should address the primary audiences — enterprise architects, AI engineers, and product managers — while avoiding explicit persona names in learner-facing text (see `.github/instructions/learning.instructions.md`). Emphasize local setup and production-ready patterns.
 
 ### Success Criteria
 
@@ -116,7 +115,7 @@ The lesson must explicitly highlight these enterprise patterns:
 
 - Read through the updated file to ensure logical flow.
 - Verify all links work.
-- Confirm Persona alignment (Sarah Jenkins).
+- Confirm persona-guidelines alignment (architect, engineer, product manager) and ensure no explicit persona names are present in learner-facing materials (per `.github/instructions/learning.instructions.md`).
 
 ### Phase 2: Cross-Referencing
 
@@ -130,6 +129,7 @@ The lesson must explicitly highlight these enterprise patterns:
 
 - All newly added links are valid and resolve correctly.
 - No orphan sections in the learning path.
+- Verify each learning markdown includes the required YAML front matter and tags as specified in `.github/instructions/learning.instructions.md` and does not reference persona names directly.
 
 ### Phase 3: Review & Finalize
 
