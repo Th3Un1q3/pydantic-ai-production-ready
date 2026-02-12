@@ -1,7 +1,7 @@
 ---
 description: Learn how to build your first type-safe agent with Pydantic AI. This lesson covers the basics of the Agent primitive, structured output validation, tool integration, and context management.
 tags:
-  - status:draft
+  - status:published
   - verified:false
   - TODO
 references:

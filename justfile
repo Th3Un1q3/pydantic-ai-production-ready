@@ -37,7 +37,7 @@ install:
 # ============================================================================
 
 # Start a specific package by directory name
-start PACKAGE:
+start PACKAGE +ARGS:
     #!/usr/bin/env bash
     set -euo pipefail
 
@@ -52,7 +52,7 @@ start PACKAGE:
     fi
 
     echo "🚀 Delegating to packages/$target..."
-    cd packages/$target && just start
+    cd packages/$target && just start {{ARGS}}
 
 # Run tests for all packages or specific package
 test PACKAGE="all":

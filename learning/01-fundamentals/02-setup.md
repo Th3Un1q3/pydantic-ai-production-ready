@@ -1,7 +1,7 @@
 ---
 description: Guide to setting up the development environment for Pydantic AI, including technical setup, environment variables, and troubleshooting tips.
 tags:
-  - status:draft
+  - status:published
   - verified:false
 references:
   previous: "./01-introduction.md"

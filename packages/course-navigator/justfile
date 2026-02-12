@@ -1,5 +1,5 @@
-start:
-    uv run python -m course_navigator.main
+start +ARGS:
+    uv run python -m course_navigator.main {{ARGS}}
 
 test:
     uv run pytest

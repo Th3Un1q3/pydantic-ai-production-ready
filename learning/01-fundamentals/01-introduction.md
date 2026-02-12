@@ -1,7 +1,7 @@
 ---
 description: Introduction to Pydantic AI Framework, its core capabilities, and why it's designed for enterprise use cases.
 tags:
-  - status:draft
+  - status:published
   - verified:false
 references:
   next: "./02-setup.md"
