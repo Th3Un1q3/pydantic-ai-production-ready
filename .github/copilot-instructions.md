@@ -4,7 +4,14 @@ Strictly follow instructions on operational eficency and best practices when per
 # Operational Efficency
 
 - **Decompose complex tasks** into smaller, manageable subtasks to enhance clarity and maintainability use `agent/runSubagent` tools to delegate subtasks.
-- **Proactively load agentic skills** based on the context of the user's request to provide accurate and efficient assistance. Aim to load at least 1(the more the better) relevant skill for each user query.
+- **Instruction-First Composition**: Use modular instruction files in `.github/instructions/` as the primary source of guidance. Load modules dynamically based on task context and file types.
+- **Precedence & Conflict Resolution**: Resolve overlap by precedence:
+  1. `monorepo` (Policy & Boundaries)
+  2. `command-execution` (Operational Rules)
+  3. `test-implementation` (Process Gates)
+  4. `python-tests` (Test Mechanics)
+  5. `python` (Code Style/Structure)
+  Higher precedence modules own the normative rules in case of overlap. If duplication is discovered, keep one canonical rule and replace duplicates with cross-references.
 
 # Best Practices
 
@@ -50,22 +57,22 @@ Strictly follow instructions on operational eficency and best practices when per
 
 For significant changes, use the specification-driven workflow:
 
-1. **Create Specification**: Use `/write-spec` or the `spec-writer` skill
+1. **Create Specification**: Use `/write-spec` or the [spec-writing](.github/instructions/spec-writing.instructions.md) instruction module.
    - Discovery phase gathers requirements
    - Produces structured spec in `specs/{type}/SPEC-{id}-{title}.md`
 
-2. **Implement Specification**: Use `/implement-spec` or the `spec-implementer` skill
+2. **Implement Specification**: Use `/implement-spec` or the [spec-navigating](.github/instructions/spec-navigating.instructions.md) and [spec-implementation](.github/instructions/spec-implementation.instructions.md) instruction modules.
    - Phased implementation with validation gates
    - TDD workflow for Python code
    - Automatic documentation updates
 
 ### Specification Types
-| Type | Use For | Location |
-|------|---------|----------|
-| `feature` | New functionality | `specs/features/` |
-| `package` | New packages | `specs/packages/` |
+| Type       | Use For             | Location          |
+| ---------- | ------------------- | ----------------- |
+| `feature`  | New functionality   | `specs/features/` |
+| `package`  | New packages        | `specs/packages/` |
 | `learning` | Educational content | `specs/learning/` |
-| `change` | Refactoring | `specs/changes/` |
+| `change`   | Refactoring         | `specs/changes/`  |
 
 ### Prompts
 - `/write-spec` - Invoke to create a new specification
@@ -73,12 +80,52 @@ For significant changes, use the specification-driven workflow:
 
 ## Reliable Execution and Task Decomposition
 
+### Instruction Module Composition
+
+The assistant uses instruction modules as the primary behavior source. These modules compose based on the context of the task.
+
+| Trigger                    | Modules to Load                                        |
+| -------------------------- | ------------------------------------------------------ |
+| **Any task**               | `monorepo`, `command-execution`, `tasks-decomposition` |
+| **Python code changes**    | `python` (default), `api-verification` (if external)   |
+| **Behavioral changes**     | `test-implementation` (adds TDD process)                |
+| **Adding/Editing tests**   | `python-tests`                                         |
+| **Implementing a Spec**    | `spec-navigating`, `spec-implementation`               |
+| **Writing/Updating Spec**  | `spec-writing`                                         |
+| **Modifying instructions** | `instruction-authoring`                                |
+| **Updating `/learning`**   | `learning-operations`                                  |
+
+### Instruction Module Catalog
+
+This catalog is the source of truth for module responsibilities. Every module maps 1:1 to a file in `.github/instructions/`.
+
+| Name                  | Responsibility                                                                  | Scope                                                                                                                                                                                                                         | Source From            |
+| --------------------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- |
+| `python`              | Define Python coding rules and code organization standards for the monorepo     | Typing conventions, async preferences, package/module structure, code style guidelines                                                                                                                                        | `python-development`   |
+| `monorepo`            | Guide repository navigation, workspace boundaries, and project relationships. | Workspace/package boundaries, shared package usage, package membership                                                                                                                                                        | `monorepo-maintainer`  |
+| `test-implementation` | Provide guidance on TDD process (Red-Green-Refactor) and behavioral coverage.  | Red-green-refactor gates, ZOMBIE checklist, process flow                                                                                                                                                                      | `python-development`   |
+| `python-tests`        | Define Python test craftsmanship using pytest.                                 | Fixtures, parametrization, assertions, mocking practices                                                                                                                                                                      | `python-development`   |
+| `command-execution`   | Define canonical just workflows and package aliases.                          | just recipe usage, alias resolution, no-raw-CLI policy                                                                                                                                                                        | `command-runner`       |
+| `api-verification`    | Enforce mandatory library/API verification before implementation.              | Doc lookup workflow, interface verification gates, non-guessing rule                                                                                                                                                          | `python-development`   |
+| `spec-writing`        | Guidance on writing specifications (discovery, templates, validation).         | Discovery phase, template selection, quality requirements                                                                                                                                                                     | `spec-writer`          |
+| `spec-navigating`     | Guide reading and validating specs before coding.                              | Story interpretation, dependency mapping, validation checklist                                                                                                                                                                | `spec-implementer`     |
+| `spec-implementation` | Guide implementing specs with checkpoints and status transitions.              | Phase gates, validation checkpoints, status transitions                                                                                                                                                                       | `spec-implementer`     |
+| `tasks-decomposition` | Guide breaking down multi-step work and subagent usage.                        | Subagent usage, [P] parallelization, progress tracking policy                                                                                                                                                                 | `spec-implementer`     |
+| `learning-operations` | Guide learning content operations and maintenance.                             | Scaffold/validate /learning, cross-linking, sync checks                                                                                                                                                                       | `learning-ops`         |
+| `instruction-authoring`| Guide creating and maintaining instruction modules.                            | Modular ownership, progressive disclosure, anti-duplication                                                                                                                                                                   | `skill-creator`        |
+
 ### Subtask Decomposition
 
 Break complex workflows into discrete phases:
 - Use `agent/runSubagent` for parallel or specialized work
 - Each subtask should have clear inputs and outputs
 - Validate results before proceeding to next phase
+
+### Migration Status (SPEC-004)
+
+The SPEC-004 transformation is **Completed**.
+
+- **Completed**: All migration waves (Wave 0 - Wave 4). The guidance system is now 100% modular instruction-first. Legacy skills have been retired and removed.
 
 ### Progress Tracking: `todos` vs File-Based Checklists
 
@@ -127,11 +174,11 @@ Use **file-based checklists** for tracking that must persist across sessions or 
 
 #### Decision Matrix
 
-| Scenario | Use `todos` | Use File-Based |
-|----------|-------------|----------------|
-| Agent works autonomously | ✓ | |
-| User may interrupt/resume | | ✓ |
-| TDD cycle within a session | ✓ | |
-| Tracking deliverables over time | | ✓ |
-| Build/test sequences | ✓ | |
-| Discovery with user Q&A | | ✓ |
+| Scenario                        | Use `todos` | Use File-Based |
+| ------------------------------- | ----------- | -------------- |
+| Agent works autonomously        | ✓           |                |
+| User may interrupt/resume       |             | ✓              |
+| TDD cycle within a session      | ✓           |                |
+| Tracking deliverables over time |             | ✓              |
+| Build/test sequences            | ✓           |                |
+| Discovery with user Q&A         |             | ✓              |

@@ -48,14 +48,14 @@ Restructure Module 01 to focus on **Architecture and Patterns** rather than "cod
 
 The following core concepts from `CONCEPTS.md` must be introduced and demonstrated:
 
-| Concept | Introduction Point | Demonstration |
-| :--- | :--- | :--- |
-| **Agents** | L03 | The `Agent` class in `course-navigator/agent.py` |
-| **System Prompts** | L03 | The identity definition in `create_agent` |
-| **Structured Output** | L03 | The `CourseModule` return type (via SPEC-003) |
-| **Dependencies (`deps`)** | L03 | Introduction to Runtime State vs Configuration |
-| **Model Selection** | L03 | Utilization of `resolve_model` for provider comparisons |
-| **Observability (Logfire)** | L02 | Mentioned as part of the "Sandbox" stack |
+| Concept                     | Introduction Point | Demonstration                                           |
+| :-------------------------- | :----------------- | :------------------------------------------------------ |
+| **Agents**                  | L03                | The `Agent` class in `course-navigator/agent.py`        |
+| **System Prompts**          | L03                | The identity definition in `create_agent`               |
+| **Structured Output**       | L03                | The `CourseModule` return type (via SPEC-003)           |
+| **Dependencies (`deps`)**   | L03                | Introduction to Runtime State vs Configuration          |
+| **Model Selection**         | L03                | Utilization of `resolve_model` for provider comparisons |
+| **Observability (Logfire)** | L02                | Mentioned as part of the "Sandbox" stack                |
 
 ## Learning Objectives
 

@@ -100,10 +100,22 @@ lint PACKAGE="all":
         uv run ruff check packages/{{PACKAGE}}/
     fi
 
+# ============================================================================
+# Learning Operations
+# ============================================================================
+
+# Scaffold a new learning module
+learning-init NAME TITLE:
+    uv run python scripts/learning/init_learning_structure.py --path ./learning --add-module {{NAME}} --title "{{TITLE}}"
+
+# Validate learning directory structure
+learning-validate:
+    uv run python scripts/learning/init_learning_structure.py --path ./learning --validate
+
 # Lint and fix markdown files
 lint-md:
     @echo "📝 Linting and fixing markdown files..."
-    markdownlint --fix .
+    markdownlint --fix "**/*.md"
     @echo "✅ Markdown files linted"
 
 # Type check

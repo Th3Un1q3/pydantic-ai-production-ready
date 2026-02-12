@@ -2,12 +2,12 @@
 
 ## 1. Overview
 
-| Attribute | Value |
-| :--- | :--- |
-| **Title** | Establish Course Navigator Baseline |
-| **Status** | Implemented |
-| **Type** | Package |
-| **Owner** | AI Engineer |
+| Attribute          | Value                                          |
+| :----------------- | :--------------------------------------------- |
+| **Title**          | Establish Course Navigator Baseline            |
+| **Status**         | Implemented                                    |
+| **Type**           | Package                                        |
+| **Owner**          | AI Engineer                                    |
 | **Related Lesson** | `learning/01-fundamentals/03-agent-anatomy.md` |
 
 ## Discovery
@@ -253,6 +253,7 @@ class CourseAnswer(BaseModel):
 ```
 
 Notes:
+
 - `NavigatorDeps` intentionally does **not** contain `learning_root`. Use the shared `LEARNING_ROOT` constant for all filesystem operations.
 - Use a tested frontmatter/YAML parsing library (e.g. `python-frontmatter`) to extract metadata keys such as `description` and `tags`.
 
@@ -379,6 +380,7 @@ def create_agent(model: str | Model, deps: NavigatorDeps) -> Agent:
 - [ ] T006 [US3] Update `agent.py` to accept `NavigatorDeps` and register tools; **implement system prompt as a dynamic `system_prompt` factory** (RunContext-based) that resolves `deps` rather than using f-string interpolation.
 - [ ] T007 [US4] Write unit and integration tests (models, utils, tools, agent logic, CLI integration).
 - [ ] T008 [US5] Update `main.py` and `justfile`s; ensure Logfire instrumentation and document `python-frontmatter` in dependencies.
+
 ### Phase 2: Agent Logic
 
 - [ ] T006 [US3] Update `create_agent` to accept `NavigatorDeps` parameter (without learning_root), use `build_index` with `LEARNING_ROOT`, inject personalized system prompt with index and deps, and instruct agent to only use indexed paths.
@@ -392,6 +394,7 @@ def create_agent(model: str | Model, deps: NavigatorDeps) -> Agent:
 - [ ] T007 [US4] Write unit and integration tests.
 
 ## Implementation Progress
+
 - [x] Phase 0: Foundational (blocking prerequisites)
 - [x] CHECKPOINT: Foundation ready
 - [x] Phase 1: User Story 1 (P1) 🎯 MVP

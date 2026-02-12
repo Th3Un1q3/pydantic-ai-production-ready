@@ -7,7 +7,7 @@ argument-hint: 'Path to specification file (e.g., specs/features/SPEC-001-*.md)'
 
 # Implement Specification
 
-Execute a specification document using the [spec-implementer skill](../skills/spec-implementer/SKILL.md).
+Execute a specification document using the [.github/instructions/spec-navigating.instructions.md](.github/instructions/spec-navigating.instructions.md) and [.github/instructions/spec-implementation.instructions.md](.github/instructions/spec-implementation.instructions.md) instruction modules.
 
 ## Orchestration Strategy
 
@@ -90,7 +90,7 @@ If no specification is provided, list available specs in `specs/` directory.
 
 ## Workflow
 
-Follow the workflow defined in [spec-implementer skill](../skills/spec-implementer/SKILL.md):
+Follow the workflow defined in [.github/instructions/spec-navigating.instructions.md](.github/instructions/spec-navigating.instructions.md) and [.github/instructions/spec-implementation.instructions.md](.github/instructions/spec-implementation.instructions.md):
 
 1. **Load Specification** - Read and check for `NEEDS CLARIFICATION` markers
 2. **Confirm Understanding** - Summarize and confirm with user
@@ -113,6 +113,6 @@ Follow the workflow defined in [spec-implementer skill](../skills/spec-implement
 
 This prompt uses:
 
-- [spec-implementer skill](../skills/spec-implementer/SKILL.md) for implementation patterns
-- [python-development skill](../skills/python-development/SKILL.md) for TDD workflow
-- [command-runner skill](../skills/command-runner/SKILL.md) for just commands
+- [.github/instructions/spec-navigating.instructions.md](.github/instructions/spec-navigating.instructions.md) and [.github/instructions/spec-implementation.instructions.md](.github/instructions/spec-implementation.instructions.md) for implementation patterns
+- [.github/instructions/python.instructions.md](.github/instructions/python.instructions.md) for TDD workflow
+- [.github/instructions/command-execution.instructions.md](.github/instructions/command-execution.instructions.md) for just commands

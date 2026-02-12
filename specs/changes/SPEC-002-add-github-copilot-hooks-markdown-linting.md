@@ -1,4 +1,4 @@
-# Change Specification Template
+# SPEC-002: Add GitHub Copilot Hooks for Markdown Linting with Auto-Fix
 
 ---
 
@@ -51,19 +51,19 @@ Currently, markdown files are created and edited manually or by Copilot without 
 
 ### Issues with Current State
 
-|Issue|Impact|Evidence|
-|------|-------|--------|
-|Inconsistent markdown formatting|High - affects documentation quality and readability|Frequent PR comments on markdown formatting|
-|Manual intervention required|Medium - slows down development workflow|Time spent on manual fixes instead of coding|
-|Copilot produces non-compliant markdown|High - undermines automation benefits|Observed in multiple file edits|
+| Issue                                   | Impact                                               | Evidence                                      |
+| --------------------------------------- | ---------------------------------------------------- | --------------------------------------------- |
+| Inconsistent markdown formatting        | High - affects documentation quality and readability | Frequent PR comments on markdown formatting   |
+| Manual intervention required            | Medium - slows down development workflow             | Time spent on manual fixes instead of coding  |
+| Copilot produces non-compliant markdown | High - undermines automation benefits                | Observed in multiple file edits               |
 
 ### Affected Components
 
-|Component|Location|Impact|
-|----------|---------|-------|
-|Repository configuration|`.github/hooks/`|New hooks configuration added|
-|Devcontainer setup|`.devcontainer/post-create.sh`|markdownlint-cli installation added|
-|Markdown files|`**/*.md`|Automatic formatting applied|
+| Component                | Location                       | Impact                              |
+| ------------------------ | ------------------------------ | ----------------------------------- |
+| Repository configuration | `.github/hooks/`               | New hooks configuration added       |
+| Devcontainer setup       | `.devcontainer/post-create.sh` | markdownlint-cli installation added |
+| Markdown files           | `**/*.md`                      | Automatic formatting applied        |
 
 ## Proposed State
 
@@ -73,11 +73,11 @@ After any file editing operation by Copilot, the postToolUse hook will automatic
 
 ### Changes Overview
 
-|Change|Before|After|
-|------|------|-----|
-|Markdown editing workflow|Manual linting and fixes|Automatic linting and auto-fix|
-|Copilot markdown output|May contain linting errors|Always lint-compliant|
-|Developer workflow|Check and fix markdown issues|Focus on content, formatting handled automatically|
+| Change                     | Before                        | After                                              |
+| -------------------------- | ----------------------------- | -------------------------------------------------- |
+| Markdown editing workflow  | Manual linting and fixes      | Automatic linting and auto-fix                     |
+| Copilot markdown output    | May contain linting errors    | Always lint-compliant                              |
+| Developer workflow         | Check and fix markdown issues | Focus on content, formatting handled automatically |
 
 ### Code Changes
 
@@ -178,27 +178,27 @@ fi
 
 ### New Tests
 
-|Test|Purpose|
-|----|-------|
-|Hook trigger test|Validates hook runs on markdown file edits|
-|Auto-fix validation|Confirms linting errors are automatically resolved|
-|Performance test|Ensures hook doesn't significantly slow down edits|
+| Test                    | Purpose                                                  |
+| ----------------------- | -------------------------------------------------------- |
+| Hook trigger test       | Validates hook runs on markdown file edits               |
+| Auto-fix validation     | Confirms linting errors are automatically resolved       |
+| Performance test        | Ensures hook doesn't significantly slow down edits       |
 
 ### Performance Tests (if applicable)
 
-|Metric|Before|Target|
-|------|------|------|
-|Edit response time|Baseline|<5% increase|
+| Metric              | Before   | Target          |
+| ------------------- | -------- | --------------- |
+| Edit response time  | Baseline | <5% increase    |
 
 ## Risk Assessment
 
 ### Risks
 
-|Risk|Probability|Impact|Mitigation|
-|----|-----------|------|-----------|
-|Hook execution errors|Low|Medium|Add error handling and logging to hook|
-|Over-aggressive fixing|Low|Medium|Test with various markdown patterns before deployment|
-|Performance impact|Medium|Low|Monitor and optimize hook execution time|
+| Risk                   | Probability | Impact | Mitigation                                            |
+| ---------------------- | ----------- | ------ | ----------------------------------------------------- |
+| Hook execution errors  | Low         | Medium | Add error handling and logging to hook                |
+| Over-aggressive fixing | Low         | Medium | Test with various markdown patterns before deployment |
+| Performance impact     | Medium      | Low    | Monitor and optimize hook execution time              |
 
 ### Rollback Plan
 

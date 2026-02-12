@@ -19,14 +19,14 @@ Every prompt file should include YAML frontmatter with the following fields:
 
 ### Required/Recommended Fields
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `description` | Recommended | A short description of the prompt (single sentence, actionable outcome) |
-| `name` | Optional | The name shown after typing `/` in chat. Defaults to filename if not specified |
-| `agent` | Recommended | The agent to use: `ask`, `edit`, `agent`, or a custom agent name. Defaults to current agent |
-| `model` | Optional | The language model to use. Defaults to the currently selected model |
-| `tools` | Optional | List of tool/tool set names available for this prompt |
-| `argument-hint` | Optional | Hint text shown in chat input to guide user interaction |
+| Field           | Required    | Description                                                     |
+| --------------- | ----------- | --------------------------------------------------------------- |
+| `description`   | Recommended | A short description of the prompt (single sentence, actionable outcome)|
+| `name`          | Optional    | The name shown after typing `/` in chat. Defaults to filename if not specified|
+| `agent`         | Recommended | The agent to use: `ask`, `edit`, `agent`, or a custom agent name. Defaults to current agent|
+| `model`         | Optional    | The language model to use. Defaults to the currently selected model|
+| `tools`         | Optional    | List of tool/tool set names available for this prompt            |
+| `argument-hint` | Optional    | Hint text shown in chat input to guide user interaction        |
 
 ### Frontmatter Guidelines
 
@@ -50,16 +50,16 @@ The `tools` array constrains which tools the agent can use. Select tools strateg
 
 These are the core tool sets available in VS Code and CLI environments:
 
-| Tool Set | Purpose | Example Tools |
-|----------|---------|---------------|
-| `vscode` | VS Code integration | `vscode/askQuestions`, `vscode/openFile`, `vscode/showDiff` |
-| `execute` | Command execution | Terminal commands, script running |
-| `read` | File reading | Read file contents, directory listings |
-| `agent` | Agent orchestration | `agent/runSubagent` for task delegation |
-| `edit` | File editing | Create, modify, delete files |
-| `search` | Code search | Find symbols, references, grep patterns |
-| `web` | Web access | Fetch URLs, external documentation |
-| `todo` | Task tracking | `todos` for ephemeral progress tracking |
+| Tool Set  | Purpose             | Example Tools                                            |
+| --------- | ------------------- | -------------------------------------------------------- |
+| `vscode`  | VS Code integration | `vscode/askQuestions`, `vscode/openFile`, `vscode/showDiff`|
+| `execute` | Command execution   | Terminal commands, script running                       |
+| `read`    | File reading        | Read file contents, directory listings                  |
+| `agent`   | Agent orchestration | `agent/runSubagent` for task delegation                |
+| `edit`    | File editing        | Create, modify, delete files                            |
+| `search`  | Code search         | Find symbols, references, grep patterns                 |
+| `web`     | Web access          | Fetch URLs, external documentation                      |
+| `todo`    | Task tracking       | `todos` for ephemeral progress tracking                |
 
 ### MCP-Based Tools
 

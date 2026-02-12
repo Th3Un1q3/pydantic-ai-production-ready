@@ -31,13 +31,13 @@ specs/
 
 ### 1. Create a Specification
 
-Use the `/write-spec` prompt or invoke the `spec-writer` skill:
+Use the `/write-spec` prompt or follow the [.github/instructions/spec-writing.instructions.md](.github/instructions/spec-writing.instructions.md) instruction module:
 
 ```bash
 /write-spec
 ```
 
-The skill guides you through:
+The workflow guides you through:
 
 1. **Discovery**: Clarifying questions to understand the scope
 2. **Drafting**: Generating a structured specification with prioritized stories
@@ -58,13 +58,13 @@ Before implementation, ensure:
 
 ### 3. Implement the Specification
 
-Use the `/implement-spec` prompt or invoke the `spec-implementer` skill:
+Use the `/implement-spec` prompt or follow the [.github/instructions/spec-navigating.instructions.md](.github/instructions/spec-navigating.instructions.md) and [.github/instructions/spec-implementation.instructions.md](.github/instructions/spec-implementation.instructions.md) instruction modules:
 
 ```bash
 /implement-spec specs/features/SPEC-001-course-search.md
 ```
 
-The skill:
+The workflow:
 
 1. Validates specification (checks for `NEEDS CLARIFICATION`)
 2. Completes **foundational phase** first (blocking prerequisites)
@@ -93,14 +93,14 @@ Examples:
 
 Each specification has a status in its frontmatter:
 
-|Status|Description|
-|-------|------------|
-|`draft`|Work in progress, not ready for implementation|
-|`ready`|Reviewed and approved for implementation|
-|`in-progress`|Currently being implemented|
-|`review`|Implementation complete, awaiting review|
-|`implemented`|Fully implemented and verified|
-|`deprecated`|No longer relevant|
+| Status        | Description                                    |
+| ------------- | ---------------------------------------------- |
+| `draft`       | Work in progress, not ready for implementation |
+| `ready`       | Reviewed and approved for implementation       |
+| `in-progress` | Currently being implemented                    |
+| `review`      | Implementation complete, awaiting review       |
+| `implemented` | Fully implemented and verified                 |
+| `deprecated`  | No longer relevant                             |
 
 ## Quick Reference
 
@@ -112,8 +112,7 @@ Each specification has a status in its frontmatter:
 ```
 
 ```bash
-# Or manually copy a template
-cp .github/skills/spec-writer/templates/feature.template.md specs/features/SPEC-XXX-title.md
+# Or manually create from template (see .github/instructions/spec-writing.instructions.md)
 ```
 
 ### Implement a Specification
@@ -144,18 +143,19 @@ All specifications should include:
 
 Inspired by [GitHub's spec-kit](https://github.com/github/spec-kit):
 
-|Concept|Description|
-|--------|-----------|
-|**Prioritized Stories (P1, P2, P3)**|P1 = MVP, higher priority first|
-|**Independent Testing**|Each story testable as standalone MVP|
-|**Parallel Markers [P]**|Tasks that can run simultaneously|
-|**NEEDS CLARIFICATION**|Explicit markers for unclear items|
-|**Checkpoints**|Validation after each story|
-|**Foundational Phase**|Blocking prerequisites before ANY story|
+| Concept                              | Description                             |
+| ------------------------------------ | --------------------------------------- |
+| **Prioritized Stories (P1, P2, P3)** | P1 = MVP, higher priority first         |
+| **Independent Testing**              | Each story testable as standalone MVP   |
+| **Parallel Markers [P]**             | Tasks that can run simultaneously       |
+| **NEEDS CLARIFICATION**              | Explicit markers for unclear items      |
+| **Checkpoints**                      | Validation after each story             |
+| **Foundational Phase**               | Blocking prerequisites before ANY story |
 
 ## Related Resources
 
-- [spec-writer skill](/.github/skills/spec-writer/SKILL.md)
-- [spec-implementer skill](/.github/skills/spec-implementer/SKILL.md)
+- [.github/instructions/spec-writing.instructions.md](.github/instructions/spec-writing.instructions.md)
+- [.github/instructions/spec-navigating.instructions.md](.github/instructions/spec-navigating.instructions.md)
+- [.github/instructions/spec-implementation.instructions.md](.github/instructions/spec-implementation.instructions.md)
 - [write-spec prompt](/.github/prompts/write-spec.prompt.md)
 - [implement-spec prompt](/.github/prompts/implement-spec.prompt.md)

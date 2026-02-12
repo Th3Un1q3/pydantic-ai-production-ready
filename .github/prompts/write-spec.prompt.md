@@ -7,7 +7,7 @@ argument-hint: 'Optionally specify the type: feature, package, learning, or chan
 
 # Write Specification
 
-Create a comprehensive specification document using the [spec-writer skill](../skills/spec-writer/SKILL.md).
+Create a comprehensive specification document using the [.github/instructions/spec-writing.instructions.md](.github/instructions/spec-writing.instructions.md) instruction module.
 
 ## Orchestration Strategy
 
@@ -15,7 +15,7 @@ This prompt decomposes spec writing into discrete subtasks:
 
 1. **Discovery** → Track progress in the specification file itself (file-based for human-in-loop persistence)
 2. **Research** → Use `agent/runSubagent` to explore codebase for context
-3. **Drafting** → Use `agent/runSubagent` to populate template from skill
+3. **Drafting** → Use `agent/runSubagent` to populate template from instruction module
 4. **Validation** → Track quality checklist in the specification file
 
 ## Agentic Tools Usage
@@ -43,18 +43,18 @@ Use `agent/runSubagent` for parallel/specialized work:
 | Subtask | Agent Purpose |
 |---------|---------------|
 | Codebase exploration | Find existing patterns, similar implementations |
-| Template population | Read skill template and generate draft |
+| Template population | Read instruction module template and generate draft |
 | Quality validation | Check criteria against standards |
 
 ## Workflow
 
-Follow the workflow defined in [spec-writer skill](../skills/spec-writer/SKILL.md):
+Follow the workflow defined in [.github/instructions/spec-writing.instructions.md](.github/instructions/spec-writing.instructions.md):
 
-1. **Discovery Phase** - Ask clarifying questions (see skill for question list)
+1. **Discovery Phase** - Ask clarifying questions (see instruction module for question list)
 2. **Type Selection** - Choose template based on work type
 3. **Drafting** - Populate template with prioritized stories (P1, P2, P3) and parallel markers [P]
 4. **Clarification** - Mark unclear items with `NEEDS CLARIFICATION:` and resolve before finalizing
-5. **Validation** - Verify against skill's quality checklist
+5. **Validation** - Verify against instruction module's quality checklist
 6. **Save** - Store to `specs/{type}/SPEC-{id}-{title}.md`
 
 ## Key Concepts from spec-kit
@@ -71,4 +71,4 @@ After the specification is created, inform the user:
 
 > Specification saved to `specs/{type}/SPEC-{id}-{title}.md`
 >
-> To implement this specification, use `/implement-spec` or invoke the spec-implementer skill.
+> To implement this specification, use `/implement-spec` or follow the [.github/instructions/spec-navigating.instructions.md](.github/instructions/spec-navigating.instructions.md) and [.github/instructions/spec-implementation.instructions.md](.github/instructions/spec-implementation.instructions.md) modules.
