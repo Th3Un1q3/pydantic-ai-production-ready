@@ -65,7 +65,8 @@ The `learning/` directory follows a strict numbering and naming convention to en
 Standard hierarchy:
 1. `XX-topic/README.md`: Module overview, learning objectives, and implementation links.
 2. `XX-topic/YY-subtopic.md`: Specific conceptual deep-dives or procedural guides.
-3. `XX-topic/spec.md`: Internal specification for the module content.
+
+> **Note:** Do **not** create `spec.md` files inside `learning/`. All formal specifications for learning modules must live in the `specs/learning/` directory and follow the repository's spec-writing workflow (`.github/instructions/spec-writing.instructions.md`). Link the canonical spec from the module `README.md` (use an absolute workspace-relative path such as `specs/learning/SPEC-###-kebab-case-title.md`).
 
 ### Tooling
 
@@ -81,15 +82,16 @@ uv run python scripts/learning/init_learning_structure.py --path ./learning --ad
 
 ## Workflow: Adding a New Educational Concept
 
-1. **Identify implementation**: Every concept MUST be backed by a real package in `packages/`. Avoid dummy exercises.
-2. **Review Persona Alignment**: Ensure the topic addresses Sarah Jenkins' goals (Reliability, Auditability, Scalability).
-3. **Scaffold Module**: Use `just learning-init` to create the directory and initial `README.md`.
-4. **Draft Content**:
+1. **Discovery & Spec**: Begin with discovery questions and author a formal specification in `specs/learning/` using the `spec-writing` template. The spec is the single source of truth and must include prioritized user stories, independent tests, and a task breakdown (see `.github/instructions/spec-writing.instructions.md`).
+2. **Spec Review**: Get the spec reviewed and approved (peer review or maintainer sign-off) before implementation begins.
+3. **Identify implementation**: Every concept MUST be backed by a real package in `packages/`. Avoid dummy exercises.
+4. **Scaffold Module**: After the spec is approved, use `just learning-init` to create the directory and initial `README.md`. Link the approved spec from the module `README.md`.
+5. **Draft Content**:
    - Start with "Why this matters" for an Enterprise Architect.
    - Use absolute workspace-relative links for implementation files.
-   - Reference the actual source (e.g., [packages/course-navigator/src/course_navigator/agent.py](packages/course-navigator/src/course_navigator/agent.py)).
-5. **Cross-Reference**: Update related modules to point to the new content if applicable.
-6. **Validate**: Run `just learning-validate` and fix any structural or link errors.
+   - Reference the actual source (e.g., `packages/course-navigator/src/course_navigator/agent.py`).
+6. **Cross-Reference**: Update related modules to point to the new content if applicable and add a pointer to the canonical spec in `specs/learning/`.
+7. **Validate & Publish**: Run `just learning-validate`, resolve issues, then mark the learning module's frontmatter `tags` (e.g., `verified:true`, `status:published`) when ready.
 
 ## Progressive Disclosure in Learning
 

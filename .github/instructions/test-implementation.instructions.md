@@ -42,6 +42,15 @@ Implement a test file with **all** identified cases marked as pending (e.g., usi
 Pick the simplest failure (usually Zero or One). Write the full test logic.
 **Verify**: Run the test using `just test <package>` and ensure it fails for the expected reason.
 
+#### Emergency protocol — test passes immediately (possible false positive)
+If a newly added test passes on first run, perform a tiny, reversible mutation to the implementation (change a condition, operator, or return value) to confirm the test goes red for the expected assertion/error.
+
+- Make a single-line, atomic change (e.g. change `return a + b` to `return a * b` or `return 3`).
+- Run `just test <package>` and confirm the test now fails for the intended reason.
+- Revert the mutation, implement the minimal correct fix, run `just test <package>` and `just check`, and then harden the test if needed.
+
+> A test is only valid after you’ve demonstrated the red→green cycle (the test fails under a small intentional mutation and then passes after the focused fix).
+
 ### 4. Implement Code (Green)
 Write the **simplest possible code** to make that specific test pass. Do not over-engineer.
 **Verify**: Run the test and ensure it passes.
