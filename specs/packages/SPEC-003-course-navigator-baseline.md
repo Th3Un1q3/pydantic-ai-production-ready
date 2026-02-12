@@ -1,4 +1,12 @@
-# SPEC-003: Establish Course Navigator Baseline
+---
+spec-id: SPEC-003
+title: Establish Course Navigator Baseline
+type: package
+status: implemented
+created: 2026-02-12
+affected-areas: packages/course-navigator, packages/shared, learning
+author: GitHub Copilot
+---
 
 ## 1. Overview
 

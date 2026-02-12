@@ -8,8 +8,6 @@ affected-areas: .github/copilot-instructions.md, .github/instructions/*.instruct
 author: GitHub Copilot
 ---
 
-## SPEC-004: Transform Skill-Centric Guidance into Modular Instruction Composition
-
 ## Specification Progress
 
 - [x] Complete discovery phase

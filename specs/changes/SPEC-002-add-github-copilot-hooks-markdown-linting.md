@@ -1,7 +1,4 @@
-# SPEC-002: Add GitHub Copilot Hooks for Markdown Linting with Auto-Fix
-
 ---
-
 spec-id: SPEC-002
 title: Add GitHub Copilot Hooks for Markdown Linting with Auto-Fix
 type: change
