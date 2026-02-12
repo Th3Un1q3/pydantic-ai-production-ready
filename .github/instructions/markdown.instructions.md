@@ -15,7 +15,7 @@ applyTo: "**/*.md"
 
 ## Tables
 
-- Use compact table style (no spaces around pipes): `|Header|Data|` not `| Header | Data |`
+- Use alligned table style (all columns are aligned vertically): `|Header|Data|` not `| Header | Data |`
 - Ensure consistent column alignment across all rows
 - Keep table formatting simple and readable
 

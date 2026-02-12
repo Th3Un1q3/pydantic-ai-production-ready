@@ -7,39 +7,52 @@ applyTo: '**'
 
 Orchestrate complex workflows by decomposing them into manageable subtasks and using the appropriate tracking mechanisms.
 
-## Subtask Decomposition
+**MANDATORY**: These instructions MUST be followed for every multi-step request to ensure reliability and auditability.
 
-Break multi-step work into discrete phases with clear inputs and outputs.
-- Use `agent/runSubagent` for parallel or specialized work.
-- Each subtask should focus on a single domain or component.
-- Validate results of a subtask before proceeding to the next.
+## Session-Start Decomposition
 
-## Parallel Execution [P]
+When a session starts from a user prompt (rather than an existing specification), you must immediately analyze the request and choose a tracking mode:
 
-Identify tasks marked with `[P]` in specifications or plans.
-- Execute all `[P]` tasks within the same phase or story simultaneously where possible.
-- Ensure all parallel tasks are complete before starting dependent sequential tasks.
+### 1. Persistent Process Decomposition (PPD)
+Use for **large, multi-step tasks** that require structured execution or might span multiple turns.
+- **Action**: Create a `.processing.md` file in the workspace root.
+- **Content**: User request summary, high-level action plan, and granular task lists.
+- **Markers**: Use `[ ]` for pending, `[/]` for in-progress, and `[x]` for completed tasks.
+- **Parallelism**: Group tasks with `[P]` markers to indicate they can be executed together.
+- **Behavior**: Work silently across phases, updating the file as your primary status indicator.
+
+### 2. Autonomous `todos` Tool
+Use for **atomic, step-by-step tasks** that can be completed within a single autonomous cycle.
+- **Action**: Use the `todos` tool to track immediate progress.
+- **Example**: TDD cycles (test-fail-implement-pass-refactor), linting/fixing sequences, or single-file modifications.
+
+## Specification-Based Execution
+
+If working with an existing `SPEC-*.md` file, do NOT create a separate tracking file.
+- **Source of Truth**: Rely exclusively on the "Task Breakdown" or "User Stories" section of the specification.
+- **Markers**: Respect `[P]` markers for parallel tasks.
+- **Status Transitions**: Periodically update the specification file itself to reflect progress.
+
+## Designing for Efficiency
+
+### Parallel Execution [P]
+Tasks marked with `[P]` should be executed simultaneously or in a single phase to maximize throughput.
+- **Grouping**: Execute all `[P]` tasks within the same story or phase together.
+- **Dependencies**: Ensure all `[P]` tasks are completed before moving to sequential tasks that depend on them.
+- **Subagents**: Use `agent/runSubagent` to delegate independent `[P]` tasks when complex research or multi-file creation is involved.
+
+### Task Granularity Standards
+- **Standalone Value**: Each task should represent a testable unit of work.
+- **Atomic Edits**: Keep tasks small enough to avoid massive file replacements.
+- **Validation**: Validate the results of each subtask before proceeding to dependent steps.
+- **Context Preservation**: Ensure each subtask has enough context (inputs/outputs) to be executed by a subagent if needed.
 
 ## Progress Tracking Policy
 
-Choose the correct tracking mechanism based on the task type.
-
-### When to Use `todos` Tool
-Use for **autonomous multi-step tasks** where you work without user interruption.
-- **TDD cycle steps**: Write test → validate failure → implement → validate pass → refactor.
-- **Validation sequences**: Build → lint → test cycles.
-- **Multi-file refactoring**: Sequential code generation steps.
-
-### When to Use File-Based Checklists
-Use for tracking that must **persist across sessions** or involves **human-in-the-loop**.
-- **Discovery phases**: Capturing requirements and user answers.
-- **Specification progress**: Stored within the `SPEC-*.md` file itself.
-- **Deliverables tracking**: Long-term tasks where user feedback is expected.
-
-## Task Breakdown Standards
-
-When creating a plan or breakdown, ensure:
-- Tasks are granular enough to be completed in one step.
-- Dependencies are explicitly noted.
-- Success criteria for the overall task are clear.
-- Parallelization opportunities are identified with `[P]`.
+| Scenario | Tracking Mechanism |
+| :--- | :--- |
+| **New prompt (complex/multi-file)** | `.processing.md` file (Persistent) |
+| **New prompt (simple/single-file)** | `todos` tool (Internal) |
+| **Existing Specification** | `SPEC-*.md` file (Internal markers) |
+| **TDD / Small cycles** | `todos` tool (Internal) |
+| **Discovery / Requirements gathering** | Specification (Draft phase) |

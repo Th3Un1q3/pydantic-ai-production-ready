@@ -40,8 +40,11 @@ Each story must be testable as a standalone deliverable.
 ### Independent Testing
 Every user story should include an "Independent Test" description explaining how to verify it in isolation.
 
-### Parallel Markers
-Mark tasks that can run in parallel with `[P]`. Identify these early to enable efficient execution.
+### Designing for Parallelism
+When drafting stories and tasks, identify components that can be built independently.
+- **Markers**: Use `[P]` for tasks that have no dependencies within the same phase.
+- **Isolation**: Group parallel tasks such that they don't modify the same lines of code simultaneously.
+- **Efficiency**: Aim for at least 30% of implementation tasks to be marked as `[P]` for complex features.
 
 ### NEEDS CLARIFICATION
 Use the marker `NEEDS CLARIFICATION: {{issue}}` for any unknowns or ambiguities discovered during drafting.
@@ -78,12 +81,13 @@ Avoid vague language. Use specific metrics and behaviors.
 - **Concrete**: "The API must respond within 200ms at p95 under 100 RPS."
 
 ### Parallel Task Breakdown
+Break down implementation into granular tasks. Mark parallelizable tasks with `[P]`.
 ```markdown
 ## Task Breakdown
 
-- [ ] T001 [P] [US1] Create User model in src/models/user.py
-- [ ] T002 [P] [US1] Create Auth model in src/models/auth.py
-- [ ] T003 [US1] Implement UserService (depends on T001, T002)
+- [ ] T001 [P] [US1] Create User model in `src/models/user.py`
+- [ ] T002 [P] [US1] Create Auth model in `src/models/auth.py`
+- [ ] T003 [US1] Implement UserService in `src/services.py` (depends on T001, T002)
 ```
 
 ## Validation Checklist

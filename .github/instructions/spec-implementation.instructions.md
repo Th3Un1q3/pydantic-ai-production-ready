@@ -20,12 +20,13 @@ Execute stories in priority order: **P1 (MVP) → P2 → P3**.
 
 **The Story Loop:**
 FOR each user_story in priority_order (P1 first):
-1. Identify `[P]` parallel tasks within the story (execute using [.github/instructions/tasks-decomposition.instructions.md](.github/instructions/tasks-decomposition.instructions.md)).
-2. Execute sequential tasks in dependency order.
-3. Follow the [.github/instructions/test-implementation.instructions.md](.github/instructions/test-implementation.instructions.md) workflow (Red-Green-Refactor).
-4. Run story validation checks (tests and linting).
-5. **CHECKPOINT**: Ensure the story is independently testable.
-6. Commit progress with story status and checkpoint confirmation.
+1. Identify all `[P]` tasks within the story level.
+2. **Parallel Execution Gate**: Group and execute all `[P]` tasks using `agent/runSubagent` or simultaneous tool calls where possible. Follow [.github/instructions/tasks-decomposition.instructions.md](.github/instructions/tasks-decomposition.instructions.md).
+3. Execute remaining sequential tasks in dependency order.
+4. Follow the [.github/instructions/test-implementation.instructions.md](.github/instructions/test-implementation.instructions.md) workflow (Red-Green-Refactor) for each task.
+5. Run story validation checks (tests and linting).
+6. **CHECKPOINT**: Ensure the story is independently testable. Mark tasks as `[x]` in the specification file.
+7. Commit progress with story status and checkpoint confirmation.
 
 ### Phase 3: Documentation Updates
 After implementation, update relevant files:
