@@ -41,6 +41,54 @@ Tasks marked with `[P]` should be executed simultaneously or in a single phase t
 - **Dependencies**: Ensure all `[P]` tasks are completed before moving to sequential tasks that depend on them.
 - **Subagents**: Use `agent/runSubagent` to delegate independent `[P]` tasks when complex research or multi-file creation is involved.
 
+- **Agent-parallel (readonly research)**: Use `just agent-parallel` for concurrent, read-only investigations (docs, web, repo search, Context7 lookups), with up to **5 parallel subtasks**. Each quoted argument is plain text input to one subagent; include goal, context, deliverables, and preferred tools directly in that text.
+
+  Important behavior:
+  - Input format: **unstructured text only** (not YAML/JSON task specs).
+  - Output format: **unstructured text only** (not guaranteed machine-parseable JSON).
+  - Best practice: write each quoted task as a self-contained prompt with constraints and expected outputs.
+
+  Better command examples:
+  ```bash
+  # generic parallel call (two independent subtasks)
+  just agent-parallel "task1" "task2"
+
+  # realistic docs-research batch with context + output requirements
+  just agent-parallel \
+    "Explore what documentation the project has available on topic Evaluations in pydantic AI. Use repo context: README.md, docs/, .github/instructions/, and packages/. Output: concise inventory of relevant files + 1-2 line summary per file." \
+    "Use tavily to find docs on evaluations on pydantic ai; output list of built-in tools (classes/methods) and relevant code samples with source URLs." \
+    "Use context7 to find docs on evaluations on pydantic ai; output list of built-in tools (classes/methods) and relevant code samples with source URLs."
+  ```
+
+  Prompt-writing checklist for each subtask:
+  - Include **topic + scope** (what to research, what to exclude).
+  - Include **context** (repo paths, known docs, or target domains).
+  - Include **tool hint** when needed (`Context7`, `Tavily`, repo search).
+  - Include **deliverable format** (bullets/table, required fields like tool name, method/class, code sample, source URL).
+  - Include **time guidance** (for example: "stop after ~3 minutes and return best partial findings").
+
+  Accurate MCP tool guidance:
+  - Context7 docs lookup:
+    - `mcp_context7_resolve-library-id` → resolve library/package id.
+    - `mcp_context7_query-docs` → fetch authoritative docs and snippets.
+  - Tavily web discovery:
+    - `mcp_tavily_tavily_search` → fast web search + candidate URLs.
+    - `mcp_tavily_tavily_extract` → extract content from selected URLs.
+    - `mcp_tavily_tavily_crawl` / `mcp_tavily_tavily_map` → broader site exploration when needed.
+  - Repo-local discovery:
+    - `semantic_search` for natural-language lookup.
+    - `grep_search` / `file_search` for exact symbols or paths.
+
+  Error-resilient execution guidance:
+  - Require **source traceability** (file paths or URLs for every key claim).
+  - Require a short **limitations note** (what was not verified).
+  - Prefer fallback behavior in prompt text ("If Context7 has low coverage, fall back to Tavily and mark fallback used").
+  - Execution may take up to 5 minutes. Make sure to set corresponding wait limit when invoking the command.
+
+  Consolidation guidance:
+  - Merge outputs into one summary with: findings, overlaps/conflicts, and gaps.
+  - If subtasks disagree, keep both claims and flag them for follow-up verification.
+
 ### Task Granularity Standards
 - **Standalone Value**: Each task should represent a testable unit of work.
 - **Atomic Edits**: Keep tasks small enough to avoid massive file replacements.

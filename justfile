@@ -181,6 +181,16 @@ info:
     @echo "Workspace status:"
     @uv tree --depth 1 2>/dev/null || echo "Run 'just install' first"
 
+
+
+[positional-arguments]
+agent-parallel +PROMPT:
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    # Delegate to extracted script in /scripts (preserve quoted prompts)
+    bash scripts/agent-parallel.sh "$@"
+
 _create_env_file:
     #!/usr/bin/env bash
     set -euo pipefail
