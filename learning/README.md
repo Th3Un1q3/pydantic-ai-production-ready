@@ -110,36 +110,6 @@ Introduction to Pydantic AI, environment setup, and basic concepts.
 - Set up development environment
 - Create your first AI agent
 
-### 02-core-concepts
-
-Deep dive into Pydantic AI core concepts and components.
-
-**Learning Objectives:**
-
-- Understand agents, models, and tools
-- Work with structured outputs using Pydantic models
-- Implement tool calling and function execution
-
-### 03-advanced-patterns
-
-Advanced implementation patterns for production applications.
-
-**Learning Objectives:**
-
-- Implement streaming responses
-- Handle errors and retries gracefully
-- Build complex multi-agent systems
-
-### 04-production-deployment
-
-Production deployment, monitoring, and scaling strategies.
-
-**Learning Objectives:**
-
-- Monitor AI applications in production
-- Scale AI workloads efficiently
-- Implement security best practices
-
 ## Contributing
 
 Content creators are encouraged to:
