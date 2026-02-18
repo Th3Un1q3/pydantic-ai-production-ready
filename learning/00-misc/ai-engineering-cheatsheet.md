@@ -1,6 +1,6 @@
 # AI Engineering Master Cheat Sheet
 
-*Building, Evaluating, and Scaling Production-Ready Generative AI*
+## Building, Evaluating, and Scaling Production-Ready Generative AI
 
 ### 1. Strategy: The "ROI Gap" & Usefulness
 

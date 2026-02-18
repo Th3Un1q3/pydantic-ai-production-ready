@@ -114,6 +114,7 @@ As Marcus (AI Product Strategist), I want evaluation outputs mapped to user trus
 - [ ] Includes release recommendation format: proceed / hold / escalate.
 
 #### Release recommendation — required template (one‑paragraph)
+
 Release recommendation — `verdict` (proceed/hold/escalate): `<1‑line rationale>`; Primary metric `<name>` Δ=`<value>` (95% CI `<low>,<high>`, p=`<pvalue>`); Latency p95 Δ=`<ms>`; Cost Δ=`<% or $>`; Key risks: `<short list>`; Action: `<canary % / hold / rollback criteria>`. Attach experiment link and artifact URIs.
 
 **Required fields**: `experiment_id`, `owner`, `primary_metric`, `delta_with_CI`, `cost_delta`, `latency_delta`, `decision`, `rollout_plan`, `rollback_triggers`.
