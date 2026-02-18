@@ -1,7 +1,7 @@
 ---
 agent: 'agent'
 description: 'Create a professional specification document through guided discovery'
-tools: ['vscode/askQuestions', 'execute', 'read', 'agent', 'edit', 'search', 'web', 'context7/*', 'todo']
+tools: ['vscode/askQuestions', 'execute', 'read', 'agent', 'edit', 'search', 'web', 'context7/*', 'gh_readonly/*', 'todo']
 argument-hint: 'Optionally specify the type: feature, package, learning, or change'
 ---
 
@@ -45,6 +45,13 @@ Use `agent/runSubagent` for parallel/specialized work:
 | Codebase exploration | Find existing patterns, similar implementations |
 | Template population | Read instruction module template and generate draft |
 | Quality validation | Check criteria against standards |
+
+### GitHub Read-only (when to use)
+
+- Use the `gh_readonly/*` toolset during Research and Discovery to locate related GitHub artifacts (issues, PRs, commits, file history, and releases) that affect the spec's scope or reveal existing work.
+- Typical calls: `gh_readonly_list_issues`, `gh_readonly_list_pull_requests`, `gh_readonly_get_commit`, `gh_readonly_get_file_contents`, `gh_readonly_get_release_by_tag`.
+- Suggested pattern: search for PRs/issues by spec keywords or affected file paths, then fetch commit diffs or file contents for candidates and summarize relevance in the Research notes.
+
 
 ## Workflow
 

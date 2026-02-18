@@ -1,7 +1,7 @@
 ---
 agent: 'agent'
 description: 'Step-through, human-in-the-loop review of a SPEC-*.md file — present small review chunks, ask for feedback, proceed on approval or no feedback'
-tools: ['read', 'vscode/askQuestions', 'edit', 'search', 'context7/*']
+tools: ['read', 'vscode/askQuestions', 'edit', 'search', 'context7/*', 'gh_readonly/*']
 argument-hint: 'Path to spec file (e.g., specs/features/SPEC-001-*.md) or paste the specification content'
 ---
 
@@ -28,6 +28,7 @@ Read the provided specification and review it **step-by-step with the human in t
 - NEEDS CLARIFICATION: (0–2 items)
 - SUGGESTION: (0–2 items)
 - Action prompt: [Approve] [Suggest change] [Ask question]
+ - Related GitHub references (optional): up to 3 related PRs/issues/commits (found via `mcp_gh_readonly_list_pull_requests`, `mcp_gh_readonly_list_issues`, `mcp_gh_readonly_get_commit`).
 
 ### Workflow (agent behavior)
 1. Load the spec (path or pasted content). If multiple matches, list choices and ask which to review.

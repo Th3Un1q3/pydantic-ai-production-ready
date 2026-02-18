@@ -1,7 +1,7 @@
 ---
 agent: 'agent'
 description: 'Execute a SPEC-*.md file with phased delivery and validation gates'
-tools: ['vscode', 'execute', 'read', 'agent', 'edit', 'search', 'web', 'context7/*', 'todo']
+tools: ['vscode', 'execute', 'read', 'agent', 'edit', 'search', 'web', 'context7/*', 'gh_readonly/*', 'todo']
 argument-hint: 'Path to specification file (e.g., specs/features/SPEC-001-*.md)'
 ---
 
@@ -77,6 +77,13 @@ Use `agent/runSubagent` for parallel/specialized work:
 | Phase implementation | Execute deliverables with TDD |
 | Documentation updates | Update README, CHANGELOG, API docs |
 | Quality validation | Run validation gates |
+
+### GitHub Read-only (when to use)
+
+- Use `mcp_gh_readonly/*` in the Foundational Phase to detect existing implementation work (open/merged PRs, branches, and related issues) before creating new branches or duplicating effort.
+- Useful API calls: `mcp_gh_readonly_list_pull_requests`, `mcp_gh_readonly_pull_request_read` (to fetch PR files or diffs), `mcp_gh_readonly_list_issues`, `mcp_gh_readonly_get_commit`, `mcp_gh_readonly_get_file_contents`.
+- Example flow: 1) search for PRs/issues by spec ID or file paths; 2) if candidate PRs found, fetch commit diffs and file contents to decide whether to continue, rebase, or close as duplicate; 3) record findings in the Implementation Progress checklist.
+
 
 ## Input
 
