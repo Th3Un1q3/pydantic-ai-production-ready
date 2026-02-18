@@ -23,7 +23,7 @@ Before writing a specification, interrogate the request to fill knowledge gaps. 
 Use persona-driven validation to surface missed risks, clarify trade-offs, and confirm assumptions from multiple stakeholder perspectives. Run this as part of discovery for every P1 user story and any high‑risk P2 items.
 
 1. Identify the core assumptions in the draft spec (data, latency, cost, security, integrations, user behavior).
-2. Select relevant personas from `learning/00-misc/reports/` (e.g., `ai-engineer.persona.md`, `enterprise-architect.persona.md`, `product-manager.persona.md`).
+2. Select relevant personas from `learning/00-misc/learner-personas/` (e.g., `ai-engineer.persona.md`, `enterprise-architect.persona.md`, `product-manager.persona.md`).
 3. For each selected persona, run the **Role-Player** subagent with the following structured input:
    - Context: short spec excerpt (assumption, acceptance criteria, sample input/output, and any relevant code/design links).
    - Tasks: (a) Validate the assumption, (b) Provide `Stance` (Approve/Reject/Conditional), (c) List `Critical Risks`, (d) Give `Recommendations` and mitigations, (e) Return a 1–2 line `Reflection` on trade-offs and confidence level.

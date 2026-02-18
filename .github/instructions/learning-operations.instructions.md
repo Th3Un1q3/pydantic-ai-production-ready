@@ -33,7 +33,7 @@ Frame all content through the lens of **Sarah Jenkins (Enterprise AI Architect)*
 
 - **Primary Goal**: Build reliable, auditable, and scalable AI agents for regulated enterprise environments.
 - **Key Themes**: "Day 2" operations, governance, security, and failure engineering.
-- **Architectural Reference**: [learning/00-misc/reports/enterprise-architect.persona.md](learning/00-misc/reports/enterprise-architect.persona.md)
+- **Architectural Reference**: [learning/00-misc/learner-personas/enterprise-architect.persona.md](learning/00-misc/learner-personas/enterprise-architect.persona.md)
 - **Core Focus Areas**:
   - **Hybrid Orchestration**: Combining Pydantic AI with established workflows.
   - **Governance**: RBAC, JWT scopes, and least privilege in agent tool execution.

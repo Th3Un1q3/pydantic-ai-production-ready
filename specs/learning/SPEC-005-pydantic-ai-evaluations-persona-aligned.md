@@ -288,8 +288,8 @@ A machine‑readable JSON Schema / `pydantic` model for `evaluation_record` MUST
 
 ## References
 
-- `learning/00-misc/reports/enterprise-architect.persona.md`
-- `learning/00-misc/reports/ai-engineer.persona.md`
-- `learning/00-misc/reports/product-manager.persona.md`
+- `learning/00-misc/learner-personas/enterprise-architect.persona.md`
+- `learning/00-misc/learner-personas/ai-engineer.persona.md`
+- `learning/00-misc/learner-personas/product-manager.persona.md`
 - `learning/CONCEPTS.md`
 - `specs/README.md`
