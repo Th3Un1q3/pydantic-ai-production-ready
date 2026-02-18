@@ -50,7 +50,7 @@ just check         # Format, lint, typecheck, test
 
 ### Development
 
-- `just install-skill <url>`: Install a skill from a GitHub URL
+- `just copilot-install <url>`: Install a Copilot skill or hook from a GitHub URL
 - `just start [package]`: Run the agent/package
 - `just test [package]`: Run pytest
 

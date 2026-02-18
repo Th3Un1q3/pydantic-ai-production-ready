@@ -13,6 +13,7 @@ help:
     @echo ""
     @echo "Common usage:"
     @echo "  just install            - Sync workspace dependencies"
+    @echo "  just copilot-install <URL> - Install a Copilot skill or hook"
     @echo "  just start <package>    - Start a project (e.g. just start course-navigator)"
     @echo "  just test [package]     - Run tests"
     @echo ""
@@ -22,9 +23,9 @@ help:
 # Installation Commands
 # ============================================================================
 
-# Install a skill from a GitHub URL
-install-skill URL:
-    ./scripts/install_skill.sh {{URL}}
+# Install a skill or hook from a GitHub URL
+copilot-install URL:
+    ./scripts/copilot-install.sh {{URL}}
 
 # Sync workspace dependencies (uv sync)
 install:
