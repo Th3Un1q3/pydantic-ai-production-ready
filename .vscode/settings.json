@@ -7,21 +7,4 @@
         "editor.formatOnPaste": true,
     },
     "chat.customAgentInSubagent.enabled": true,
-    "chat.mcp.serverSampling": {
-        "workspace/.vscode/mcp.json: gh_readonly": {
-            "allowedModels": [
-                "copilot/gpt-4.1",
-                "copilot/gpt-4o",
-                "copilot/gpt-5-mini"
-            ]
-        },
-        "workspace/.vscode/mcp.json: tavily": {
-            "allowedModels": [
-                "copilot/gpt-4.1",
-                "copilot/gpt-4o",
-                "copilot/gpt-5-mini",
-                "copilot/oswe-vscode-prime"
-            ]
-        }
-    },
 }
