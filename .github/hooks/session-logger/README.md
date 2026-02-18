@@ -50,6 +50,18 @@ Session events are written to `logs/copilot/session.log` and prompt events to `l
 {"timestamp":"2024-01-15T10:35:00Z","event":"sessionEnd"}
 ```
 
+Additionally, full conversation content for each session is persisted to per-session NDJSON files under `logs/copilot/sessions/`.
+Each file is newline-delimited JSON (NDJSON) with one event per line. Example entries:
+
+```json
+{"timestamp":"2024-01-15T10:30:00Z","event":"sessionStart","sessionId":"sess-...","cwd":"/workspace/project"}
+{"timestamp":"2024-01-15T10:31:12Z","event":"message","sessionId":"sess-...","message":{"role":"user","content":"Please refactor my function."}}
+{"timestamp":"2024-01-15T10:31:15Z","event":"message","sessionId":"sess-...","message":{"role":"assistant","content":"Here's a refactored version..."}}
+{"timestamp":"2024-01-15T10:35:00Z","event":"sessionEnd","sessionId":"sess-..."}
+```
+
+Use the `sessions` files for audit, analysis, or replaying conversations. Remember to add `logs/` to `.gitignore` to avoid committing sensitive conversation data.
+
 ## Privacy & Security
 
 - Add `logs/` to `.gitignore` to avoid committing session data
