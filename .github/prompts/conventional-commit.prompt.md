@@ -1,6 +1,7 @@
 ---
 description: 'Prompt and workflow for generating conventional commit messages using a structured XML format. Guides users to create standardized, descriptive commit messages in line with the Conventional Commits specification, including instructions, examples, and validation.'
 tools: ['execute/runInTerminal', 'execute/getTerminalOutput']
+model: 'Raptor mini (Preview)'
 ---
 
 ### Instructions
@@ -44,8 +45,9 @@ git commit -m "type(scope): description"
 	<example>feat(parser): add ability to parse arrays</example>
 	<example>fix(ui): correct button alignment</example>
 	<example>docs: update README with usage instructions</example>
-	<example>refactor: improve performance of data processing</example>
+	<example>refactor(data-processing): reduce memory usage during CSV batch import</example>
 	<example>chore: update dependencies</example>
+	<example>chore(repo): update session-logger hooks to save sessions.</example>
 	<example>feat!: send email on registration (BREAKING CHANGE: email service required)</example>
 </examples>
 ```
