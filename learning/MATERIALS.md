@@ -25,17 +25,17 @@ A curated collection of high-quality resources for learning about AI application
 - Risk management in AI systems
 - Enterprise AI application development
 
-**Notable Quotes:**
+**Summary:**
 
-> "Enterprise world generally prefers applications with lower risks [...] companies to deploy internal facing applications than external facing applications."
-
-This quote highlights the importance of risk consideration in AI deployments, particularly in enterprise environments where internal-facing applications serve as a safer starting point before rolling out customer-facing AI systems.
+Concise summary and key takaways are available in the [AI Engineering Master Cheat Sheet](learning/00-misc/ai-engineering-cheatsheet.md) for quick reference.
 
 **Why This Resource:**
 
 - Covers production-ready AI application development from first principles
 - Provides practical insights into enterprise AI challenges
 - Focuses on real-world deployment considerations beyond just model training
+
+
 
 ---
 

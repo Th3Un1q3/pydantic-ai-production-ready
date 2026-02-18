@@ -32,6 +32,7 @@ Quick cross-cutting topics and short descriptions you can reference from modules
 - **Error Handling & Retries** — robust failure patterns and retry strategies — [Docs](https://ai.pydantic.dev/retries/)
 - **Multi-Agent Systems** — coordination, messaging, and orchestration patterns — [Docs](https://ai.pydantic.dev/multi-agent-applications/)
 - **Monitoring** — observability, metrics, and logging practices — [Docs](https://ai.pydantic.dev/logfire/)
+ - **AI Engineering Cheat Sheet** — [learning/00-misc/ai-engineering-cheatsheet.md](learning/00-misc/ai-engineering-cheatsheet.md) (concise architecture, RAG, evaluation, observability, and security checklist)
 - **Scaling** — performance, horizontal scaling, and resource strategies — [Docs](https://ai.pydantic.dev/durable_execution/overview/)
 - **Prompt Injection** — threats and mitigations for prompt security — [Module](00-misc/NOT_IMPLEMENTED.md)
 - **Harnessing LLMs** — best practices for working with large language models — [Module](00-misc/NOT_IMPLEMENTED.md)

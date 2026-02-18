@@ -294,3 +294,4 @@ A machine‑readable JSON Schema / `pydantic` model for `evaluation_record` MUST
 - `learning/00-misc/learner-personas/product-manager.persona.md`
 - `learning/CONCEPTS.md`
 - `specs/README.md`
+- Reference: learning/00-misc/ai-engineering-cheatsheet.md — quick evaluation playbook and metric definitions.

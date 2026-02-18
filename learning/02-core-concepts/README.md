@@ -44,6 +44,8 @@ Evaluations serve not only as sanity checks but as essential learning signals. T
 
 > **Note:** Use evaluations iteratively — small experiments and clear metrics lead to better, faster design decisions.
 
+- Quick reference: [AI Engineering Master Cheat Sheet](00-misc/ai-engineering-cheatsheet.md) — evaluation hierarchy, rubrics, and metrics guidance.
+
 ## Estimated Time
 
 4-5 hours
