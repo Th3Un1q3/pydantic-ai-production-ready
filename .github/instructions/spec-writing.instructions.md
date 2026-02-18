@@ -18,6 +18,42 @@ Before writing a specification, interrogate the request to fill knowledge gaps. 
 - **Constraints**: Technology stack, timeline, dependencies?
 - **Users**: Who benefits? What are their needs?
 
+### Persona-based assumption validation (Role-Player subagent) 🧩
+
+Use persona-driven validation to surface missed risks, clarify trade-offs, and confirm assumptions from multiple stakeholder perspectives. Run this as part of discovery for every P1 user story and any high‑risk P2 items.
+
+1. Identify the core assumptions in the draft spec (data, latency, cost, security, integrations, user behavior).
+2. Select relevant personas from `learning/00-misc/reports/` (e.g., `ai-engineer.persona.md`, `enterprise-architect.persona.md`, `product-manager.persona.md`).
+3. For each selected persona, run the **Role-Player** subagent with the following structured input:
+   - Context: short spec excerpt (assumption, acceptance criteria, sample input/output, and any relevant code/design links).
+   - Tasks: (a) Validate the assumption, (b) Provide `Stance` (Approve/Reject/Conditional), (c) List `Critical Risks`, (d) Give `Recommendations` and mitigations, (e) Return a 1–2 line `Reflection` on trade-offs and confidence level.
+4. Save the agent output as a `Role-Based Feedback Report` and attach it to the spec (append under the relevant user story).
+5. If persona feedback disagrees, add `NEEDS CLARIFICATION: {{issue}}` to the spec and prioritize follow-up user stories or mitigation work.
+6. After incorporating changes, re-run the same persona(s) and ask them to **validate the result** and **reflect** on whether their stance changed.
+
+Example subagent prompt (copy into the Role-Player agent or use `runSubagent`):
+
+```text
+Context: (paste assumption + acceptance criteria + 2–3 supporting artifacts)
+Persona: ai-engineer.persona.md
+Task: Validate the assumption and produce a Role-Based Feedback Report with fields: Stance, Critical Risks, Recommendations, Confidence (0–100%), Follow-up Questions, Reflection (2–3 sentences).
+```
+
+Expected deliverables:
+- One `Role-Based Feedback Report` per persona per validated assumption.
+- Spec updated with `NEEDS CLARIFICATION` markers or acceptance-criteria changes where required.
+- A short reconciliation summary when personas conflict.
+
+Independent test (how to verify):
+- Run Role-Player for at least two distinct personas for each P1 story.
+- Confirm each P1 story is either `Approved` or marked `Conditional` with concrete mitigation steps; unresolved `Reject` results must produce follow-up tasks.
+
+Tips:
+- Parallelize persona checks (use `just agent-parallel` or multiple `runSubagent` calls) to reduce latency.
+- Keep persona reports attached to the spec for auditability and traceability.
+- Treat persona `Reflection` as input to the risk/acceptance conversation — not as final approval.
+
+
 ## Template Selection
 
 | Type       | Use When                                | Template Location                   |
@@ -54,7 +90,7 @@ Use the marker `NEEDS CLARIFICATION: {{issue}}` for any unknowns or ambiguities 
 Rigorous validation of code samples and API references is required to prevent hallucinations and ensure consistency with the existing codebase.
 
 ### Validation Process
-1. **Interface Existence**: Confirm all referenced classes, functions, and APIs exist using search tools (e.g., `grep_search`, `list_code_usages`).
+1. **Interface Existence**: Confirm all referenced classes, functions, and APIs exist using search tools(both internal such as code search and external such as official documentation).
 2. **Pattern Alignment**: Ensure new interfaces follow existing code patterns, naming conventions, and architectural principles.
 3. **Hallucination Detection**: Flag non-existing interfaces with `INTERFACE VALIDATION NEEDED: {{issue}}`.
 4. **Library Validation**: Verify all referenced libraries are real, correctly spelled, and used appropriately according to their documentation.

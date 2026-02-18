@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Extracted from repository `justfile` — runs multiple Copilot prompts in parallel
 # Usage: ./scripts/agent-parallel.sh "prompt 1" "prompt 2" ...
 
-model="gpt-5-mini"
+max_tasks=5
+
+model="gpt-4.1"
 
 allowed_tools=(
     "context7"
@@ -35,7 +36,6 @@ if [ -f "$mcp_file" ]; then
     fi
 fi
 
-max_tasks=5
 num_tasks=$#
 if [ "$num_tasks" -gt "$max_tasks" ]; then
     echo "⚠️ Limiting to first $max_tasks tasks (out of $num_tasks provided)."
@@ -95,12 +95,10 @@ echo -e "\n=== MERGED OUTPUT ===\n"
 for j in $(seq 1 "$i"); do
     if [ "${statuses[$j]}" = "OK" ]; then
         echo "[ TASK $j SUCCESS ] prompt: ${prompts[$j]}"
-        echo "command: ${commands[$j]}"
         printf '%s\n' "${outputs[$j]}"
         echo -e "\n---\n"
     else
         echo "[ TASK $j FAILED (exit ${exit_codes[$j]}) ] prompt: ${prompts[$j]}" >&2
-        echo "command: ${commands[$j]}" >&2
         printf '%s\n' "${outputs[$j]}" >&2
         echo -e "\n---\n" >&2
     fi

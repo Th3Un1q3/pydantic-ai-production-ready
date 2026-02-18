@@ -6,4 +6,5 @@
         "editor.formatOnSave": true,
         "editor.formatOnPaste": true,
     },
+    "chat.customAgentInSubagent.enabled": true,
 }
