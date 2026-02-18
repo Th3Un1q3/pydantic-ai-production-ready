@@ -78,10 +78,10 @@ As Sarah (Enterprise AI Architect), I want a standardized evaluation architectur
 
 **Acceptance Criteria:**
 
-- [ ] Defines canonical structure for evaluation datasets (happy path, edge case, adversarial case, policy case).
-- [ ] Defines baseline evaluator stack: exactness/constraints + quality + latency/cost checks.
-- [ ] Specifies release threshold rules (for example: critical assertions must be 100% pass; overall score threshold documented).
-- [ ] Provides reproducibility requirements: version tags for prompt, model, tools, and dataset.
+- [ ] Defines canonical structure for evaluation datasets (happy path, edge case, adversarial case, policy case) and requires dataset artifacts to include a storage URI and a SHA256 checksum.
+- [ ] Defines the baseline evaluator stack and measurement windows: deterministic checks (schema/assertions), qualitative checks (LLM‑judge with pinned rubric + config), and operational checks (latency p50/p95, token usage, estimated cost).
+- [ ] Specifies release‑gate rules with explicit thresholds and decision logic (example): critical_assertions = 100% pass AND overall_quality_score ≥ 0.90 AND latency.p95_ms ≤ 500 → decision = proceed; otherwise → hold or escalate. Include a decision table in the learning docs.
+- [ ] Requires reproducibility metadata for every experiment run: `model_version` (registry URI + digest), `prompt_version` (git SHA/tag), `dataset_version` (storage URI + SHA256), `tool_version`, and `evaluator_version`. A JSON Schema / Pydantic model MUST be provided under `packages/shared` for programmatic validation.
 
 ### Story 2: Governance and Hardening Evaluations (Priority: P1) 🎯 MVP
 
@@ -89,14 +89,14 @@ As David (Compliance-First AI Engineer), I want explicit safety and governance e
 
 **Why this priority**: Compliance failures are high-impact and must be part of MVP evaluation coverage.
 
-**Independent Test**: A red-team evaluation set demonstrates blocked unsafe outputs and records reasons in reports.
+**Independent Test**: A red‑team evaluation set demonstrates blocked unsafe outputs and records reasons in reports.
 
 **Acceptance Criteria:**
 
-- [ ] Defines evaluation cases for indirect prompt injection, policy violations, and validator failure loops.
-- [ ] Defines circuit-breaker style acceptance rules for repeated validation failures.
-- [ ] Requires reasoned failure outputs (not only numeric scores) for auditability.
-- [ ] Maps evaluator checks to explicit policy controls (e.g., restricted actions, escalation-required responses).
+- [ ] Defines evaluation cases for indirect prompt injection, privilege‑escalation attempts, policy violations, and validator failure loops; includes red‑team case artifacts and expected blocked/outcome behavior.
+- [ ] Defines enforceable circuit‑breaker rules: trip when ≥ 3 consecutive runs fail any `critical` assertion OR failure rate > 5% over the last 10 runs; action = block merge + notify on‑call and create an incident.
+- [ ] Requires reasoned failure outputs: each failed assertion MUST include `reason_code`, a human‑readable `explanation`, `evidence_ids` (case IDs + output snippet URIs), and `decision_justification`.
+- [ ] Maps evaluator outputs to explicit escalation levels and policy controls; `critical` governance failures MUST fail CI automatically and require manual remediation and compliance sign‑off.
 
 ### Story 3: Product and ROI Evaluation Framework (Priority: P2)
 
@@ -109,9 +109,14 @@ As Marcus (AI Product Strategist), I want evaluation outputs mapped to user trus
 **Acceptance Criteria:**
 
 - [ ] Defines minimum KPI set: quality score, latency percentile, token/cost estimate, fallback rate, and user-facing failure rate.
-- [ ] Includes variant comparison protocol (A/B or ablation) with decision rubric.
+- [ ] Includes variant comparison protocol (A/B or ablation) with decision rubric — requires sample‑size calculation, 95% CI reporting, p‑value threshold (p < 0.05), clear primary vs guardrail metric definitions, and a machine‑readable `release_rubric` for decision automation.
 - [ ] Defines “unhappy path UX” evaluation checks (clarity of fallback messaging, safe degradation behavior).
 - [ ] Includes release recommendation format: proceed / hold / escalate.
+
+#### Release recommendation — required template (one‑paragraph)
+Release recommendation — `verdict` (proceed/hold/escalate): `<1‑line rationale>`; Primary metric `<name>` Δ=`<value>` (95% CI `<low>,<high>`, p=`<pvalue>`); Latency p95 Δ=`<ms>`; Cost Δ=`<% or $>`; Key risks: `<short list>`; Action: `<canary % / hold / rollback criteria>`. Attach experiment link and artifact URIs.
+
+**Required fields**: `experiment_id`, `owner`, `primary_metric`, `delta_with_CI`, `cost_delta`, `latency_delta`, `decision`, `rollout_plan`, `rollback_triggers`.
 
 ### Story 4: Continuous Evaluation Operations (Priority: P3)
 
@@ -136,7 +141,7 @@ As a cross-functional AI team, we want recurring evaluation operations so that q
 4. The module MUST include adversarial and policy-focused evaluation suites.
 5. The module MUST define explicit release gates and escalation paths.
 6. The module MUST include a product-facing reporting schema translating technical metrics to decision-ready KPIs.
-7. The module MUST define repeatable experiment metadata/versioning requirements.
+7. The module MUST define repeatable experiment metadata/versioning requirements and provide a machine‑readable JSON Schema / `pydantic` model (stored in `packages/shared`) that CI can validate.
 
 ## Technical Specification
 
@@ -157,20 +162,35 @@ As a cross-functional AI team, we want recurring evaluation operations so that q
 
 ### Data and Reporting Model (Conceptual)
 
-Each experiment run should include:
+Each experiment run MUST persist an `evaluation_record` containing (at minimum):
 
-- `experiment_id`, `dataset_version`, `model_version`, `prompt_version`, `tool_version`
-- evaluator outcomes (`score`, `assertion`, `reason`)
-- operational metrics (`duration`, `tokens`, `estimated_cost`)
-- decision output (`proceed`, `hold`, `escalate`)
+- `experiment_id`, `run_id`, `dataset_version` (storage URI + SHA256), `dataset_hash`
+- `model_version` (registry URI + digest), `model_hash`, `prompt_version` (git SHA/tag), `prompt_hash`, `tool_version`, `evaluator_version`
+- `executor_id` (CI job id or user id), `run_timestamp`, `environment` (pre-merge/nightly/release)
+- evaluator outcomes: `assertions[]` (id, pass/fail, numeric score), `score` (aggregated), `reason`/`reason_code`, `evidence_ids` (URIs to raw/sanitized outputs)
+- operational metrics: `duration_ms`, `tokens`, `estimated_cost_usd`, `latency.p50_ms`, `latency.p95_ms`
+- decision output: `decision` (`proceed`/`hold`/`escalate`), `decision_justification`
+- integrity fields: `artifact_uris` (raw_output_uri, sanitized_output_uri), `evidence_signatures` (sha256)
+
+A machine‑readable JSON Schema / `pydantic` model for `evaluation_record` MUST be added to `packages/shared` and used to validate CI artifacts.
+
+### Compliance Acceptance Criteria
+
+- Every `evaluation_run` MUST persist an `evaluation_record` containing the fields: `experiment_id`, `run_id`, `dataset_version`, `dataset_hash`, `model_version`, `model_hash`, `prompt_version`, `prompt_hash`, `evaluator_version`, `run_timestamp`, `executor_id`, `environment`, `assertions`, `failure_reasons`, `raw_output_uri`, `sanitized_output_uri`, `decision`, and `decision_justification`. Missing fields fail validation.
+- All `critical` governance evaluations MUST fail CI and block merges automatically. A blocked merge requires manual remediation and explicit approval from the compliance owner.
+- Evidence retention: raw evaluation outputs and audit records MUST be retained for at least **1 year**; red‑team/prompt‑injection artifacts for **3 years**; policy/security incident artifacts for **7 years**. Retention storage MUST be versioned and tamper‑evident (WORM or equivalent).
+- Escalation mapping: every failure reason MUST map to an escalation level (`info`/`investigate`/`block_release`/`security_incident`) with a documented SLA for response and an assigned owner.
 
 ## Implementation Plan
 
 ### Phase 0: Foundations (Blocking)
 
 - Define canonical evaluation taxonomy and glossary for learning docs.
-- Identify reusable examples in existing packages.
-- Confirm metric naming conventions for consistency.
+- Identify reusable examples in `packages/course-navigator` and `packages/shared` for reuse.
+- Define and publish the `evaluation_record` JSON Schema / `pydantic` model and a reference implementation in `packages/shared`.
+- Specify reproducibility & artifact rules (storage URI + checksum conventions) and default retention windows.
+- Provide CI gating example (GitHub Actions workflow + `just eval <package>` recipe) and decision table templates.
+- Define owner roles (engineering owner, compliance owner, product owner) and SLAs for escalations.
 
 **CHECKPOINT:** Foundation approved before story execution.
 
@@ -223,6 +243,11 @@ Each experiment run should include:
 - [ ] T013 [P] [US4] Define recurring run cadence and ownership model.
 - [ ] T014 [P] [US4] Define regression threshold policy and alerting behavior.
 - [ ] T015 [US4] Define changelog and evidence retention checklist.
+- [ ] T019 [P] [FOUNDATION] Add `evaluation_record` JSON Schema / `pydantic` model to `packages/shared` and unit tests.
+- [ ] T020 [P] [FOUNDATION] Add example evaluation suite for `course-navigator` (dataset fixtures + evaluators + tests).
+- [ ] T021 [P] [US1] Add CI gating example: `.github/workflows/evals.yml` and `just eval <package>` recipe.
+- [ ] T022 [P] [US3] Add Release Recommendation template + ROI calculator example in `learning/03-advanced-patterns/`.
+- [ ] T023 [P] [FOUNDATION] Define evidence retention policy and assign compliance/owner roles.
 
 - [ ] T016 [FINAL] Update `learning/CONCEPTS.md` and module index links.
 - [ ] T017 [FINAL] Execute validation commands and resolve doc structure issues.
@@ -232,10 +257,10 @@ Each experiment run should include:
 
 ### Story-Level Validation
 
-- **US1**: Run a baseline evaluation suite and verify deterministic release-gate output.
-- **US2**: Run adversarial/policy cases and verify blocked outcomes + explicit reasons.
-- **US3**: Run variant comparison and verify KPI deltas produce a recommendation.
-- **US4**: Run baseline-vs-current comparison and verify regression handling behavior.
+- **US1**: Run a baseline evaluation suite and verify deterministic release‑gate output and `evaluation_record` schema validation.
+- **US2**: Run adversarial/policy cases and verify blocked outcomes, explicit reasons, and that `critical` failures fail CI and create an incident per escalation SLA.
+- **US3**: Run variant comparison and verify KPI deltas produce a recommendation; A/B reports must include sample‑size, 95% CI and p‑value.
+- **US4**: Run baseline‑vs‑current comparison and verify regression handling behavior and evidence retention (artifact URIs + checksums present).
 
 ### Quality Gates
 
@@ -254,7 +279,12 @@ Each experiment run should include:
 
 ## Open Questions
 
-None.
+- Which artifact/versioning scheme is required for `dataset_version` and `model_version`? (recommended: registry digest + SHA256 + storage URI)
+- Should governance (`critical`) failures automatically block merges, or produce a blocking warning requiring manual approval?
+- Confirm retention windows for standard vs red‑team vs incident artifacts (recommendation: 1y / 3y / 7y).
+- Which judge models, temperature and seed constraints are approved for LLM‑judge usage?
+- Who is the canonical owner for recurring runs, alerts, and compliance sign‑offs (engineering / security / product)?
+- What SIEM / alerting integration is required (e.g., Datadog, Splunk)?
 
 ## References
 
