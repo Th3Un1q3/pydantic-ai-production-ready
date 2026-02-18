@@ -1,6 +1,6 @@
 ---
 spec-id: SPEC-005
-title: Persona-Aligned Pydantic AI Evaluations
+title: Evaluation First as AI system Development Driver - Learning Module
 spec-type: learning
 status: ready
 created: 2026-02-15
@@ -18,280 +18,312 @@ owner: learning-ops
 ## Discovery Notes
 
 - The target audience is primarily Sarah Jenkins (Enterprise AI Architect), with secondary needs from David Chen (Compliance-First AI Engineer) and Marcus Thorne (AI Product Strategist).
-- Existing learning materials mention evaluations but do not provide a full, persona-driven, production evaluation playbook.
-- The most valuable gap is operational guidance: governance, failure handling, auditability, and ROI-aware evaluation loops.
+- Existing learning materials mention evaluations but do not provide a short, practical, start-to-end path for learning and applying them.
+- The highest-value gap is a local, on-demand workflow that produces a scorecard and explains failures with traceable evidence.
+- Module boundaries were previously ambiguous; this specification now defines strict topic ownership across core and advanced learning modules.
 
 ## Executive Summary
 
 ### Problem Statement
 
-The current learning path references evaluations in concept form but lacks a production-grade, persona-oriented specification for how teams should design, run, and operationalize `pydantic-evals` in real enterprise settings.
+The current learning path references evaluations, but the scope became too implementation-heavy and too broad for this module.
 
-This gap causes three practical issues:
+This created three issues:
 
-1. **Architectural uncertainty**: teams cannot confidently place evaluations in CI/CD and release gates.
-2. **Compliance risk**: safety, prompt-injection resilience, and traceability checks are not standardized.
-3. **Product ambiguity**: product teams lack a repeatable framework to tie evaluation metrics to UX trust, latency, and cost outcomes.
+1. **Learning friction**: the start and end points are too far apart for an introductory module.
+2. **Delivery ambiguity**: CI/CD, continuous operations, and governance automation obscure core learning outcomes.
+3. **Debuggability gap**: learners need clear, traceable failure analysis before advanced operationalization.
 
 ### Proposed Solution
 
-Create a dedicated learning specification and supporting module content for **Pydantic AI Evaluations in Production**, centered on:
+Refocus this module to a learning-first progression with short distance between start and finish:
 
-- `Dataset` / `Case` design patterns for enterprise scenarios.
-- Focused evaluator design (custom evaluators + LLM-as-a-judge).
-- Governance and safety evaluation layers (RBAC, prompt-injection, circuit-breaker readiness).
-- Experiment reporting and release gates tied to business metrics.
+- **Lesson 1 (core concepts):** why evaluations + observability are foundational for reliable AI systems.
+- **Lesson 2 (implementation):** run one local, on-demand evaluation pipeline that outputs a scorecard.
+- **Lesson 3 (analysis):** troubleshoot failures using audit fields, reason codes, and evidence links.
+
+CI/CD integration and continuous evaluation operations are explicitly deferred to a standalone future module.
 
 ### Success Criteria
 
-- A complete persona-aligned evaluations module is specified with P1/P2/P3 user stories.
-- Each story has independent, testable acceptance criteria.
-- The spec includes explicit CI/CD evaluation gates and failure thresholds.
-- The spec defines a repeatable experiment workflow with versioned prompts/tools/models.
+- The module is scoped to progressive learning stories with clear start and end points.
+- A local, on-demand evaluation pipeline is defined and produces a single scorecard output.
+- Scorecard and run artifacts are auditable and traceable for troubleshooting.
+- Decision output uses a clear recommendation: `proceed`, `hold`, or `escalate`.
 - No unresolved `NEEDS CLARIFICATION` markers remain.
 
 ## Scope
 
 ### In Scope
 
-- Learning content specification for evaluations in `pydantic-evals`.
-- Design and operation of automated, LLM-judge, and human review evaluation paths.
-- Safety/compliance-focused evaluation patterns and reporting expectations.
-- Product-facing metrics translation (quality, latency, cost, trust).
+- Learning content specification for `pydantic-evals` fundamentals and practical usage.
+- A local, on-demand evaluation workflow with one scorecard output.
+- Auditability and traceability guidance for failure troubleshooting.
+- Progressive lesson design: core concepts, then local implementation, then analysis.
+- Explicit module-boundary definition so topic ownership is unambiguous.
 
 ### Out of Scope
 
-- Implementing new runtime security infrastructure (e.g., WORM storage backend).
-- Replacing existing package-level business logic.
-- Building a full analytics dashboard UI.
-- Provider-specific benchmark claims not reproducible inside this monorepo.
+- CI/CD integration, merge gates, and GitHub Actions workflows.
+- Continuous/scheduled evaluation operations (pre-merge, nightly, pre-release cadence).
+- Incident automation, SIEM integrations, and compliance sign-off workflows.
+- Full analytics dashboard implementation.
+
+## Learning Architecture (Redefined)
+
+This specification no longer depends on the previous numbered module drafts. The learning structure is redefined as follows:
+
+1. **Reliable AI Foundations**
+
+- Core concepts, including evaluations and observability basics.
+- Terminology and minimum reliability mental model.
+
+2. **Evaluation and Observability Learning Studio** (this spec)
+
+- Local, on-demand evaluation workflow.
+- Scorecard generation, auditability, and failure troubleshooting.
+
+3. **Advanced Reliability Patterns** (future module)
+
+- Context management patterns.
+- Retrieval patterns (RAG) and evaluation interactions.
+- Scaling concerns (performance, cost, reliability under load).
+- CI/CD and continuous evaluation operations.
+
+Boundary rule: if a topic requires scheduled automation, production orchestration, or large-scale systems optimization, it belongs to **Advanced Reliability Patterns**, not this module.
 
 ## Prioritized User Stories
 
-### Story 1: Enterprise Evaluation Baseline (Priority: P1) 🎯 MVP
+### Story 1: Foundations Lesson — Why Evaluations Matter (Priority: P1) 🎯 MVP
 
-As Sarah (Enterprise AI Architect), I want a standardized evaluation architecture using `Dataset`, `Case`, and focused evaluators so that release decisions are auditable and repeatable.
+As Sarah (Enterprise AI Architect), I want a concise conceptual lesson on evaluations and monitoring/observation so that I understand why they are required to build reliable AI systems.
 
-**Why this priority**: This is the minimum architecture needed for production readiness.
+**Why this priority**: This establishes the minimum mental model before any implementation work.
 
-**Independent Test**: A sample evaluation suite runs against a target agent and yields deterministic pass/fail release output with clear thresholds.
-
-**Acceptance Criteria:**
-
-- [ ] Defines canonical structure for evaluation datasets (happy path, edge case, adversarial case, policy case) and requires dataset artifacts to include a storage URI and a SHA256 checksum.
-- [ ] Defines the baseline evaluator stack and measurement windows: deterministic checks (schema/assertions), qualitative checks (LLM‑judge with pinned rubric + config), and operational checks (latency p50/p95, token usage, estimated cost).
-- [ ] Specifies release‑gate rules with explicit thresholds and decision logic (example): critical_assertions = 100% pass AND overall_quality_score ≥ 0.90 AND latency.p95_ms ≤ 500 → decision = proceed; otherwise → hold or escalate. Include a decision table in the learning docs.
-- [ ] Requires reproducibility metadata for every experiment run: `model_version` (registry URI + digest), `prompt_version` (git SHA/tag), `dataset_version` (storage URI + SHA256), `tool_version`, and `evaluator_version`. A JSON Schema / Pydantic model MUST be provided under `packages/shared` for programmatic validation.
-
-### Story 2: Governance and Hardening Evaluations (Priority: P1) 🎯 MVP
-
-As David (Compliance-First AI Engineer), I want explicit safety and governance evaluation patterns so that unsafe or non-compliant agent behavior is detected before release.
-
-**Why this priority**: Compliance failures are high-impact and must be part of MVP evaluation coverage.
-
-**Independent Test**: A red‑team evaluation set demonstrates blocked unsafe outputs and records reasons in reports.
+**Independent Test**: A learner can explain evaluation layers, observability purpose, and decision semantics (`proceed`/`hold`/`escalate`) without running code.
 
 **Acceptance Criteria:**
 
-- [ ] Defines evaluation cases for indirect prompt injection, privilege‑escalation attempts, policy violations, and validator failure loops; includes red‑team case artifacts and expected blocked/outcome behavior.
-- [ ] Defines enforceable circuit‑breaker rules: trip when ≥ 3 consecutive runs fail any `critical` assertion OR failure rate > 5% over the last 10 runs; action = block merge + notify on‑call and create an incident.
-- [ ] Requires reasoned failure outputs: each failed assertion MUST include `reason_code`, a human‑readable `explanation`, `evidence_ids` (case IDs + output snippet URIs), and `decision_justification`.
-- [ ] Maps evaluator outputs to explicit escalation levels and policy controls; `critical` governance failures MUST fail CI automatically and require manual remediation and compliance sign‑off.
+- [ ] Defines core concepts: `Dataset`, `Case`, deterministic checks, qualitative checks, operational metrics, and observability.
+- [ ] Explains the reliability principle: without evaluations and observability, AI quality cannot be trusted or improved safely.
+- [ ] Introduces a minimal decision model (`proceed`, `hold`, `escalate`) and when each is used.
+- [ ] Uses persona-aligned examples (architecture, compliance, product perspectives) without advanced operational automation.
+- [ ] Explicitly distinguishes this module from advanced topics (context management, RAG, scaling), which are deferred.
 
-### Story 3: Product and ROI Evaluation Framework (Priority: P2)
+### Story 2: Implementation Lesson — Local On-Demand Scorecard (Priority: P1) 🎯 MVP
 
-As Marcus (AI Product Strategist), I want evaluation outputs mapped to user trust and ROI signals so that roadmap and release decisions reflect business outcomes.
+As David (Compliance-First AI Engineer), I want a local evaluation pipeline that runs on demand and produces an auditable scorecard so that I can evaluate quality and debug failures early.
 
-**Why this priority**: Product teams need actionable decision inputs after technical quality is established.
+**Why this priority**: This is the practical core of the module and the bridge from theory to development usage.
 
-**Independent Test**: Two prompt/tool variants are compared with a single report showing quality delta, latency delta, and estimated cost delta.
-
-**Acceptance Criteria:**
-
-- [ ] Defines minimum KPI set: quality score, latency percentile, token/cost estimate, fallback rate, and user-facing failure rate.
-- [ ] Includes variant comparison protocol (A/B or ablation) with decision rubric — requires sample‑size calculation, 95% CI reporting, p‑value threshold (p < 0.05), clear primary vs guardrail metric definitions, and a machine‑readable `release_rubric` for decision automation.
-- [ ] Defines “unhappy path UX” evaluation checks (clarity of fallback messaging, safe degradation behavior).
-- [ ] Includes release recommendation format: proceed / hold / escalate.
-
-#### Release recommendation — required template (one‑paragraph)
-
-Release recommendation — `verdict` (proceed/hold/escalate): `<1‑line rationale>`; Primary metric `<name>` Δ=`<value>` (95% CI `<low>,<high>`, p=`<pvalue>`); Latency p95 Δ=`<ms>`; Cost Δ=`<% or $>`; Key risks: `<short list>`; Action: `<canary % / hold / rollback criteria>`. Attach experiment link and artifact URIs.
-
-**Required fields**: `experiment_id`, `owner`, `primary_metric`, `delta_with_CI`, `cost_delta`, `latency_delta`, `decision`, `rollout_plan`, `rollback_triggers`.
-
-### Story 4: Continuous Evaluation Operations (Priority: P3)
-
-As a cross-functional AI team, we want recurring evaluation operations so that quality regressions are caught early and improvements are measurable over time.
-
-**Why this priority**: Ongoing operations amplify value but depend on MVP architecture.
-
-**Independent Test**: Scheduled evaluation run compares current results to prior baseline and flags regressions.
+**Independent Test**: A learner runs one local evaluation flow and receives a scorecard plus a traceable run record with clear failure reasons.
 
 **Acceptance Criteria:**
 
-- [ ] Defines run cadence (pre-merge, nightly, pre-release) and ownership.
-- [ ] Defines regression policy (which deltas fail CI vs open follow-up issue).
-- [ ] Defines experiment changelog format and retention expectations.
-- [ ] Defines handoff expectations between engineering, security, and product.
+- [ ] Defines one local pipeline flow: load dataset cases, execute evaluator stack, compute scorecard, output recommendation.
+- [ ] Scorecard includes minimum KPI set: quality score, latency (p50/p95), token usage, estimated cost, failure summary.
+- [ ] Every run captures reproducibility metadata: `run_id`, `timestamp`, `dataset_version`, `prompt_version`, `model_version`, `evaluator_version`, `executor_id`.
+- [ ] Every failed check includes `reason_code`, human-readable `explanation`, and `evidence_ids` (case id + output snippet URI/path).
+- [ ] Output includes a single recommendation: `proceed`, `hold`, or `escalate`, with a brief `decision_justification`.
+- [ ] Uses a recommended evaluator set for the walkthrough: `EqualsExpected`, `Contains`, `IsInstance`, `MaxDuration`, `LLMJudge`, `HasMatchingSpan` and documents where each is appropriate.
+- [ ] Demonstrates a fail-fast execution ordering: deterministic/format checks → span/behavioral checks → LLM/judge evaluations (cheapest → most expensive).
+- [ ] Include one serialized dataset example (YAML + generated JSON Schema) and one example `scorecard` JSON artifact for learners to inspect and reuse.
+
+### Story 3: Observation Lesson — Failure Analysis and Next Actions (Priority: P2)
+
+As Marcus (AI Product Strategist), I want a guided troubleshooting lesson from scorecard to root-cause clues so that evaluation outcomes can drive product and development decisions.
+
+**Why this priority**: Teams need actionable interpretation of results after baseline evaluation flow is in place.
+
+**Independent Test**: Given one failed run, a learner can identify likely failure source, associated risk, and immediate next action.
+
+**Acceptance Criteria:**
+
+- [ ] Defines a simple failure triage workflow from scorecard → failed assertion → evidence → remediation candidate.
+- [ ] Distinguishes content-quality failures vs latency/cost failures vs policy/safety failures.
+- [ ] Provides a compact recommendation template with next action and rollback trigger for local experimentation.
+- [ ] Includes a “deferred to next module” note for CI/CD gates and continuous operations.
 
 ## Functional Requirements
 
-1. The module MUST teach `pydantic-evals` foundations (`Dataset`, `Case`, evaluator composition) with enterprise examples.
-2. The module MUST include guidance for custom evaluators that remain single-purpose and composable.
-3. The module MUST include LLM-as-a-judge guidance with rubric design and judge model governance.
-4. The module MUST include adversarial and policy-focused evaluation suites.
-5. The module MUST define explicit release gates and escalation paths.
-6. The module MUST include a product-facing reporting schema translating technical metrics to decision-ready KPIs.
-7. The module MUST define repeatable experiment metadata/versioning requirements and provide a machine‑readable JSON Schema / `pydantic` model (stored in `packages/shared`) that CI can validate.
+1. The module MUST present a short, progressive learning path from core concepts to implementation to troubleshooting.
+2. The module MUST teach `pydantic-evals` foundations (`Dataset`, `Case`, evaluator composition) with enterprise-relevant examples.
+3. The module MUST define one local on-demand evaluation workflow that produces a scorecard.
+4. The module MUST include auditability and traceability requirements for each run.
+5. The module MUST include failure reason coding and evidence linkage for troubleshooting.
+6. The module MUST provide decision semantics (`proceed`/`hold`/`escalate`) with concise rationale guidance.
+7. The module MUST explicitly defer CI/CD and continuous operations to a standalone follow-up module.
+8. The specification MUST define unambiguous ownership boundaries between core topics (evaluations/observability) and advanced topics (context management, RAG, scaling).
 
 ## Technical Specification
 
 ### Content Targets
 
-- New/updated learning materials under `learning/03-advanced-patterns/` for evaluation operations.
-- Cross-links from `learning/02-core-concepts/README.md` and `learning/CONCEPTS.md` to the new evaluation playbook.
-- Real code references from:
+Canonical learning content for this module will be authored under `learning/02-beyond-prototype/`.
+Module entry point file: `learning/02-beyond-prototype/README.md`.
+Lesson files (minimum):
+
+- `learning/02-beyond-prototype/01-why-evals-and-observability.md`
+- `learning/02-beyond-prototype/02-local-scorecard-pipeline.md`
+- `learning/02-beyond-prototype/03-failure-triage-and-observation.md`
+Top-level learning index updates will link to this module via `learning/README.md` and `learning/CONCEPTS.md`.
+- Optional reference snippets from:
   - `packages/course-navigator/`
   - `packages/shared/`
 
-### Canonical Evaluation Layers
+Pydantic Evals overview: this module uses the code-first `pydantic-evals` model as the canonical tooling vocabulary — Dataset (test suite) → Case (test scenario) → Experiment (execution) → EvaluationReport (result). Lessons should reference example artifacts from `packages/shared` and, where helpful, `packages/course-navigator` for runnable snippets. Include one minimal example dataset (YAML + generated JSON Schema) and one example `EvaluationReport` JSON in the lesson materials.
 
-1. **Deterministic checks**: schema/constraint validation, exact or rule-based assertions.
-2. **Qualitative checks**: LLM-judge rubric scoring for helpfulness/relevance.
-3. **Operational checks**: latency, token usage, cost, retries/fallback.
-4. **Governance checks**: policy mapping, security challenge sets, trace reasons.
+This target structure is authoritative for this specification and supersedes prior draft layout assumptions.
 
-### Data and Reporting Model (Conceptual)
+### Canonical Local Evaluation Flow
 
-Each experiment run MUST persist an `evaluation_record` containing (at minimum):
+1. **Prepare input**: choose dataset and case set for a local run.
+2. **Run evaluators**: deterministic + qualitative + operational checks.
+3. **Produce scorecard**: aggregate KPIs and failure summary.
+4. **Record trace**: persist run metadata + failure reasons + evidence links.
+5. **Recommend action**: `proceed`, `hold`, or `escalate` with justification.
 
-- `experiment_id`, `run_id`, `dataset_version` (storage URI + SHA256), `dataset_hash`
-- `model_version` (registry URI + digest), `model_hash`, `prompt_version` (git SHA/tag), `prompt_hash`, `tool_version`, `evaluator_version`
-- `executor_id` (CI job id or user id), `run_timestamp`, `environment` (pre-merge/nightly/release)
-- evaluator outcomes: `assertions[]` (id, pass/fail, numeric score), `score` (aggregated), `reason`/`reason_code`, `evidence_ids` (URIs to raw/sanitized outputs)
-- operational metrics: `duration_ms`, `tokens`, `estimated_cost_usd`, `latency.p50_ms`, `latency.p95_ms`
-- decision output: `decision` (`proceed`/`hold`/`escalate`), `decision_justification`
-- integrity fields: `artifact_uris` (raw_output_uri, sanitized_output_uri), `evidence_signatures` (sha256)
+### Audit and Trace Record (Conceptual)
 
-A machine‑readable JSON Schema / `pydantic` model for `evaluation_record` MUST be added to `packages/shared` and used to validate CI artifacts.
+Each local run MUST produce an `evaluation_record` concept containing at least:
 
-### Compliance Acceptance Criteria
+- `run_id`, `timestamp`, `executor_id`
+- `dataset_version`, `prompt_version`, `model_version`, `evaluator_version`
+- `assertions` (id, pass/fail, score when applicable)
+- `failure_reasons` (`reason_code`, `explanation`)
+- `evidence_ids` (case ID + output snippet URI/path)
+- `scorecard` (quality, latency p50/p95, tokens, estimated cost, failure summary)
+- `decision` and `decision_justification`
 
-- Every `evaluation_run` MUST persist an `evaluation_record` containing the fields: `experiment_id`, `run_id`, `dataset_version`, `dataset_hash`, `model_version`, `model_hash`, `prompt_version`, `prompt_hash`, `evaluator_version`, `run_timestamp`, `executor_id`, `environment`, `assertions`, `failure_reasons`, `raw_output_uri`, `sanitized_output_uri`, `decision`, and `decision_justification`. Missing fields fail validation.
-- All `critical` governance evaluations MUST fail CI and block merges automatically. A blocked merge requires manual remediation and explicit approval from the compliance owner.
-- Evidence retention: raw evaluation outputs and audit records MUST be retained for at least **1 year**; red‑team/prompt‑injection artifacts for **3 years**; policy/security incident artifacts for **7 years**. Retention storage MUST be versioned and tamper‑evident (WORM or equivalent).
-- Escalation mapping: every failure reason MUST map to an escalation level (`info`/`investigate`/`block_release`/`security_incident`) with a documented SLA for response and an assigned owner.
+Additional observability & span fields (required for worked examples and traceability):
+
+- `otel_trace_id`: top-level OpenTelemetry trace id for the run (string)
+- `span_ids`: array of span ids (or map of logical check -> span id) used as evidence for behavioral checks
+- `trace_url`: optional link to a hosted trace viewer or recorded trace artifact
+- `observability_ui_link`: optional link to the Pydantic Logfire or Log/Trace dashboard that visualizes the run
+- `behavioral_contract_checks`: structured list of checks that verify internal execution paths (id, pass/fail, span_evidence_id)
+
+Evidence and artifacts guidance:
+
+- Each failed behavior or contract check MUST include `span_ids` and, where possible, a `trace_url` to support interactive investigation.
+- Store snippets referenced by `evidence_ids` as small JSON or text artifacts with stable URIs/paths so learners can inspect model outputs used as evidence.
+
+### Learning Boundaries
+
+- This module focuses on local/on-demand evaluation and observation.
+- CI/CD policies, merge blocking, scheduled runs, and incident workflows are deferred to a standalone module.
+- Context management patterns, RAG concerns, and scaling concerns are deferred to the advanced module.
+
+### Best Practices (Pydantic Evals)
+
+- **Evaluation-Driven Development:** Define evaluation criteria before coding. Ship small, measurable checks early.
+- **Fail-Fast Hierarchy:** Run cheap deterministic checks first (format, schema), then span/behavioral checks, and run LLM-judge evaluations last.
+- **Case-Specific Evaluators:** Attach tailored evaluators to cases to capture scenario-specific correctness (golden datasets).
+- **Verify Behavioral Contracts:** Use span-based checks (HasMatchingSpan) to ensure internal steps (retrievals, tool calls) occurred as expected.
+- **LLM Judge Determinism:** When using `LLMJudge`, fix temperature (e.g., 0) and supply a clear rubric to reduce variance.
+- **Serialization & IDE Support:** Provide datasets as YAML/JSON with generated JSON Schema for IDE autocomplete and validation.
+- **Versioning & Separation:** Keep prompts, datasets, and evaluators versioned separately from application code to enable reproducible comparisons.
+- **Evaluator Reliability Checks:** Periodically re-run evaluators (or use bootstrap methods) to validate evaluator stability and statistical significance.
 
 ## Implementation Plan
 
 ### Phase 0: Foundations (Blocking)
 
-- Define canonical evaluation taxonomy and glossary for learning docs.
-- Identify reusable examples in `packages/course-navigator` and `packages/shared` for reuse.
-- Define and publish the `evaluation_record` JSON Schema / `pydantic` model and a reference implementation in `packages/shared`.
-- Specify reproducibility & artifact rules (storage URI + checksum conventions) and default retention windows.
-- Provide CI gating example (GitHub Actions workflow + `just eval <package>` recipe) and decision table templates.
-- Define owner roles (engineering owner, compliance owner, product owner) and SLAs for escalations.
+- Finalize module boundaries and defer advanced operations scope.
+- Define lesson progression and glossary.
+- Define scorecard minimum KPI vocabulary and decision semantics.
+- Confirm canonical destination path: `learning/05-beyond-prototype/`.
 
-**CHECKPOINT:** Foundation approved before story execution.
+**CHECKPOINT:** Scope and progression approved before drafting lessons.
 
-### Phase 1: P1 Stories (MVP)
+### Phase 1: P1 Story — Concepts Lesson
 
-- Implement Story 1 (baseline architecture).
-- Implement Story 2 (governance/hardening coverage).
-- Validate both stories as independently testable.
+- Implement Story 1 (foundational concepts and reliability framing).
+- Validate concept clarity and persona alignment.
 
-**CHECKPOINT:** P1 MVP can run end-to-end with explicit release gates.
+**CHECKPOINT:** Learner can articulate why evaluations + monitoring are mandatory for reliable AI systems.
 
-### Phase 2: P2 Story
+### Phase 2: P1 Story — Local On-Demand Implementation Lesson
 
-- Implement Story 3 (ROI and product-facing decision framework).
-- Validate metric-to-decision mapping.
+- Implement Story 2 (single local pipeline and scorecard output).
+- Validate auditability and traceability fields in lesson artifacts.
 
-**CHECKPOINT:** Product stakeholders can consume evaluation report without code deep dive.
+**CHECKPOINT:** Learner can run and interpret one local scorecard end to end.
 
-### Phase 3: P3 Story
+### Phase 3: P2 Story — Observation and Troubleshooting Lesson
 
-- Implement Story 4 (recurring operations and regression policy).
-- Validate scheduled execution and baseline comparison flow.
+- Implement Story 3 (failure triage and next actions).
+- Validate that one failed example can be diagnosed using recorded evidence.
 
-**CHECKPOINT:** Continuous evaluation workflow is documented and operable.
+**CHECKPOINT:** Learner can troubleshoot a failed evaluation with traceable artifacts.
 
 ### Phase 4: Final QA + Docs Sync
 
 - Run `just learning-validate`.
-- Run targeted package checks as needed (`just check navigator`, etc.).
-- Update status and linkages in learning indexes.
+- Update module linkages in learning indexes.
+- Add deferred-scope pointer to the future CI/CD + continuous operations module.
 
 ## Task Breakdown
 
-- [ ] T001 [P] [FOUNDATION] Define evaluation taxonomy and glossary in learning docs.
-- [ ] T002 [P] [FOUNDATION] Inventory existing examples in `course-navigator` and `shared` for reuse.
-- [ ] T003 [FOUNDATION] Define canonical KPI/metric names and report schema.
+- [ ] T001 [P] [FOUNDATION] Define module scope boundaries and explicit defer list (CI/CD, continuous operations).
+- [ ] T002 [P] [FOUNDATION] Define evaluation glossary and lesson progression map.
+- [ ] T003 [FOUNDATION] Define canonical scorecard KPI names and decision semantics.
+- [ ] T016 [FOUNDATION] Define strict ownership split for core (evaluations/observability) vs advanced (context management, RAG, scaling).
 
-- [ ] T004 [P] [US1] Draft baseline `Dataset`/`Case` architecture section.
-- [ ] T005 [P] [US1] Draft focused evaluator composition guidance.
-- [ ] T006 [US1] Define release gate thresholds and decision table.
+- [ ] T004 [P] [US1] Draft concepts lesson for evaluation layers and monitoring/observation rationale.
+- [ ] T005 [P] [US1] Add persona-aligned examples for architecture, compliance, and product concerns.
+- [ ] T006 [US1] Add concise concept checkpoint prompts for learner self-validation.
 
-- [ ] T007 [P] [US2] Draft adversarial evaluation suite design (prompt-injection/policy).
-- [ ] T008 [P] [US2] Draft circuit-breaker and repeated-failure handling guidance.
-- [ ] T009 [US2] Map evaluator outputs to compliance controls and escalation actions.
+- [ ] T007 [P] [US2] Draft local on-demand pipeline walkthrough.
+- [ ] T008 [P] [US2] Define auditable run record fields and failure reason schema for lesson artifacts.
+- [ ] T009 [US2] Draft scorecard interpretation guide with `proceed`/`hold`/`escalate` outcomes.
 
-- [ ] T010 [P] [US3] Draft KPI-to-ROI interpretation guide for product stakeholders.
-- [ ] T011 [P] [US3] Draft ablation/A-B comparison workflow.
-- [ ] T012 [US3] Define release recommendation template (proceed/hold/escalate).
+- [ ] T010 [P] [US3] Draft failure triage playbook (scorecard → evidence → remediation).
+- [ ] T011 [P] [US3] Add one worked failure example with traceable evidence links.
+- [ ] T012 [US3] Add compact release recommendation template for local experimentation decisions.
 
-- [ ] T013 [P] [US4] Define recurring run cadence and ownership model.
-- [ ] T014 [P] [US4] Define regression threshold policy and alerting behavior.
-- [ ] T015 [US4] Define changelog and evidence retention checklist.
-- [ ] T019 [P] [FOUNDATION] Add `evaluation_record` JSON Schema / `pydantic` model to `packages/shared` and unit tests.
-- [ ] T020 [P] [FOUNDATION] Add example evaluation suite for `course-navigator` (dataset fixtures + evaluators + tests).
-- [ ] T021 [P] [US1] Add CI gating example: `.github/workflows/evals.yml` and `just eval <package>` recipe.
-- [ ] T022 [P] [US3] Add Release Recommendation template + ROI calculator example in `learning/03-advanced-patterns/`.
-- [ ] T023 [P] [FOUNDATION] Define evidence retention policy and assign compliance/owner roles.
-
-- [ ] T016 [FINAL] Update `learning/CONCEPTS.md` and module index links.
-- [ ] T017 [FINAL] Execute validation commands and resolve doc structure issues.
-- [ ] T018 [FINAL] Mark specification status and publish handoff notes.
+- [ ] T013 [FINAL] Update `learning/CONCEPTS.md` and module index links.
+- [ ] T014 [FINAL] Execute `just learning-validate` and resolve documentation issues.
+- [ ] T015 [FINAL] Mark specification handoff notes and deferred-module follow-up pointers.
+ - [ ] T017 [US2] Create example dataset artifact (YAML) and generated JSON Schema for the lesson.
+ - [ ] T018 [US2] Produce one example `scorecard` JSON and an `EvaluationReport` JSON for the worked example.
+ - [ ] T019 [US2] Capture one sample trace and span evidence (trace artifact / `trace_url`) for the worked failure example.
 
 ## Testing Strategy
 
 ### Story-Level Validation
 
-- **US1**: Run a baseline evaluation suite and verify deterministic release‑gate output and `evaluation_record` schema validation.
-- **US2**: Run adversarial/policy cases and verify blocked outcomes, explicit reasons, and that `critical` failures fail CI and create an incident per escalation SLA.
-- **US3**: Run variant comparison and verify KPI deltas produce a recommendation; A/B reports must include sample‑size, 95% CI and p‑value.
-- **US4**: Run baseline‑vs‑current comparison and verify regression handling behavior and evidence retention (artifact URIs + checksums present).
+- **US1**: Validate conceptual understanding via checklist prompts (evaluation layers, monitoring role, decision semantics).
+- **US2**: Validate local run output includes scorecard + required audit/trace fields and failure reasons.
+ - **US2**: Validate local run output includes `scorecard` + required audit/trace fields, `behavioral_contract_checks`, `evidence_ids`, and that the walkthrough used the documented evaluator mix (deterministic, span, LLMJudge). Ensure `trace_url`/`otel_trace_id` or `observability_ui_link` are present in worked examples.
+- **US3**: Validate a failed run can be triaged to likely cause and a concrete next action.
 
 ### Quality Gates
 
 - Documentation structure checks via `just learning-validate`.
-- Workspace quality checks relevant to changed packages via `just check <package>`.
 - Manual review: persona alignment checklist (Sarah, David, Marcus).
 
 ## Risks and Mitigations
 
-- **Risk:** Overly complex evaluation framework for early teams.
-  - **Mitigation:** Keep P1 minimal and publish a simple baseline first.
-- **Risk:** LLM-judge variability creating unstable scores.
-  - **Mitigation:** Use fixed rubrics, low-temperature settings, and trend-based interpretation.
-- **Risk:** Metric overload for non-technical stakeholders.
-  - **Mitigation:** Provide compact executive summary with decision-oriented KPIs.
+- **Risk:** Scope becomes too light to guide real development.
+  - **Mitigation:** Keep one complete local pipeline walkthrough with concrete scorecard and failure analysis.
+- **Risk:** Learners infer local success equals production readiness.
+  - **Mitigation:** Add explicit deferred-scope section listing production controls handled in the next module.
+- **Risk:** Monitoring is treated as optional.
+  - **Mitigation:** Make observation/audit fields mandatory in acceptance criteria and worked examples.
 
 ## Open Questions
 
-- Which artifact/versioning scheme is required for `dataset_version` and `model_version`? (recommended: registry digest + SHA256 + storage URI)
-- Should governance (`critical`) failures automatically block merges, or produce a blocking warning requiring manual approval?
-- Confirm retention windows for standard vs red‑team vs incident artifacts (recommendation: 1y / 3y / 7y).
-- Which judge models, temperature and seed constraints are approved for LLM‑judge usage?
-- Who is the canonical owner for recurring runs, alerts, and compliance sign‑offs (engineering / security / product)?
-- What SIEM / alerting integration is required (e.g., Datadog, Splunk)?
+- Which local scorecard format should be canonical for the lesson artifacts (table-first vs JSON-first)?
+- Which minimum evaluator set should be fixed for the first end-to-end walkthrough?
+- What is the target title/path for the standalone CI/CD + continuous operations follow-up module?
 
 ## References
 
 - `learning/00-misc/learner-personas/enterprise-architect.persona.md`
 - `learning/00-misc/learner-personas/ai-engineer.persona.md`
 - `learning/00-misc/learner-personas/product-manager.persona.md`
+- `learning/01-fundamentals/README.md` - previous module with core concepts and agent anatomy that this module builds on.
 - `learning/CONCEPTS.md`
 - `specs/README.md`
-- Reference: learning/00-misc/ai-engineering-cheatsheet.md — quick evaluation playbook and metric definitions.
+- Reference: `learning/00-misc/ai-engineering-cheatsheet.md` — quick evaluation playbook and metric definitions.
