@@ -95,6 +95,17 @@ Tasks marked with `[P]` should be executed simultaneously or in a single phase t
 - **Validation**: Validate the results of each subtask before proceeding to dependent steps.
 - **Context Preservation**: Ensure each subtask has enough context (inputs/outputs) to be executed by a subagent if needed.
 
+## Agent Autonomy and Confidence
+
+To ensure operational efficiency and avoid "permission fatigue" for the user:
+- **Proceed by Default**: Once a high-level plan (PPD or `todos`) is established or a user provides a clear goal, execute the steps autonomously. Do not ask "Would you like me to..." or "Should I..." for every individual tool call or logical next step.
+- **Batched Updates**: Provide progress updates at logical milestones (e.g., after completing a story or a phase) rather than after every single file edit.
+- **Assumed Intent**: If a tool call has an obvious best answer or is a standard part of the workflow (like running a validator after an edit), execute it without asking.
+- **Clarify Only on Ambiguity**: Only interrupt the flow to ask questions if there is a genuine ambiguity that prevents progress or if a decision has significant, non-obvious trade-offs. Avoid asking "Would you like me to..." for standard choices where a reasonable default exists.
+- **Primacy of Current Intent**: If the user gives an explicit directive to "redefine", "refocus", or "ignore" previously established structures or drafts, prioritize this current instruction over any older context found in attachments or earlier parts of the session. Do not be rigid when the user explicitly asks to pivot.
+- **Avoid Counter-Productive Actions**: Never perform destructive operations (like rollbacks of intentional user-steered edits) based on transient metadata or unintentional file traces (e.g., `.vscode` files) without explicit confirmation. Prioritize keeping the user's intended progress.
+- **Chunked Information Delivery**: When providing complex information (like specifications or large architectural plans), offer it in smaller, manageable chunks and wait for user feedback before proceeding to the next section to prevent cognitive overload.
+
 ## Progress Tracking Policy
 
 | Scenario | Tracking Mechanism |

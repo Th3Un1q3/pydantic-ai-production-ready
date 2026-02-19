@@ -41,7 +41,16 @@ Concise summary and key takaways are available in the [AI Engineering Master Che
 
 ## Websites
 
-*Coming soon - additional curated web resources will be added here.*
+### OWASP Top 10 for Large Language Model Applications
+
+**Link:** [https://owasp.org/www-project-top-10-for-large-language-model-applications/](https://owasp.org/www-project-top-10-for-large-language-model-applications/)
+**Description:** The official project page for the OWASP Top 10 vulnerabilities related to Large Language Models. It serves as a standard awareness document for developers and web application security.
+**Why This Resource:**
+- Essential for understanding security risks specific to LLM applications.
+- Provides a framework for securing AI agents and Generative AI systems.
+- Regularly updated by a global community of security experts.
+**Local Copy:** [Summary and List of Top 10 Risks](00-misc/owasp-llm-top-10.md)
+
 
 ---
 

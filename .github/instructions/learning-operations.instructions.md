@@ -66,9 +66,20 @@ Standard hierarchy:
 1. `XX-topic/README.md`: Module overview, learning objectives, and implementation links.
 2. `XX-topic/YY-subtopic.md`: Specific conceptual deep-dives or procedural guides.
 
+### Creative Naming for Modules
+For primary module titles (e.g., those appearing in frontmatter or `README.md` headers):
+- **Impact-Oriented**: Use punchy, marketing-friendly names that highlight the module's importance (e.g., "The Reliability Studio" instead of "evaluation-observability-module").
+- **Persona-Aligned Language**: Use wording Sarah Jenkins (Enterprise Architect) would find compelling (e.g., "Designing for Day 2 Operations").
+
 > **Note:** Do **not** create `spec.md` files inside `learning/`. All formal specifications for learning modules must live in the `specs/learning/` directory and follow the repository's spec-writing workflow (`.github/instructions/spec-writing.instructions.md`). Link the canonical spec from the module `README.md` (use an absolute workspace-relative path such as `specs/learning/SPEC-###-kebab-case-title.md`).
 
-### Tooling
+#### Progressive Complexity Control
+To prevent "over-complication" and maintain learner focus:
+- **One Concept per Step**: Break down large architectural changes into individual, testable user stories.
+- **Chunked Information Delivery**: When providing specifications or walkthroughs, offer them in smaller, manageable chunks and wait for user feedback before proceeding to the next section.
+- **Priority on Progression**: Prioritize the logical flow of learning (e.g., "Fundamentals first") over exhaustive implementation details unless explicitly requested.
+
+## Tooling
 
 Operations are managed via `just` recipes which wrap the [scripts/learning/init_learning_structure.py](scripts/learning/init_learning_structure.py) script.
 

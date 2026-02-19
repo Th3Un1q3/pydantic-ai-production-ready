@@ -71,6 +71,11 @@ Order stories by importance:
 - **P2**: High - Important features for full functionality.
 - **P3**: Nice-to-have - Enhancements.
 
+For **`learning` type specifications**, simplicity and gradual progression are Paramount:
+- **Step-by-Step Path**: Define a short, logical path from a clear start point to an end point (e.g., Concept -> Implementation -> Analysis).
+- **Avoid Over-Engineering**: Do not include full production-grade complexity (e.g., CI/CD gating, large-scale automation, or multi-role incident workflows) in introductory learning modules unless explicitly requested.
+- **Practical Deliverables**: Focus on on-demand/local workflows (like producing a scorecard or a single auditable trace) that provide immediate learning value without heavy infrastructure.
+
 Each story must be testable as a standalone deliverable.
 
 ### Independent Testing
