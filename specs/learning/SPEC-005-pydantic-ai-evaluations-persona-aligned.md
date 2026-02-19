@@ -144,6 +144,7 @@ As Marcus (AI Product Strategist), I want a guided troubleshooting lesson from s
 - [ ] Provides a compact recommendation template with next action and rollback trigger for local experimentation.
 
 ## Functional Requirements
+
 1. The module MUST present a short, progressive learning path from core concepts → local implementation → troubleshooting, enabling a single end-to-end learner experience.
 2. The module MUST teach `pydantic-evals` foundations (`Dataset`, `Case`, evaluator composition), using enterprise-aligned examples for architecture, compliance, and product perspectives.
 3. The module MUST define one local, on-demand evaluation workflow that produces a canonical scorecard using `pydantic_evals.reporting.EvaluationReport` (serialized via `pydantic.TypeAdapter`) and human-readable output via `.render()`/`.print()`.
