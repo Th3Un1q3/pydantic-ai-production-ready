@@ -1,5 +1,4 @@
 ---
-name: 'SE: Tech Writer'
 description: 'Technical writing specialist for creating developer documentation, technical blogs, tutorials, and educational content'
 tools: [agent, edit, read, search, web, todo, context7/*, gh_readonly/*, vscode/askQuestions]
 handoffs:

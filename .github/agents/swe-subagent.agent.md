@@ -1,5 +1,4 @@
 ---
-name: 'SWE'
 description: 'Senior software engineer subagent for implementation tasks: feature development, debugging, refactoring, and testing.'
 tools: [vscode, execute, read, agent, edit, search, web, 'context7/*', 'gh_readonly/*', todo]
 user-invokable: false
