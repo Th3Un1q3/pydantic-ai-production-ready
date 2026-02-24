@@ -51,8 +51,7 @@ Pydantic AI framework. Topics you will encounter include:
 
 - Training or fine‑tuning large language models, or any deep‑learning model
   development beyond using hosted inference APIs.
-- Advanced MLOps, data‑engineering pipelines, or complex production
-  infrastructure (beyond simple illustrative examples in `projects/`).
+- Advanced MLOps, data‑engineering pipelines, or complex production infrastructure (beyond simple illustrative examples in `packages/`).
 - Languages or platforms other than Python; all code examples assume Python
   3.12+ and the `pydantic-ai` ecosystem.
 - General AI/ML theory not directly tied to agent development and the
@@ -114,12 +113,9 @@ graph TD
 ### For Learners
 
 1. Start with `01-fundamentals` and progress sequentially
-2. Each module contains:
-   - Concept explanations (markdown files)
-   - Practical exercises with sample code
-   - References to working examples in `/projects`
+2. Each module includes concept explanations, practical exercises with sample code, and references to working examples in `/packages`.
 3. Complete exercises before moving to the next module
-4. Use the `/projects` directory to experiment and build
+4. Use the `/packages` directory to experiment and build
 
 ### For Content Creators
 
@@ -170,4 +166,4 @@ Content creators are encouraged to:
 - [Learning Materials](MATERIALS.md) - Curated books, websites, and videos for AI application development
 - [Pydantic AI Documentation](https://ai.pydantic.dev/)
 - [Pydantic Documentation](https://docs.pydantic.dev/)
-- Project examples in `/projects`
+- Project examples in `/packages`

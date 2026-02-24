@@ -5,7 +5,7 @@ tags:
   - verified:false
 references:
   previous: "./01-introduction.md"
-  next: "./03-first-agent.md"
+  next: "./03-agent-anatomy.md"
 ---
 
 # Environment Setup
@@ -30,4 +30,4 @@ If ports 5432 or 6379 are already in use, modify the port mappings in `.devconta
 
 ## What's next?
 
-After setting up your environment, proceed to the next lesson: [Building Your First Type-Safe Agent](./03-first-agent.md).
+After setting up your environment, proceed to the next lesson: [Building Your First Type-Safe Agent](./03-agent-anatomy.md).

@@ -243,10 +243,10 @@ See the `exercises/` directory for detailed instructions and starter code.
 
 ## Next Steps
 
-Continue to [Module 02: Core Concepts](../02-core-concepts/README.md) to dive deeper into agents, models, and tools.
+Module 02 is planned and will be implemented later from its specification. For now, keep this placeholder forward link: [Module 02: Core Concepts (planned)](../02-core-concepts/README.md).
 
 ## Resources
 
 - [Pydantic AI Agents Documentation](https://ai.pydantic.dev/agents/)
 - [Pydantic AI Tools Documentation](https://ai.pydantic.dev/tools/)
-- [Example Projects](../../src/)
+- [Reference Package: course-navigator](../../packages/course-navigator/README.md)
