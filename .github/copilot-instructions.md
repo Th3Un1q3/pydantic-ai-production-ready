@@ -23,10 +23,7 @@ Strictly follow instructions on operational eficency and best practices when per
 # Pydantic AI Monorepo Guidelines
 
 ## Architecture & Organization
-- **Monorepo Structure**: This is a `uv`-managed Python monorepo.
-  - Root `pyproject.toml` defines the workspace.
-  - Projects live in `packages/<project-name>`.
-  - Shared code lives in `packages/shared` (package name: `pydantic-ai-shared`).
+- **Monorepo Structure**: Use `.github/instructions/monorepo.instructions.md` as the canonical source for repository layout and package boundaries.
 - **Service Boundaries**: Each package in `packages/` is a self-contained project with its own `src/` and `tests/`.
 - **Imports**: Use absolute imports for external packages. Import shared code via `pydantic_ai_shared`.
   - Example: `from pydantic_ai_shared.config import get_default_model`

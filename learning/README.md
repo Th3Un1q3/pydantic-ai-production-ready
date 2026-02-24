@@ -81,12 +81,12 @@ graph TD
 
 ### For Content Creators
 
-To add or modify modules, use the `learning-structure` skill:
+To add or modify modules, use the monorepo script and instruction modules:
 
 1. Run the script to create a new module:
 
    ```bash
-   python .github/skills/learning-structure/scripts/init_learning_structure.py --add-module XX-module-name --title "Module Title"
+    python scripts/learning/init_learning_structure.py --add-module XX-module-name --title "Module Title"
    ```
 
 2. Add content to markdown files following these guidelines:
@@ -96,7 +96,10 @@ To add or modify modules, use the `learning-structure` skill:
    - **Clear Objectives**: Start modules with learning goals
    - **Exercises**: Provide hands-on practice
 
-For detailed structure, templates, and standards, see the [learning-structure skill documentation](.github/skills/learning-structure/references/structure.md).
+For detailed structure and standards, see:
+
+- [../.github/instructions/learning-operations.instructions.md](../.github/instructions/learning-operations.instructions.md)
+- [../.github/instructions/monorepo.instructions.md](../.github/instructions/monorepo.instructions.md)
 
 ## Module Overview
 

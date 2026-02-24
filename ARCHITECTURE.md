@@ -4,18 +4,11 @@ This document describes the architecture and design decisions for the Pydantic A
 
 ## Repository Structure
 
-### High-Level Organization
+The canonical repository and package layout is maintained in:
 
-```text
-pydantic-ai-production-ready/
-├── .devcontainer/          # Development environment
-├── learning/               # Educational content
-├──                # Workspace-based Python monorepo
-├── README.md              # Main documentation
-├── GETTING_STARTED.md     # Quick start guide
-├── CONTRIBUTING.md        # Contribution guidelines
-└── LICENSE                # MIT License
-```
+- [`.github/instructions/monorepo.instructions.md`](.github/instructions/monorepo.instructions.md)
+
+This document focuses on architecture rationale and design decisions rather than repeating the directory tree.
 
 ## Projects Monorepo Architecture
 
@@ -31,23 +24,9 @@ The `` directory implements a **workspace-based monorepo** using uv, designed fo
 
 ### Workspace Structure
 
-```text
-├── pyproject.toml                      # Workspace root
-└── packages/
-    ├── shared/                         # Common utilities
-    │   ├── src/
-    │   │   ├── config.py              # Shared configuration
-    │   │   └── examples/              # Example implementations
-    │   ├── tests/
-    │   └── pyproject.toml
-    └── course-navigator/               # Course Navigation AI
-        ├── src/
-        │   └── course_navigator/      # Package source
-        │       ├── agent.py           # Agent implementation
-        │       └── main.py            # Entry point
-        ├── tests/
-        └── pyproject.toml
-```
+Use the workspace boundary rules and structure contract in:
+
+- [`.github/instructions/monorepo.instructions.md`](.github/instructions/monorepo.instructions.md)
 
 ### Package Dependency Graph
 

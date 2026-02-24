@@ -18,33 +18,15 @@ This repository provides a comprehensive framework for building production-ready
 
 ## 🏗️ Repository Structure
 
-```text
-.
-├── .devcontainer/          # DevContainer configuration with Docker Compose
-│   ├── devcontainer.json
-│   ├── docker-compose.yml
-│   ├── Dockerfile
-│   └── post-create.sh
-├── .github/                # GitHub Copilot skills and prompts
-│   ├── skills/             # AI agent skills
-│   └── prompts/            # Reusable prompts
-├── learning/               # Modular learning materials
-│   ├── 01-fundamentals/
-│   ├── 02-core-concepts/
-│   ├── 03-advanced-patterns/
-│   └── 04-production-deployment/
-├── packages/               # Python monorepo with uv
-│   ├── course-navigator/   # Example agent implementation
-│   └── shared/             # Shared utilities
-├── specs/                  # Specification documents
-│   ├── features/           # Feature specifications
-│   ├── packages/           # Package specifications
-│   ├── learning/           # Learning module specifications
-│   └── changes/            # Change specifications
-├── .gitignore
-├── LICENSE
-└── README.md
-```
+Global repository structure is maintained in one canonical location for Copilot and contributors:
+
+- [`.github/instructions/monorepo.instructions.md`](.github/instructions/monorepo.instructions.md)
+
+For folder-specific structure details, use local docs:
+
+- [`learning/README.md`](learning/README.md)
+- [`packages/README.md`](packages/README.md)
+- [`specs/README.md`](specs/README.md)
 
 ## 🚀 Quick Start
 
@@ -66,9 +48,7 @@ This repository uses `just` for task automation. See **[COMMANDS.md](COMMANDS.md
 Start your journey with the modular learning materials in the `learning/` directory:
 
 1. **[Fundamentals](learning/01-fundamentals/)** - Get started with Pydantic AI basics
-2. **[Core Concepts](learning/02-core-concepts/)** - Master agents, models, and tools
-3. **[Advanced Patterns](learning/03-advanced-patterns/)** - Implement production patterns
-4. **[Production Deployment](learning/04-production-deployment/)** - Deploy and scale
+2. **[Learning Roadmap](learning/README.md)** - Current module index and contributor guidance
 
 Each module includes:
 

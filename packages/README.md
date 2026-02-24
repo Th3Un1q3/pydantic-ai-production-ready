@@ -2,14 +2,16 @@
 
 This directory contains the source code for the monorepo packages.
 
-For more information, please refer to:
+Structure and package boundary rules are maintained centrally in:
 
-- **Architecture & Structure**: [../ARCHITECTURE.md](../ARCHITECTURE.md)
-- **Development Workflow**: [../CONTRIBUTING.md](../CONTRIBUTING.md)
-- **Production Deployment**: [../learning/04-production-deployment/01-deployment-guide.md](../learning/04-production-deployment/01-deployment-guide.md)
-- **Adding a New Package**: [../.github/skills/monorepo-maintainer/references/new-package-workflow.md](../.github/skills/monorepo-maintainer/references/new-package-workflow.md)
+- [../.github/instructions/monorepo.instructions.md](../.github/instructions/monorepo.instructions.md)
+
+For operational workflows and contributor guidance, see:
+
+- [../COMMANDS.md](../COMMANDS.md)
+- [../CONTRIBUTING.md](../CONTRIBUTING.md)
 
 ## Directory Structure
 
-- `shared/`: Common utilities and shared code.
-- `course-navigator/`: The Course Navigator AI agent.
+- `shared/`: Common utilities and reusable code used across packages.
+- `course-navigator/`: Example feature package implementing a Pydantic AI agent.
