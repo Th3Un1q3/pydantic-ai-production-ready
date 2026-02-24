@@ -18,7 +18,8 @@ model: 'Raptor mini (Preview)'
 2. Run `git diff` or `git diff --cached` to inspect changes.
 3. Stage your changes with `git add <file>`.
 
-    Ask the user to confirm when they have finished staging via a quick question(call #askQuestions tool). If they haven’t staged anything yet, run `git add` until all intended edits appear in `git status` then answer “yes”.
+	Validate staging using `git status`. If intended staged scope is ambiguous, ask one quick confirmation via `#askQuestions`.
+	Never fabricate confirmation text (for example, answering "yes" on the user's behalf).
 
 4. Construct your commit message using the following XML structure.
 5. After generating your commit message, Copilot will automatically run the following command in your integrated terminal (no confirmation needed):
@@ -28,6 +29,8 @@ git commit -m "type(scope): description"
 ```
 
 6. Execute this prompt and Copilot will handle the commit for you in the terminal; it will no longer try to `git add` files for you, so make sure step 3 is complete before proceeding.
+
+7. Do not end with a close-ended permission question. If commit preconditions are satisfied, proceed; otherwise use `#askQuestions` only for true ambiguity.
 
 ### Commit Message Structure
 

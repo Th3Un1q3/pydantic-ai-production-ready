@@ -171,6 +171,9 @@ Use `agent/runSubagent` to perform specialized work.
 - Decompose complex work into subtasks
 - Use `agent/runSubagent` for specialized or parallel work
 - Use `vscode/askQuestions` for prompts requiring user clarification
+- For clarification branches, explicitly require `vscode/askQuestions` and define a default fallback behavior if no answer is provided
+- Avoid close-ended permission questions in completion handoffs; prompts should either proceed autonomously or perform a tool-based question step
+- Never instruct agents to fabricate user confirmations (for example, "answer yes" on the user's behalf)
 - See [copilot-instructions.md](../copilot-instructions.md) for decision matrix on `todos` vs file-based checklists
 
 ## Anti-Patterns
@@ -182,3 +185,4 @@ Use `agent/runSubagent` to perform specialized work.
 | Monolithic prompts | Decompose into subtasks |
 | `todos` for human-in-loop tracking | Use file-based checklists |
 | File-based for ephemeral TDD steps | Use `todos` for autonomous cycles |
+| "answer yes" without user input | Use `vscode/askQuestions` or objective state checks |
