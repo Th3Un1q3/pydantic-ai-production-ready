@@ -5,6 +5,7 @@ tools: [vscode/askQuestions, read/terminalSelection, read/terminalLastCommand, r
 agents:
    - swe-subagent
    - technical-writer
+   - abstract-subagent
 ---
 
 ## Identity

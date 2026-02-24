@@ -19,3 +19,10 @@ packages = ["src/course_navigator"]
 
 [tool.uv.sources]
 pydantic-ai-shared = { workspace = true }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_functions = "test_*"
+asyncio_mode = "auto"
+addopts = "-v --cov=src/course_navigator --cov-report=term-missing --cov-report=html"

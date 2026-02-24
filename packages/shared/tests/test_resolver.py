@@ -51,6 +51,16 @@ def test_resolve_model_prefers_provider_order_openrouter_then_anthropic_then_ope
 def test_resolve_model_uses_provider_default_override_when_set() -> None:
     with patch.dict(
         os.environ,
+        {
+            "OPENROUTER_API_KEY": "sk-or",
+            "DEFAULT_MODEL_OPENROUTER": "openrouter:meta-llama/llama-3.1-8b-instruct",
+        },
+        clear=True,
+    ):
+        assert resolve_model() == "openrouter:meta-llama/llama-3.1-8b-instruct"
+
+    with patch.dict(
+        os.environ,
         {"OPENAI_API_KEY": "sk-oa", "DEFAULT_MODEL_OPENAI": "openai:gpt-4-turbo-preview"},
         clear=True,
     ):
