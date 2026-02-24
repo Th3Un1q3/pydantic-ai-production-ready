@@ -5,23 +5,12 @@ from course_navigator.tests.factories import build_course_answer, build_navigato
 from pydantic_ai import ModelMessage, ModelResponse, ToolCallPart, UsageLimits, models
 from pydantic_ai.models.function import AgentInfo, FunctionModel
 
-# the factory module can generate both deps and answers.  the
-# model implementation below captures a single expected answer via
-# closure so that the test asserts against non‑constant values.
-
-
-# note: we deliberately declare the model function inside the test
-# rather than at module level. keeping it local avoids accidental
-# reuse and makes the dependency on ``expected`` explicit.
-
 
 @pytest.mark.asyncio
-async def test_agent_runs_with_test_model() -> None:
+async def test_create_agent_run_returns_course_answer_from_function_model() -> None:
     models.ALLOW_MODEL_REQUESTS = False
 
     deps = build_navigator_deps()
-
-    # choose an expected answer and build a model that always returns it
     expected = build_course_answer()
 
     def _model_function(messages: list[ModelMessage], info: AgentInfo) -> ModelResponse:

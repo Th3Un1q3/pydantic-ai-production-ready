@@ -1,30 +1,21 @@
-"""
-Tests for Pydantic AI Shared utilities.
-"""
-
 import pytest
 
 
-def test_basic() -> None:
-    """Test that basic assertions work."""
+def test_shared_package_sanity_assertion_passes() -> None:
     assert True
 
 
-def test_config() -> None:
-    """Test configuration module."""
+def test_shared_config_exposes_default_model_constants() -> None:
     from pydantic_ai_shared import config
 
-    # Test that logic has been moved to constants
     assert hasattr(config, "DEFAULT_MODEL_OPENAI")
     assert hasattr(config, "DEFAULT_MODEL_ANTHROPIC")
     assert hasattr(config, "DEFAULT_MODEL_OPENROUTER")
 
-    # Test basic string integrity
     assert "openai" in config.DEFAULT_MODEL_OPENAI.lower()
     assert "anthropic" in config.DEFAULT_MODEL_ANTHROPIC.lower()
 
 
 @pytest.mark.asyncio
-async def test_async() -> None:
-    """Test that async tests work."""
+async def test_shared_test_harness_supports_async_execution() -> None:
     assert True

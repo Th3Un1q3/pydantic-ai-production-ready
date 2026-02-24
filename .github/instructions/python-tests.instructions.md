@@ -12,6 +12,8 @@ Standardized approach for writing maintainable and expressive tests using `pytes
 - **Tooling**: Use `pytest` for all Python tests.
 - **Location**: Place tests in a `tests/` directory mirroring the source structure.
 - **Naming**: Test files MUST be named `test_<module>.py`.
+- **Test Function Naming**: Test function names MUST be domain-specific and outcome-oriented using `test_<unit_or_api>_<condition>_<expected_outcome>`.
+- **Avoid Generic Placeholders**: Do not use low-information names such as `test_one`, `test_basic`, `test_config`, or `test_async` unless they include explicit domain context and expected behavior.
 - **Independence**: Keep tests independent and side-effect free.
 
 ## Professional Pytest Patterns

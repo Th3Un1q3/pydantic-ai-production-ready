@@ -6,11 +6,7 @@ import pytest
 from pydantic_ai_shared.resolver import resolve_model
 
 
-def test_resolve_no_provider_zero_exception() -> None:
-    """
-    ZOMBIE: Zero.
-    Calling resolve_model() with no API keys in environment should raise an exception.
-    """
+def test_resolve_model_raises_when_no_provider_api_key_present() -> None:
     with patch.dict(os.environ, {}, clear=True):
         with pytest.raises(
             ValueError,
@@ -19,23 +15,14 @@ def test_resolve_no_provider_zero_exception() -> None:
             resolve_model()
 
 
-def test_resolve_default_with_openai_one() -> None:
-    """
-    ZOMBIE: One.
-    Calling resolve_model() with just OpenAI key returns default OpenAI model.
-    """
+def test_resolve_model_returns_openai_default_when_only_openai_key_present() -> None:
     with patch.dict(os.environ, {"OPENAI_API_KEY": "sk-oa-..."}, clear=True):
         model = resolve_model()
         assert isinstance(model, str)
         assert model.startswith("openai:")
 
 
-def test_resolve_env_precedence_boundary() -> None:
-    """
-    ZOMBIE: Boundary.
-    Test precedence: OpenRouter > Anthropic > OpenAI.
-    """
-    # 1. OpenRouter (highest priority)
+def test_resolve_model_prefers_provider_order_openrouter_then_anthropic_then_openai() -> None:
     with patch.dict(
         os.environ,
         {
@@ -48,7 +35,6 @@ def test_resolve_env_precedence_boundary() -> None:
         assert isinstance(model, str)
         assert model.startswith("openrouter:")
 
-    # 2. Anthropic (No OpenRouter)
     with patch.dict(
         os.environ, {"ANTHROPIC_API_KEY": "sk-ant-...", "OPENAI_API_KEY": "sk-oa-..."}, clear=True
     ):
@@ -56,20 +42,13 @@ def test_resolve_env_precedence_boundary() -> None:
         assert isinstance(model, str)
         assert model.startswith("anthropic:")
 
-    # 3. OpenAI (No others)
     with patch.dict(os.environ, {"OPENAI_API_KEY": "sk-oa-..."}, clear=True):
         model = resolve_model()
         assert isinstance(model, str)
         assert model.startswith("openai:")
 
 
-def test_resolve_provider_default_overrides_boundary() -> None:
-    """
-    ZOMBIE: Boundary.
-    Test that specific model overrides work when that provider is active.
-    e.g. DEFAULT_MODEL_OPENAI overrides the hardcoded default.
-    """
-    # Override OpenAI Default
+def test_resolve_model_uses_provider_default_override_when_set() -> None:
     with patch.dict(
         os.environ,
         {"OPENAI_API_KEY": "sk-oa", "DEFAULT_MODEL_OPENAI": "openai:gpt-4-turbo-preview"},
@@ -77,7 +56,6 @@ def test_resolve_provider_default_overrides_boundary() -> None:
     ):
         assert resolve_model() == "openai:gpt-4-turbo-preview"
 
-    # Override Anthropic Default
     with patch.dict(
         os.environ,
         {"ANTHROPIC_API_KEY": "sk-ant", "DEFAULT_MODEL_ANTHROPIC": "anthropic:claude-3-opus"},
@@ -86,11 +64,6 @@ def test_resolve_provider_default_overrides_boundary() -> None:
         assert resolve_model() == "anthropic:claude-3-opus"
 
 
-def test_interface_no_args() -> None:
-    """
-    ZOMBIE: Interface.
-    Ensure we do NOT accept arguments as per requirement "don't even provide such an option".
-    """
-    # Attempting to pass an argument should raise TypeError
+def test_resolve_model_rejects_positional_argument() -> None:
     with pytest.raises(TypeError):
         resolve_model("some-tag")  # type: ignore[call-arg]

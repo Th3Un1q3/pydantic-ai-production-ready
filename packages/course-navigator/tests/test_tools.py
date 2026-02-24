@@ -6,7 +6,9 @@ from course_navigator.tools import read_lesson, set_allowed_paths
 from pydantic_ai import RunContext
 
 
-def test_read_lesson_one(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+def test_read_lesson_returns_content_for_allowed_relative_path(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     lesson = tmp_path / "lesson.md"
     lesson.write_text("content", encoding="utf-8")
 
