@@ -2,14 +2,15 @@ from unittest.mock import Mock, patch
 
 from course_navigator.agent import create_agent
 from course_navigator.models import CourseAnswer, NavigatorDeps
-from course_navigator.tests.factories import build_navigator_deps
 from course_navigator.tools import read_lesson
 from pydantic_ai.models import Model
 
 
-def test_create_agent_configures_prompt_and_tools() -> None:
+def test_create_agent_configures_prompt_and_tools(
+    navigator_deps: NavigatorDeps,
+) -> None:
     mock_model = Mock(spec=Model)
-    deps = build_navigator_deps()
+    deps = navigator_deps
 
     with (
         patch("course_navigator.agent.Agent") as MockAgent,

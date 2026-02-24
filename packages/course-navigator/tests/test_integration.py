@@ -1,17 +1,19 @@
 import pytest
 from course_navigator.agent import create_agent
-from course_navigator.models import CourseAnswer
-from course_navigator.tests.factories import build_course_answer, build_navigator_deps
+from course_navigator.models import CourseAnswer, NavigatorDeps
 from pydantic_ai import ModelMessage, ModelResponse, ToolCallPart, UsageLimits, models
 from pydantic_ai.models.function import AgentInfo, FunctionModel
 
 
 @pytest.mark.asyncio
-async def test_create_agent_run_returns_course_answer_from_function_model() -> None:
+async def test_create_agent_run_returns_course_answer_from_function_model(
+    navigator_deps: NavigatorDeps,
+    course_answer: CourseAnswer,
+) -> None:
     models.ALLOW_MODEL_REQUESTS = False
 
-    deps = build_navigator_deps()
-    expected = build_course_answer()
+    deps = navigator_deps
+    expected = course_answer
 
     def _model_function(messages: list[ModelMessage], info: AgentInfo) -> ModelResponse:
         output_tool = info.output_tools[0]

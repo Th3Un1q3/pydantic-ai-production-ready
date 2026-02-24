@@ -32,6 +32,16 @@ def test_initial_state(calculator):
     assert calculator.value == 0
 ```
 
+### Fixture Consistency Contract
+
+Mixing plain builder helpers and pytest fixtures without a clear boundary makes tests harder to read and refactor. Keep fixture behavior consistent so test signatures communicate exactly what is injected.
+
+- **Use fixture injection for shared test state**: Prefer function parameters (e.g., `navigator_deps`) over calling imported `build_*` helpers directly inside tests.
+- **Name fixtures by provided value**: A fixture returning a model instance SHOULD be a domain noun (`course_answer`, `navigator_deps`), not an action name.
+- **Reserve `build_*` / `create_*` names for plain helper functions**: If using those names, keep them as normal callables (not decorated fixtures).
+- **Use callable fixtures explicitly**: When a fixture returns a callable, name it as an operation (`write_lesson`) and type-annotate it as `Callable[...]`.
+- **Centralize discovery through `tests/conftest.py`**: Shared fixtures MUST be auto-discovered via `conftest.py` (local fixture definitions or `pytest_plugins` registration), not ad-hoc imports per test file.
+
 ### 2. Parametrization
 Use `@pytest.mark.parametrize` for "Many" and "Boundary" cases. This keeps tests concise and makes it easy to add new cases (table-driven testing).
 

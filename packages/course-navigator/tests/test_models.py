@@ -1,17 +1,14 @@
 from dataclasses import is_dataclass
 
 import pytest
-from course_navigator.models import CourseReference, NavigatorDeps
-from course_navigator.tests.factories import (
-    build_course_answer,
-    build_course_reference_data,
-    build_navigator_deps,
-)
+from course_navigator.models import CourseAnswer, CourseReference, NavigatorDeps
 from pydantic import ValidationError
 
 
-def test_course_reference_preserves_factory_path_and_title() -> None:
-    ref_dict = build_course_reference_data()
+def test_course_reference_preserves_factory_path_and_title(
+    course_reference_data: dict[str, str],
+) -> None:
+    ref_dict = course_reference_data
     ref = CourseReference(**ref_dict)  # type: ignore[arg-type]
 
     assert ref.path == ref_dict["path"]
@@ -23,16 +20,20 @@ def test_course_reference_raises_validation_error_for_non_string_path() -> None:
         CourseReference(path=123, title="Intro")  # type: ignore[arg-type]
 
 
-def test_course_answer_factory_provides_summary_and_single_reference() -> None:
-    answer = build_course_answer()
+def test_course_answer_factory_provides_summary_and_single_reference(
+    course_answer: CourseAnswer,
+) -> None:
+    answer = course_answer
 
     assert isinstance(answer.summary, str) and answer.summary
     assert len(answer.references) == 1
     assert answer.references[0].path.endswith(".md")
 
 
-def test_navigator_deps_factory_returns_dataclass_with_user_and_difficulty() -> None:
-    deps = build_navigator_deps()
+def test_navigator_deps_factory_returns_dataclass_with_user_and_difficulty(
+    navigator_deps: NavigatorDeps,
+) -> None:
+    deps = navigator_deps
 
     assert is_dataclass(deps)
     assert isinstance(deps.user_name, str) and deps.user_name

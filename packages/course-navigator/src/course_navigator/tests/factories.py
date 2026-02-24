@@ -1,63 +1,58 @@
-"""Test data factories for the course-navigator package.
-
-These helpers produce randomly generated values so that tests
-cannot accidentally pass by hard‑coding specific strings. Having
-random data increases the chance that a bug which depends on a
-fixed value will be caught.
-
-We intentionally keep the randomness modest so that tests remain
-fast and deterministic enough for CI; the global seed is not
-reset, but most of our factories generate only a few characters.
-"""
+"""Pytest fixtures for building test data in course-navigator tests."""
 
 from __future__ import annotations
 
 import random
 import string
-from typing import Any
+from collections.abc import Callable
+
+import pytest
 
 from course_navigator.models import CourseAnswer, CourseReference, NavigatorDeps
 
 
-def _random_string(length: int = 8) -> str:
-    """Return a simple random alphanumeric string."""
-    alphabet = string.ascii_letters + string.digits
-    return "".join(random.choices(alphabet, k=length))
+@pytest.fixture
+def random_generator() -> random.Random:
+    """Provide a deterministic random generator for stable tests."""
+
+    return random.Random(42)
 
 
-def build_navigator_deps() -> NavigatorDeps:
-    """Return a randomly‑populated :class:`NavigatorDeps`.
+@pytest.fixture
+def random_string(random_generator: random.Random) -> Callable[[int], str]:
+    """Return a callable that generates random alphanumeric strings."""
 
-    We use ``build_`` instead of ``create_`` because nothing is being
-    persisted; the object is constructed in memory only.  This mirrors the
-    naming convention used elsewhere in the workspace.
-    """
+    def _build_random_string(length: int = 8) -> str:
+        alphabet = string.ascii_letters + string.digits
+        return "".join(random_generator.choices(alphabet, k=length))
 
-    # difficulty is currently a free‑form string but we pick from a
-    # small set so the values are plausible.
-    difficulty = random.choice(["Beginner", "Intermediate", "Advanced"])
-    return NavigatorDeps(user_name=_random_string(10), difficulty=difficulty)
+    return _build_random_string
 
 
-def build_course_reference_data() -> dict[str, Any]:
-    """Return the raw data for a course reference.
+@pytest.fixture
+def navigator_deps(
+    random_generator: random.Random,
+    random_string: Callable[[int], str],
+) -> NavigatorDeps:
+    """Build a valid ``NavigatorDeps`` instance for tests."""
 
-    This constructs a dict instead of a full ``CourseReference`` so callers
-    can choose whether to convert it or leave it as a payload.  The naming
-    (`build_` + ``_data``) highlights that no persistence occurs.
-    """
-
-    return {"path": f"{_random_string(5)}.md", "title": _random_string(12)}
+    difficulty = random_generator.choice(["Beginner", "Intermediate", "Advanced"])
+    return NavigatorDeps(user_name=random_string(10), difficulty=difficulty)
 
 
-def build_course_answer() -> CourseAnswer:
-    """Build a :class:`CourseAnswer` with randomized contents.
+@pytest.fixture
+def course_reference_data(random_string: Callable[[int], str]) -> dict[str, str]:
+    """Build dictionary data for creating a ``CourseReference``."""
 
-    Internally uses :func:`build_course_reference_data` to obtain the
-    reference payload and then instantiates a ``CourseReference`` so that the
-    returned object is valid for existing tests.
-    """
+    return {"path": f"{random_string(5)}.md", "title": random_string(12)}
 
-    raw = build_course_reference_data()
-    refs_list: list[CourseReference] = [CourseReference(**raw)]
-    return CourseAnswer(summary=_random_string(20), references=refs_list)
+
+@pytest.fixture
+def course_answer(
+    course_reference_data: dict[str, str],
+    random_string: Callable[[int], str],
+) -> CourseAnswer:
+    """Build a valid ``CourseAnswer`` instance with a single reference."""
+
+    refs_list: list[CourseReference] = [CourseReference(**course_reference_data)]
+    return CourseAnswer(summary=random_string(20), references=refs_list)
