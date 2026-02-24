@@ -16,6 +16,7 @@ This document defines the coding standards and architectural principles for Pyth
 ## Coding Conventions
 
 - **Typing**: Use Python 3.12+ features.
+- **Domain-Specific Naming**: Names must reveal domain and intent, not structural pattern. `build_course_answer()` communicates more than `answer_factory()`; `validate_enrollment_deadline()` communicates more than `validate()`. Apply this to all variables, functions, classes, and modules — including test helpers, utilities, and internal abstractions. Generic suffixes like `_factory`, `_helper`, `_util`, `_manager`, or `_handler` MUST be qualified with a domain noun.
 - **Structured I/O**: Use `pydantic.BaseModel` for all structured input and output.
 - **Framework**: Use `pydantic-ai` for all agent implementations.
 - **Agent Pattern**: Agents are classes wrapping `pydantic_ai.Agent`.

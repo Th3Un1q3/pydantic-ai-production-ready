@@ -10,12 +10,13 @@ applyTo: '**/*.py'
 - Write clear and concise comments for each function.
 - Ensure functions have descriptive names and include type hints.
 - Provide docstrings following PEP 257 conventions.
-- Use the `typing` module for type annotations (e.g., `List[str]`, `Dict[str, int]`).
+- **Use built-in generics for type annotations** (Python 3.12+). Write `list[str]`, `dict[str, int]`, `tuple[int, ...]` — NOT `typing.List`, `typing.Dict`, `typing.Tuple`. Only import from `typing` for constructs that have no built-in equivalent (e.g., `Any`, `Optional`, `Union`, `Callable`, `TypeVar`).
 - Break down complex functions into smaller, more manageable functions.
 
 ## General Instructions
 
 - Always prioritize readability and clarity.
+- **Verify usages before any destructive edit**: Before removing or renaming an import, symbol, function, or parameter, confirm it is no longer referenced anywhere in ALL affected files. Silent breakage from still-used removals is discovered at runtime or in a subsequent check — and fixing it requires a separate correction. Use `grep` or file search to verify the full usage surface before committing to any destructive change.
 - For algorithm-related code, include explanations of the approach used.
 - Write code with good maintainability practices, including comments on why certain design decisions were made.
 - Handle edge cases and write clear exception handling.

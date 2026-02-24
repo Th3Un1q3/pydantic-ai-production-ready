@@ -57,6 +57,7 @@ Analyze each flagged interaction to determine:
 
 ## Quality Standards
 
-- **Traceability**: Every instruction update must be linked to a specific finding from a session log.
+- **Wider Application**: Before codifying a fix, ask: what is the general principle this mistake reveals? A naming confusion in a test factory signals a project-wide naming standard gap; fix the principle, not the symptom. Broaden every finding to cover the full class of problems, and update the instruction module that owns that general principle.
+- **Narrative Rationale**: Integrate the "why" into the instruction's prose — not as a standalone "Rationale" or "traced to session" block. The rule must read as coherent guidance that stands alone. Use the motivation as the opening of the section or fold it into the rule statement itself.
 - **Actionability**: Use "must/should" language in instruction updates rather than passive suggestions.
 - **Brevity**: Keep instruction updates concise and focused on the corrective behavior.

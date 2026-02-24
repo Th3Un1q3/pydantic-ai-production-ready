@@ -168,6 +168,11 @@ clean:
     @find . -type f \( -name ".coverage" -o -name "*.pyc" \) -delete 2>/dev/null || true
     @echo "✅ Cleaned"
 
+# List available packages
+packages:
+    @echo "Available packages:"
+    @ls -d packages/*/  | xargs -n1 basename
+
 # Show project structure
 tree:
     @tree packages -L 3 -I '__pycache__|*.pyc|.pytest_cache|.mypy_cache|.ruff_cache|htmlcov' 2>/dev/null || find packages -type d -maxdepth 3 ! -path "*/\.*" ! -path "*/__pycache__" ! -path "*/.pytest_cache" ! -path "*/.mypy_cache" ! -path "*/.ruff_cache" ! -path "*/htmlcov"
