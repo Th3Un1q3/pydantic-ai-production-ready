@@ -75,12 +75,34 @@ Execution requirements:
 
 ### Phase 3: Instruction Evolution
 
-1. **Codify Learnings**: Update the relevant instruction module in `.github/instructions/` (e.g., `tasks-decomposition.instructions.md`, `python.instructions.md`).
-2. **Module Update Ritual**:
-   - Follow `instruction-authoring.instructions.md` for proper formatting.
-   - Use the **Single Source of Truth** principle to avoid duplication.
-   - Add explicit behavioral rules (e.g., "Always proceed by default when...", "Prioritize current intent over...").
-3. **Verification**: Run `just check` or relevant validators to ensure instruction updates don't break existing metadata standards.
+1. **Discover** the appropriate targets for change.  Based on the patterns and
+   root cause defined in Phase 2, search the repository for related
+   instruction modules, prompts, or agent specs.  Candidates might live under
+   `.github/instructions/`, `.github/prompts/`, or `.github/agents/`.
+
+   - Use `grep`/`semantic_search` with keywords extracted from the generalized
+     rule (e.g. "permission fatigue", "task decomposition", "human‑in‑loop").
+   - Collect a short list of files that appear to govern the problematic
+     behavior.
+   - Document reasoning for each candidate (one‑sentence notes are fine).
+
+2. **Choose** which file(s) are the best subject(s) for the update.  Prefer
+   modules that already own the relevant principle and have broader scope; if
+   a behavior is cross‑cutting, it may warrant a new section or a small new
+   instruction file rather than changing an unrelated module.
+
+3. **Codify Learnings**: Once targets are selected, edit the chosen file(s).
+   Follow the usual module‑update ritual:
+   - Comply with `instruction-authoring.instructions.md` formatting rules.
+   - Maintain the **Single Source of Truth**; avoid duplicating rules across
+     files.
+   - Add explicit behavioral language and, if helpful, a brief comment noting
+     the motivation (e.g. "added after evaluating repeated skip requests").
+
+4. **Verification**: Run `just check` or the relevant validators to ensure the
+   edits do not violate metadata or formatting standards, and that the new
+   guidance integrates smoothly.
+
 
 Mode-specific completion criteria:
 - **Mode A**: At least one generalized, repository-relevant improvement from recent-session patterns.
