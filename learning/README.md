@@ -18,6 +18,48 @@ Developers and teams who are moving into standardization and strategic adoption 
 > **Note:** This is not an introductory tutorial for beginners. It assumes familiarity with AI concepts and certain programming skills.
 > **Final Note:** If you feel a little bit late to join AI adoption, you're wrong, it's just the right time as we finally have great tools and frameworks to build upon!
 
+## Scope
+
+### In Scope
+
+The learning path focuses on the pieces of the AI engineering puzzle that are essential for
+building, operating, and scaling **production‑ready agents** with the
+Pydantic AI framework. Topics you will encounter include:
+
+- Agent design and decomposition patterns (plan‑execute‑reflect loops, tool
+  orchestration, sub‑agents) and how to structure code for clarity and reuse.
+- Declarative, type‑safe prompts and **structured output validation** using
+  Pydantic models.
+- Practical security practices: OWASP‑inspired LLM risks, prompt‑injection
+  defenses, least‑privilege tooling, sandboxing, and human‑in‑the‑loop
+  approvals (see the cheat sheet and concepts pages).
+- Observability and monitoring: instrumenting agents with Logfire/OTel,
+  tracing, error/span analysis, and defining meaningful business and model
+  metrics (goodput, TTFT, drift signals).
+- Retrieval‑augmented generation (RAG) pipelines, context chunking, hybrid
+  search, and faithfulness/precision evaluation strategies.
+- Evaluation methodologies: deterministic validators, span‑based checks,
+  LLM‑as‑judge, and using Pydantic Evals to codify quality thresholds.
+- Scalability considerations: caching, routers/gateways, parallel execution
+  graphs, and strategies for low latency and cost efficiency.
+- Enterprise‑grade concerns such as data governance, ROI gap, and operational
+  maturity (see AI adoption journey in the cheat sheet).
+- Hands‑on exercises, starter code, and the reference `course‑navigator`
+  agent for indexing and querying course material.
+
+### Out of Scope
+
+- Training or fine‑tuning large language models, or any deep‑learning model
+  development beyond using hosted inference APIs.
+- Advanced MLOps, data‑engineering pipelines, or complex production
+  infrastructure (beyond simple illustrative examples in `projects/`).
+- Languages or platforms other than Python; all code examples assume Python
+  3.12+ and the `pydantic-ai` ecosystem.
+- General AI/ML theory not directly tied to agent development and the
+  Pydantic AI stack.
+- Commercial product road‑maps, proprietary business logic, or
+  organization‑specific policies.
+
 ### AI Adoption Journey
 
 Organizations typically progress through several stages in their AI adoption:
