@@ -37,7 +37,13 @@ def test_create_agent_configures_prompt_and_tools() -> None:
         assert callable(system_prompt_factory)
         ctx = Mock()
         ctx.deps = deps
-        prompt = system_prompt_factory(ctx)
+        # system_prompt_factory should return a string, but the mock doesn't
+        # provide typing information.  Ensure we treat it as `str` for the
+        # subsequent `in` checks to satisfy mypy.
+        prompt_obj = system_prompt_factory(ctx)
+        assert isinstance(prompt_obj, str)
+        prompt: str = prompt_obj
+
         assert "INDEX" in prompt
         assert deps.user_name in prompt
         assert deps.difficulty in prompt
