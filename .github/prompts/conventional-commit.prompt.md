@@ -1,6 +1,6 @@
 ---
 description: 'Prompt and workflow for generating conventional commit messages using a structured XML format. Guides users to create standardized, descriptive commit messages in line with the Conventional Commits specification, including instructions, examples, and validation.'
-tools: ['execute/getTerminalOutput', 'execute/runInTerminal', 'read', 'search', 'todo']
+tools: ['execute/getTerminalOutput', 'execute/runInTerminal', 'read', 'search', 'todo', 'vscode/askQuestions']
 model: 'Raptor mini (Preview)'
 ---
 
@@ -17,6 +17,9 @@ model: 'Raptor mini (Preview)'
 1. Run `git status` to review changed files.
 2. Run `git diff` or `git diff --cached` to inspect changes.
 3. Stage your changes with `git add <file>`.
+
+    Ask the user to confirm when they have finished staging via a quick question(call #askQuestions tool). If they haven’t staged anything yet, run `git add` until all intended edits appear in `git status` then answer “yes”.
+
 4. Construct your commit message using the following XML structure.
 5. After generating your commit message, Copilot will automatically run the following command in your integrated terminal (no confirmation needed):
 
@@ -24,7 +27,7 @@ model: 'Raptor mini (Preview)'
 git commit -m "type(scope): description"
 ```
 
-6. Just execute this prompt and Copilot will handle the commit for you in the terminal.
+6. Execute this prompt and Copilot will handle the commit for you in the terminal; it will no longer try to `git add` files for you, so make sure step 3 is complete before proceeding.
 
 ### Commit Message Structure
 
