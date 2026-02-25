@@ -6,6 +6,7 @@ agents:
    - swe-subagent
    - technical-writer
    - abstract-subagent
+   - critical-thinking
 ---
 
 ## Identity

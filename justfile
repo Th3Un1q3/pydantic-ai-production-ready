@@ -27,6 +27,18 @@ help:
 copilot-install URL:
     ./scripts/copilot-install.sh {{URL}}
 
+# Copilot sessions utility (generic passthrough)
+copilot-sessions +ARGS:
+    uv run python scripts/copilot_sessions.py {{ARGS}}
+
+# Copilot sessions utility (list convenience wrapper)
+copilot-sessions-list +ARGS:
+    uv run python scripts/copilot_sessions.py list {{ARGS}}
+
+# Copilot sessions utility (read convenience wrapper)
+copilot-sessions-read ID +ARGS:
+    uv run python scripts/copilot_sessions.py read --id {{ID}} {{ARGS}}
+
 # Sync workspace dependencies (uv sync)
 install:
     @echo "📦 Syncing workspace environment..."

@@ -48,18 +48,42 @@ This prompt uses an autonomous agentic workflow to discover and fix interaction 
 ### Phase 1: Mode Resolution and Evidence Collection
 
 1. **Resolve Mode**:
-   - **Mode A**: derive session set from `session.log` using user time range or default last 2 weeks.
-   - **Mode B**: validate the provided session ID and select only `/workspace/logs/copilot/sessions/{sessionId}.ndjson`.
+   - **Mode A**: derive session set with `just copilot-sessions-list --min-prompts 2` using user time range or default last 2 weeks.
+       ```bash
+      # Default range: last 2 weeks (skip low-signal one-prompt sessions)
+      just copilot-sessions-list --min-prompts 2
+
+      # Explicit range
+      just copilot-sessions-list --min-prompts 2 --from 2026-02-01 --to 2026-02-10
+
+      # Include all sessions (including one-prompt sessions) when needed
+      just copilot-sessions-list --min-prompts 1
+       ```
+    - **Mode B**: validate the provided session ID and retrieve only that session with `just copilot-sessions-read <id>`.
+       ```bash
+       # Base read (lightweight default)
+       just copilot-sessions-read 0005e958-d59f-4c10-9c30-2d7d93174744
+
+       # Deeper evidence when needed (assistant + tool calls)
+       just copilot-sessions-read 0005e958-d59f-4c10-9c30-2d7d93174744 --include-assistant --include-tool-calls
+
+       # Optional maximum detail
+       just copilot-sessions-read 0005e958-d59f-4c10-9c30-2d7d93174744 --include-full-events
+       ```
    - **Mode C**: use current chat transcript/context and any extra user input as primary source.
 2. **Apply Redundancy Check**:
    - Skip already-analyzed sessions if their learnings are already codified.
    - In Mode C, avoid re-codifying existing rules unless new evidence reveals a broader principle.
 3. **Grep/Inspect Evidence**:
-   - For Modes A/B, search selected session files for frustration markers.
+   - For Modes A/B, use `just copilot-sessions-list ...` output to triage candidate sessions by user frustration markers.
+   - Use `user_message_preview` as a fast signal for confusion/frustration language before deep transcript reads.
+   - Prioritize sessions where `transcript_ref_status` is **not** `missing` (likely loadable transcript); defer `missing` unless signals are unusually strong.
+   - After triage, inspect prioritized candidates with `just copilot-sessions-read <id> ...`.
    - For Mode C, extract friction markers from the active conversation first, then optionally scan nearby sessions for corroboration.
    - Keywords: `wrong`, `not what I asked`, `useless`, `broken`, `again`, `frustrat`, `fail`, `cannot`, `can't`, `unable`, `you`.
 4. **Map and Read Transcripts**:
-   - Modes A/B: Identify `transcript_path` for each flagged session and inspect full transcripts.
+   - Modes A/B: use `just copilot-sessions-read <id> --include-assistant --include-tool-calls` for investigation of agent responses and tool activity.
+   - Escalate to `--include-full-events` only when additional event-level detail is required.
    - Mode C: Treat the current conversation as the transcript and normalize it into the same analysis structure used for session files.
 
 ### Phase 2: Root Cause Analysis
