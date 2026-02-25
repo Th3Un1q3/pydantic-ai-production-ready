@@ -1,6 +1,7 @@
 ---
 description: 'Guidance for breaking down complex tasks, using subagents, and managing progress tracking.'
 applyTo: '**'
+excludeAgent: 'orchestrator'
 ---
 
 # Tasks Decomposition
@@ -12,6 +13,20 @@ Orchestrate complex workflows by decomposing them into manageable subtasks and u
 ## Session-Start Decomposition
 
 When a session starts from a user prompt (rather than an existing specification), you must immediately analyze the request and choose a tracking mode:
+
+### Scope Lock (Before Any Edit)
+
+Before editing files, classify the user request scope as one of:
+- **Local**: single-file or tightly scoped change
+- **Module**: one instruction/prompt/agent module update
+- **Policy**: repository-wide workflow or governance change
+
+If the user references a file (for example `#file:...`) while asking for policy/module change, treat the file as context unless they explicitly request that file to be edited.
+
+For rule/syntax disputes, apply a pre-change gate before editing:
+1. Confirm artifact type (`*.prompt.md`, `*.instructions.md`, `*.agent.md`)
+2. Cite the canonical rule source (official docs or in-repo SSOT module)
+3. Then perform edits only in files that own the rule
 
 ### 1. Persistent Process Decomposition (PPD)
 Use for **large, multi-step tasks** that require structured execution or might span multiple turns.
@@ -25,6 +40,12 @@ Use for **large, multi-step tasks** that require structured execution or might s
 Use for **atomic, step-by-step tasks** that can be completed within a single autonomous cycle.
 - **Action**: Use the `todos` tool to track immediate progress.
 - **Example**: TDD cycles (test-fail-implement-pass-refactor), linting/fixing sequences, or single-file modifications.
+
+### 3. Direct-Fix / Implementation Prompt Class
+Use for implementation/fix prompts that should execute directly without orchestration handoff.
+- **Frontmatter Directive**: Set `excludeAgent: 'orchestrator'` for this prompt class.
+- **Execution Default**: Execute directly with the current agent instead of routing through orchestrator.
+- **Tracking**: Keep existing tracking rules (`todos` for atomic cycles, PPD for large multi-step work).
 
 ## Specification-Based Execution
 

@@ -1,6 +1,7 @@
 ---
 description: 'Canonical just workflows, package aliases, and the no-raw-CLI-tools operational policy.'
 applyTo: '**'
+excludeAgent: 'orchestrator'
 ---
 
 # Command Execution and Lifecycle Policy
@@ -42,6 +43,9 @@ In all commands below, `<package>` is the **directory name** of the package unde
 - **Auditable Commands**: If a sequence of commands is likely to be repeated, codify it as a `just` recipe in the `justfile`.
 - **Background Tasks**: Long-running processes (e.g., servers, watch modes) must be managed through `just` to ensure proper environment loading.
 - **Environment Awareness**: `just` recipes automatically load environment variables from `.env` in the root.
+- **Automation-First Remediation**: When checks fail, run available auto-fix commands first before manual edits. Use `just fix <package>` for package formatting/lint issues, and run `just lint-md` when the failures involve Markdown files.
+- **Manual-Fallback Handoff**: If auto-fix does not fully resolve issues (especially formatting/markup edge cases), provide an explicit manual-fix handoff rather than silently stopping.
+- **Unresolved Issue Reporting Template**: For each remaining issue, report: `file`, `issue`, `why auto-fix failed`, `manual action required`.
 - **Proactive Quality Gate**: After completing any code-changing task (new files, refactors, edits), you MUST run `just check <package>` — not merely `just test <package>`. Passing tests does not mean the code is clean: `just check` validates format, lint, typecheck, and tests in a single pass, and type errors or linting violations will not surface from `just test` alone.
 
 ## Troubleshooting

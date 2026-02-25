@@ -7,9 +7,10 @@ applyTo: '**/*.py'
 
 ## Python Instructions
 
-- Write clear and concise comments for each function.
+- Prefer declarative, self-explanatory names over explanatory comments.
 - Ensure functions have descriptive names and include type hints.
-- Provide docstrings following PEP 257 conventions.
+- Public functions MUST include docstrings following PEP 257 conventions.
+- Follow [comments.instructions.md](comments.instructions.md) as the source of truth for when comments are allowed.
 - **Use built-in generics for type annotations** (Python 3.12+). Write `list[str]`, `dict[str, int]`, `tuple[int, ...]` — NOT `typing.List`, `typing.Dict`, `typing.Tuple`. Only import from `typing` for constructs that have no built-in equivalent (e.g., `Any`, `Optional`, `Union`, `Callable`, `TypeVar`).
 - Break down complex functions into smaller, more manageable functions.
 
@@ -18,9 +19,9 @@ applyTo: '**/*.py'
 - Always prioritize readability and clarity.
 - **Verify usages before any destructive edit**: Before removing or renaming an import, symbol, function, or parameter, confirm it is no longer referenced anywhere in ALL affected files. Silent breakage from still-used removals is discovered at runtime or in a subsequent check — and fixing it requires a separate correction. Use `grep` or file search to verify the full usage surface before committing to any destructive change.
 - For algorithm-related code, include explanations of the approach used.
-- Write code with good maintainability practices, including comments on why certain design decisions were made.
+- Write code with good maintainability practices; prefer naming and structure first, then add comments only when rationale cannot be made obvious in code.
 - Handle edge cases and write clear exception handling.
-- For libraries or external dependencies, mention their usage and purpose in comments.
+- For libraries or external dependencies, document usage and purpose in docstrings or concise rationale comments when necessary.
 - Use consistent naming conventions and follow language-specific best practices.
 - Write concise, efficient, and idiomatic code that is also easily understandable.
 
@@ -36,8 +37,7 @@ applyTo: '**/*.py'
 
 - Always include test cases for critical paths of the application.
 - Account for common edge cases like empty inputs, invalid data types, and large datasets.
-- Include comments for edge cases and the expected behavior in those cases.
-- Write unit tests for functions and document them with docstrings explaining the test cases.
+- Write unit tests for functions and document non-obvious expectations using test names/docstrings where helpful.
 
 ## Example of Proper Documentation
 

@@ -139,3 +139,5 @@ Mode-specific completion criteria:
 - **Narrative Rationale**: Integrate the "why" into the instruction's prose — not as a standalone "Rationale" or "traced to session" block. The rule must read as coherent guidance that stands alone. Use the motivation as the opening of the section or fold it into the rule statement itself.
 - **Actionability**: Use "must/should" language in instruction updates rather than passive suggestions.
 - **Brevity**: Keep instruction updates concise and focused on the corrective behavior.
+- **Schema-First Metadata Changes**: When a learning involves frontmatter or metadata, verify key support for the specific artifact type (`*.prompt.md`, `*.instructions.md`, `*.agent.md`) before editing.
+- **Scope Lock**: If the user references a file while asking for system-level improvements, treat that file as context unless they explicitly request it as the edit target.

@@ -34,6 +34,19 @@ Every prompt file should include YAML frontmatter with the following fields:
 - If `tools` are specified and the current agent is `ask` or `edit`, the default agent becomes `agent`
 - Preserve any additional metadata (`language`, `tags`, `visibility`, etc.) required by your organization
 - Use `agent: 'agent'` (NOT `mode: 'agent'`) for agentic prompts
+- Prompt files do not define an exclusion key; for path-specific exclusions, use instruction-file frontmatter with `excludeAgent: 'orchestrator'`
+- For metadata edits, apply a schema-first check: verify the key against official prompt-file documentation before adding or changing frontmatter
+- Do not transfer frontmatter keys between artifact types by analogy (for example, `.instructions.md` keys are not automatically valid in `.prompt.md`)
+
+### Frontmatter Boundary Quick Reference
+
+Use this boundary check before editing frontmatter:
+
+| Artifact Type | File Pattern | Example Keys | Boundary Rule |
+| ------------- | ------------ | ------------ | ------------- |
+| Prompt files | `**/*.prompt.md` | `description`, `name`, `agent`, `model`, `tools`, `argument-hint` | Use only prompt-file documented keys |
+| Instruction files | `**/*.instructions.md` | `description`, `applyTo`, `excludeAgent` (when supported by platform behavior) | Keep instruction metadata in instruction files |
+| Agent files | `**/*.agent.md` | Agent-specific manifest fields | Do not apply prompt/instruction metadata conventions by default |
 
 ## File Naming and Placement
 
@@ -162,6 +175,14 @@ Use `todos` to create a tracking checklist.
 ### Step 2: Execute
 
 Use `agent/runSubagent` to perform specialized work.
+```
+
+### Fallback Body Wording (When Metadata Is Not Enforced)
+
+When frontmatter metadata is unavailable or not enforced, include an explicit directive in the prompt body:
+
+```markdown
+Direct execution required for implementation/fix tasks. Do not use orchestrator; proceed with the current agent.
 ```
 
 ## Best Practices

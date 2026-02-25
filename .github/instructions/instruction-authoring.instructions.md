@@ -44,6 +44,11 @@ applyTo: 'glob pattern for target files (e.g., **/*.ts, src/**/*.py)'
 ---
 ```
 
+### Frontmatter Schema Gate
+- Validate frontmatter keys against the artifact's documented schema before editing metadata.
+- Do not infer key validity from another artifact type (for example, prompt-file keys vs instruction-file keys).
+- For metadata disputes, cite the canonical source in your reasoning before applying edits.
+
 ### File Naming
 - **Convention**: Lowercase with hyphens (e.g., `api-verification.instructions.md`).
 - **Location**: `.github/instructions/`.
