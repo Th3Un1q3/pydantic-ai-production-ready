@@ -99,6 +99,15 @@ jobs:
     - Provide `with` inputs for actions explicitly, and use expressions (`${{ }}`) for dynamic values.
     - **Security Note:** Audit marketplace actions before use. Prefer actions from trusted sources (e.g., `actions/` organization) and review their source code if possible. Use `dependabot` for action version updates.
 
+### **4. Pipeline Design and Failure Handling**
+- **Principle:** CI pipelines should provide comprehensive feedback by running all independent checks, rather than failing fast on the first error.
+- **Deeper Dive:**
+    - **Parallel Execution:** Run independent checks (e.g., linting, formatting, unit tests) in parallel jobs so developers see all failures at once.
+    - **Continue on Error:** Use `continue-on-error: true` for non-critical steps or matrix jobs where you want to see the full results before failing the workflow.
+- **Guidance for Copilot:**
+    - Design workflows to maximize visibility into failures. Avoid sequential steps for independent checks (e.g., don't run `lint` then `test` in the same job if they can be parallelized).
+    - When generating CI configurations, ensure that a failure in one check (like formatting) doesn't mask failures in others (like tests).
+
 ## Security Best Practices in GitHub Actions
 
 ### **1. Secret Management**

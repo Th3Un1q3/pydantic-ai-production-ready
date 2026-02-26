@@ -51,7 +51,7 @@ This prompt uses an autonomous agentic workflow to discover and fix interaction 
    - **Mode A**: derive session set with `just copilot-sessions-list --min-prompts 2` using user time range or default last 2 weeks.
        ```bash
       # Default range: last 2 weeks (skip low-signal one-prompt sessions)
-      just copilot-sessions-list --min-prompts 2
+      just copilot-sessions-list --min-prompts 2 --last 1d
 
       # Explicit range
       just copilot-sessions-list --min-prompts 2 --from 2026-02-01 --to 2026-02-10

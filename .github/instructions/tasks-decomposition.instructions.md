@@ -116,6 +116,14 @@ Tasks marked with `[P]` should be executed simultaneously or in a single phase t
 - **Validation**: Validate the results of each subtask before proceeding to dependent steps.
 - **Context Preservation**: Ensure each subtask has enough context (inputs/outputs) to be executed by a subagent if needed.
 
+## Solution Design Principles
+
+To prevent partial fixes, broken references, and over-engineered solutions, you must apply these principles during task execution:
+
+- **Generalize Fixes**: When a user points out a specific issue or pattern (e.g., "lines 10-15 have unnecessary aliases"), do not just fix the explicitly mentioned lines. Proactively search for and fix all similar instances across the file or workspace. Treat user feedback as a pattern to be eradicated, not just a localized bug.
+- **Track Dependencies on Rename/Delete**: Before renaming or deleting commands, functions, or variables, you MUST perform a workspace-wide search (using `grep_search` or `list_code_usages`) to find and update all usages. This includes checking CI workflows (e.g., `.github/workflows/`), documentation, and other scripts to ensure no broken references are left behind.
+- **Prefer Existing Solutions**: Recommend existing, standard tools or free services over building custom "homebrew" solutions for common problems (like dashboards, metrics tracking, or standard CI tasks) unless explicitly requested by the user.
+
 ## Agent Autonomy and Confidence
 
 To ensure operational efficiency and avoid "permission fatigue" for the user:
@@ -123,6 +131,7 @@ To ensure operational efficiency and avoid "permission fatigue" for the user:
 - **Batched Updates**: Provide progress updates at logical milestones (e.g., after completing a story or a phase) rather than after every single file edit.
 - **Assumed Intent**: If a tool call has an obvious best answer or is a standard part of the workflow (like running a validator after an edit), execute it without asking.
 - **Clarify Only on Ambiguity**: Only interrupt the flow to ask questions if there is a genuine ambiguity that prevents progress or if a decision has significant, non-obvious trade-offs. Avoid asking "Would you like me to..." for standard choices where a reasonable default exists.
+- **Avoid Repetitive Offer Prompts**: Do not repeatedly append optional follow-ups such as "If you want, I can..." at every milestone. Offer optional next steps only when they are materially useful and not already implied by the active task.
 - **No Permission Prompts in Handoff**: Do not end completion messages with close-ended permission questions (for example, "Should I proceed?"). Either proceed autonomously or ask via the question tool when a real decision is required.
 - **No Synthetic Confirmation**: Never claim or fabricate user confirmation (for example, "answer yes" on the user's behalf). Confirmation must come from a question-tool response or objective system state.
 - **Primacy of Current Intent**: If the user gives an explicit directive to "redefine", "refocus", or "ignore" previously established structures or drafts, prioritize this current instruction over any older context found in attachments or earlier parts of the session. Do not be rigid when the user explicitly asks to pivot.

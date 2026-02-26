@@ -48,6 +48,12 @@ In all commands below, `<package>` is the **directory name** of the package unde
 - **Unresolved Issue Reporting Template**: For each remaining issue, report: `file`, `issue`, `why auto-fix failed`, `manual action required`.
 - **Proactive Quality Gate**: After completing any code-changing task (new files, refactors, edits), you MUST run `just check <package>` — not merely `just test <package>`. Passing tests does not mean the code is clean: `just check` validates format, lint, typecheck, and tests in a single pass, and type errors or linting violations will not surface from `just test` alone.
 
+## Justfile Design and Maintenance
+
+- **Simplicity and Reusability**: Avoid over-engineering `justfile` with unnecessary aliases or single-use private (`_` prefixed) commands. Keep commands inline unless they are reused in multiple places.
+- **Parameterization over Duplication**: Use parameters instead of duplicating commands for slight variations (e.g., prefer `just lint [mode]` over separate `lint` and `lint-check` commands).
+- **Dependency Tracking**: Before renaming or deleting commands in `justfile`, always perform a workspace-wide search to find and update all usages (e.g., in CI workflows like `.github/workflows/`, documentation, or other scripts).
+
 ## Troubleshooting
 
 - **Dependency Inconsistency**: If imports fail or tools behave unexpectedly, run `just install` to synchronize the `uv` lockfile.
