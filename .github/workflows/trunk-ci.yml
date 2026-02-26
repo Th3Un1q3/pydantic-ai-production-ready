@@ -4,7 +4,15 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
+    paths-ignore:
+      - trunk-ignore/**
+      - '**.md'
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - trunk-ignore/**
+      - '**.md'
 
 permissions:
   contents: read
@@ -14,14 +22,42 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  devcontainer-prebuild:
+    name: Devcontainer Prebuild
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Prebuild and push devcontainer image
+        uses: devcontainers/ci@v0.3
+        with:
+          imageName: ghcr.io/${{ github.repository }}/devcontainer-ci
+          cacheFrom: ghcr.io/${{ github.repository }}/devcontainer-ci
+          push: filter
+          eventFilterForPush: push
+          refFilterForPush: refs/heads/main
+          runCmd: echo "Prebuild devcontainer cache"
+
   checks:
     name: ${{ matrix.name }}
     runs-on: ubuntu-latest
+    needs: devcontainer-prebuild
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: Format Check
+          - name: Format
             command: format all check
           - name: Lint
             command: lint all check
@@ -31,6 +67,9 @@ jobs:
             command: test all
           - name: Markdown
             command: lint-md check
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,18 +77,21 @@ jobs:
       - name: Run check in devcontainer
         uses: devcontainers/ci@v0.3
         with:
+          cacheFrom: ghcr.io/${{ github.repository }}/devcontainer-ci
+          push: never
           runCmd: just ${{ matrix.command }}
 
   trunk-health:
     name: Trunk Health
     if: always()
-    needs: checks
+    needs:
+      - checks
     runs-on: ubuntu-latest
     steps:
       - name: Validate all checks passed
         run: |
           if [ "${{ needs.checks.result }}" != "success" ]; then
-            echo "One or more CI check axes failed"
+            echo "One or more matrix checks failed"
             exit 1
           fi
-          echo "All CI check axes passed"
+          echo "All CI checks passed"
