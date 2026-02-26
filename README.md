@@ -6,6 +6,7 @@ Build your production-ready AI application with Pydantic AI Framework
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Trunk CI](https://github.com/Th3Un1q3/pydantic-ai-production-ready/actions/workflows/trunk-ci.yml/badge.svg?branch=main)](https://github.com/Th3Un1q3/pydantic-ai-production-ready/actions/workflows/trunk-ci.yml)
 
 ## 🎯 Overview
 
@@ -78,6 +79,20 @@ DATABASE_URL=postgresql://postgres:postgres@postgres:5432/pydantic_ai_db
 
 # Redis (devcontainer)
 REDIS_URL=redis://redis:6379
+```
+
+### Trunk Health Signal
+
+- **Badge meaning**: `Trunk CI` reports the health of `main`.
+- **Green**: trunk is healthy for the current vertical slice.
+- **Red**: trunk is failing and should be fixed before adding more changes.
+
+### Local CI Quick Validation
+
+Run the same command used by CI:
+
+```bash
+just check course-navigator
 ```
 
 ## 🎓 For Content Creators

@@ -1,0 +1,27 @@
+name: Trunk CI
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: trunk-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-gate:
+    name: Vertical Slice Quality Gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run check in devcontainer
+        uses: devcontainers/ci@v0.3
+        with:
+          runCmd: just check course-navigator
