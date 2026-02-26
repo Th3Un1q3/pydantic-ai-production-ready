@@ -24,4 +24,9 @@
             ]
         }
     },
+    "chat.tools.terminal.autoApprove": {
+        "git add": true,
+        "git status": true,
+        "just": true
+    },
 }
