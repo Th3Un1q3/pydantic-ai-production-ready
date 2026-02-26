@@ -55,17 +55,9 @@ start PACKAGE +ARGS:
     set -euo pipefail
 
     target="{{PACKAGE}}"
-
-    # Check if directory exists
-    if [ ! -d "packages/$target" ]; then
-        echo "❌ Package '$target' not found in packages/"
-        echo "Available packages:"
-        ls packages
-        exit 1
-    fi
-
+    just _require_package "$target" true
     echo "🚀 Delegating to packages/$target..."
-    cd packages/$target && just start {{ARGS}}
+    cd "packages/$target" && just start {{ARGS}}
 
 # Run tests for all packages or specific package
 test PACKAGE="all":
@@ -78,39 +70,57 @@ test PACKAGE="all":
         echo "✅ All tests passed"
     else
         target="{{PACKAGE}}"
-
-        if [ ! -d "packages/$target" ]; then
-            echo "❌ Package '$target' not found in packages/"
-            exit 1
-        fi
-
         echo "🧪 Testing $target..."
-        cd packages/$target && just test
+        just _require_package "$target"
+        cd "packages/$target" && just test
         echo "✅ $target tests passed"
     fi
 
-# Format code
-format PACKAGE="all":
+# Format code (MODE: fix|check)
+format PACKAGE="all" MODE="fix":
     #!/usr/bin/env bash
     set -euo pipefail
+
+    paths="$(just --quiet _scope_paths "{{PACKAGE}}" true)"
     if [ "{{PACKAGE}}" = "all" ]; then
-        echo "🎨 Formatting workspace..."
-        uv run black packages/
+        scope="workspace"
     else
-        echo "🎨 Formatting {{PACKAGE}}..."
-        uv run black packages/{{PACKAGE}}/
+        scope="{{PACKAGE}}"
     fi
 
-# Lint code
-lint PACKAGE="all":
+    if [ "{{MODE}}" = "check" ]; then
+        echo "🎨 Checking $scope formatting..."
+        uv run black --check $paths
+    elif [ "{{MODE}}" = "fix" ]; then
+        echo "🎨 Formatting $scope..."
+        uv run ruff check --fix $paths
+        uv run black $paths
+    else
+        echo "❌ Invalid format mode: {{MODE}} (expected: fix|check)"
+        exit 1
+    fi
+
+# Lint code (MODE: fix|check)
+lint PACKAGE="all" MODE="fix":
     #!/usr/bin/env bash
     set -euo pipefail
+
+    paths="$(just --quiet _scope_paths "{{PACKAGE}}" true)"
     if [ "{{PACKAGE}}" = "all" ]; then
-        echo "🔍 Linting workspace..."
-        uv run ruff check packages/
+        scope="workspace"
     else
-        echo "🔍 Linting {{PACKAGE}}..."
-        uv run ruff check packages/{{PACKAGE}}/
+        scope="{{PACKAGE}}"
+    fi
+
+    if [ "{{MODE}}" = "check" ]; then
+        echo "🔍 Checking $scope lint..."
+        uv run ruff check $paths
+    elif [ "{{MODE}}" = "fix" ]; then
+        echo "🔍 Linting $scope..."
+        uv run ruff check --fix $paths
+    else
+        echo "❌ Invalid lint mode: {{MODE}} (expected: fix|check)"
+        exit 1
     fi
 
 # ============================================================================
@@ -125,11 +135,17 @@ learning-init NAME TITLE:
 learning-validate:
     uv run python scripts/learning/init_learning_structure.py --path ./learning --validate
 
-# Lint and fix markdown files
-lint-md:
-    @echo "📝 Linting and fixing markdown files..."
-    markdownlint --fix "**/*.md"
-    @echo "✅ Markdown files linted"
+# Lint markdown files (MODE: fix|check)
+lint-md MODE="fix":
+    @if [ "{{MODE}}" = "check" ]; then \
+        echo "📝 Checking markdown files..."; \
+        markdownlint "**/*.md"; \
+        echo "✅ Markdown checks passed"; \
+    else \
+        echo "📝 Linting and fixing markdown files..."; \
+        markdownlint --fix "**/*.md"; \
+        echo "✅ Markdown files linted"; \
+    fi
 
 # Type check
 typecheck PACKAGE="all":
@@ -137,20 +153,34 @@ typecheck PACKAGE="all":
     set -euo pipefail
     if [ "{{PACKAGE}}" = "all" ]; then
         echo "🔎 Type checking workspace..."
-        uv run mypy packages/
     else
         echo "🔎 Type checking {{PACKAGE}}..."
-        uv run mypy packages/{{PACKAGE}}/
     fi
+    paths="$(just --quiet _scope_paths "{{PACKAGE}}" true)"
+    uv run mypy $paths
 
 # Run all quality checks
 check PACKAGE="all":
     @echo "🔍 Running all quality checks for {{PACKAGE}}..."
-    just format {{PACKAGE}}
-    just lint {{PACKAGE}}
-    just typecheck {{PACKAGE}}
-    just test {{PACKAGE}}
+    just format "{{PACKAGE}}" fix
+    just lint "{{PACKAGE}}" fix
+    just typecheck "{{PACKAGE}}"
+    just test "{{PACKAGE}}"
     @echo "✅ All checks passed"
+
+# Check formatting without modifying files
+format-check PACKAGE="all":
+    just format {{PACKAGE}} check
+
+# Non-mutating CI quality gate
+check-ci:
+    @echo "🔍 Running non-mutating CI checks..."
+    just format all check
+    just lint all check
+    just typecheck all
+    just test all
+    just lint-md check
+    @echo "✅ CI checks passed"
 
 # ============================================================================
 # Utility Commands
@@ -239,17 +269,35 @@ init:
     just _open_startup_files
     @echo ""
     @echo "✅ Development environment ready"
+    fi
 
-# Auto-fix code style and lint issues
-fix PACKAGE="all":
+_require_package PACKAGE SHOW_AVAILABLE="false":
     #!/usr/bin/env bash
     set -euo pipefail
+
+    target="{{PACKAGE}}"
+    show_available="{{SHOW_AVAILABLE}}"
+
+    if [ ! -d "packages/$target" ]; then
+        echo "❌ Package '$target' not found in packages/"
+        if [ "$show_available" = "true" ]; then
+            echo "Available packages:"
+            ls packages
+        fi
+        exit 1
+    fi
+
+_scope_paths PACKAGE INCLUDE_SCRIPTS="false":
+    #!/usr/bin/env bash
+    set -euo pipefail
+
     if [ "{{PACKAGE}}" = "all" ]; then
-        echo "🔧 Fixing workspace..."
-        uv run ruff check --fix packages/
-        uv run black packages/
+        if [ "{{INCLUDE_SCRIPTS}}" = "true" ]; then
+            echo "packages/ scripts/"
+        else
+            echo "packages/"
+        fi
     else
-        echo "🔧 Fixing {{PACKAGE}}..."
-        uv run ruff check --fix packages/{{PACKAGE}}/
-        uv run black packages/{{PACKAGE}}/
+        just _require_package "{{PACKAGE}}"
+        echo "packages/{{PACKAGE}}/"
     fi

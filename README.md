@@ -92,7 +92,7 @@ REDIS_URL=redis://redis:6379
 Run the same command used by CI:
 
 ```bash
-just check course-navigator
+just check-ci
 ```
 
 ## 🎓 For Content Creators

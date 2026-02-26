@@ -14,9 +14,23 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  quality-gate:
-    name: Vertical Slice Quality Gate
+  checks:
+    name: ${{ matrix.name }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Format Check
+            command: format all check
+          - name: Lint
+            command: lint all check
+          - name: Typecheck
+            command: typecheck all
+          - name: Tests
+            command: test all
+          - name: Markdown
+            command: lint-md check
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,4 +38,18 @@ jobs:
       - name: Run check in devcontainer
         uses: devcontainers/ci@v0.3
         with:
-          runCmd: just check course-navigator
+          runCmd: just ${{ matrix.command }}
+
+  trunk-health:
+    name: Trunk Health
+    if: always()
+    needs: checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate all checks passed
+        run: |
+          if [ "${{ needs.checks.result }}" != "success" ]; then
+            echo "One or more CI check axes failed"
+            exit 1
+          fi
+          echo "All CI check axes passed"

@@ -8,10 +8,12 @@ Exit codes:
  - 0 : OK (prints JSON to stdout) or file missing (prints nothing)
  - 2 : parse / processing error (message on stderr)
 """
+
 import json
 import os
 import re
 import sys
+from typing import Any
 
 
 def strip_jsonc(text: str) -> str:
@@ -43,23 +45,23 @@ def strip_jsonc(text: str) -> str:
             i += 1
             continue
         # single-line comment
-        if c == '/' and i + 1 < n and text[i + 1] == '/':
+        if c == "/" and i + 1 < n and text[i + 1] == "/":
             i += 2
-            while i < n and text[i] not in '\r\n':
+            while i < n and text[i] not in "\r\n":
                 i += 1
             continue
         # block comment
-        if c == '/' and i + 1 < n and text[i + 1] == '*':
+        if c == "/" and i + 1 < n and text[i + 1] == "*":
             i += 2
-            while i + 1 < n and not (text[i] == '*' and text[i + 1] == '/'):
+            while i + 1 < n and not (text[i] == "*" and text[i + 1] == "/"):
                 i += 1
             i += 2 if i + 1 <= n else 0
             continue
         out.append(c)
         i += 1
-    res = ''.join(out)
+    res = "".join(out)
     # remove trailing commas before } or ]
-    res = re.sub(r',\s*(?=[}\]])', '', res)
+    res = re.sub(r",\s*(?=[}\]])", "", res)
     return res
 
 
@@ -98,9 +100,10 @@ def _resolve_env_var(name: str) -> tuple[str, str | None]:
     return "", None
 
 
-def walk_replace_env(obj):
+def walk_replace_env(obj: Any) -> Any:
     if isinstance(obj, str):
-        def repl(m):
+
+        def repl(m: re.Match[str]) -> str:
             name = m.group(1)
             val, matched = _resolve_env_var(name)
             if val == "":
@@ -108,8 +111,11 @@ def walk_replace_env(obj):
                 print(f"warning: env var {name} not set (no matching OS env)", file=sys.stderr)
             elif matched is not None and matched != name:
                 # informative message when we used a different env var name
-                print(f"info: substituted placeholder {name} with env var {matched}", file=sys.stderr)
+                print(
+                    f"info: substituted placeholder {name} with env var {matched}", file=sys.stderr
+                )
             return val
+
         return re.sub(r"\$\{env:([A-Za-z0-9_]+)\}", repl, obj)
     if isinstance(obj, dict):
         return {k: walk_replace_env(v) for k, v in obj.items()}
@@ -118,7 +124,7 @@ def walk_replace_env(obj):
     return obj
 
 
-def main():
+def main() -> int:
     if len(sys.argv) < 2:
         print("usage: transform_mcp.py PATH_TO_MCP_JSON", file=sys.stderr)
         return 2
@@ -129,7 +135,7 @@ def main():
         return 0
 
     try:
-        raw = open(p, "r", encoding="utf-8").read()
+        raw = open(p, encoding="utf-8").read()
     except Exception as e:
         print(f"failed to read {p}: {e}", file=sys.stderr)
         return 2

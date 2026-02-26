@@ -6,10 +6,11 @@ import argparse
 import json
 import re
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 DEFAULT_LOGS_ROOT = Path("/workspace/logs/copilot")
 DEFAULT_VSCODE_WORKSPACE_STORAGE_ROOT = Path(
@@ -351,7 +352,7 @@ def load_index_sessions(logs_root: Path) -> dict[str, dict[str, Any]]:
 
 def infer_session_from_file(session_file: Path) -> dict[str, Any]:
     session_id = session_file.stem
-    record = {
+    record: dict[str, Any] = {
         "session_id": session_id,
         "start_time": None,
         "end_time": None,
@@ -866,7 +867,9 @@ def build_transcript_payload(
 
     if active_transcript_path is None:
         if not transcript_raw_path and not session_id:
-            warnings.append("Transcript metadata missing and no session_id was provided for fallback search.")
+            warnings.append(
+                "Transcript metadata missing and no session_id was provided for fallback search."
+            )
         base_payload["source_path"] = source_path
         base_payload["resolved_path"] = resolved_path
         base_payload["fallback_used"] = fallback_used
@@ -1129,7 +1132,8 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
-    return args.func(args)
+    func = cast(Callable[[argparse.Namespace], int], args.func)
+    return func(args)
 
 
 if __name__ == "__main__":

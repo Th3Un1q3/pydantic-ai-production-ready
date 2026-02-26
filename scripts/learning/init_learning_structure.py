@@ -6,11 +6,11 @@ Usage examples:
   python scripts/init_learning_structure.py --path ./learning --add-module 05-ml-deployment --title "ML Deployment"
   python scripts/init_learning_structure.py --path ./learning --validate
 """
+
 from __future__ import annotations
+
 import argparse
-import sys
 from pathlib import Path
-from typing import List, Optional
 
 DEFAULT_MODULES = [
     ("01-fundamentals", "Fundamentals"),
@@ -37,7 +37,7 @@ See the implementation in `packages/` directory.
 """
 
 
-def create_module(root: Path, name: str, title: Optional[str] = None, dry_run: bool = False) -> Path:
+def create_module(root: Path, name: str, title: str | None = None, dry_run: bool = False) -> Path:
     """Create a module skeleton under root with given name and optional title."""
     mod_path = root / name
     readme_path = mod_path / "README.md"
@@ -51,7 +51,7 @@ def create_module(root: Path, name: str, title: Optional[str] = None, dry_run: b
     resources_path.mkdir(parents=True, exist_ok=True)
 
     if not readme_path.exists():
-        title_text = title or name.replace('-', ' ').strip()
+        title_text = title or name.replace("-", " ").strip()
         readme_path.write_text(TEMPLATE_README.format(title=title_text), encoding="utf8")
         print(f"Created README: {readme_path}")
     else:
@@ -85,7 +85,7 @@ def init_all(root: Path, dry_run: bool = False) -> None:
         create_module(root, name, title, dry_run=dry_run)
 
 
-def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Init and validate learning materials structure")
     p.add_argument("--path", "-p", default="./learning", help="Root learning path")
     p.add_argument("--init-all", action="store_true", help="Create the default set of modules")
@@ -96,7 +96,7 @@ def parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     return p.parse_args(argv)
 
 
-def main(argv: Optional[List[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     root = Path(args.path)
 
