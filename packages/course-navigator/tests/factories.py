@@ -7,7 +7,6 @@ import string
 from collections.abc import Callable
 
 import pytest
-
 from course_navigator.models import CourseAnswer, CourseReference, NavigatorDeps
 
 

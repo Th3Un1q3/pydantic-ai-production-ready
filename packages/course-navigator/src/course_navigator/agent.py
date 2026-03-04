@@ -3,8 +3,8 @@ from pydantic_ai.models import Model
 from pydantic_ai_shared.config import LEARNING_ROOT
 
 from course_navigator.models import CourseAnswer, NavigatorDeps
-from course_navigator.tools import read_lesson, set_allowed_paths
-from course_navigator.utils import build_index, get_indexed_paths
+from course_navigator.tools import read_lesson
+from course_navigator.utils import build_index
 
 
 def create_agent(model: str | Model, deps: NavigatorDeps) -> Agent[NavigatorDeps, CourseAnswer]:
@@ -19,7 +19,6 @@ def create_agent(model: str | Model, deps: NavigatorDeps) -> Agent[NavigatorDeps
         Agent: A configured pydantic-ai Agent.
     """
     index = build_index(LEARNING_ROOT)
-    set_allowed_paths(get_indexed_paths(LEARNING_ROOT))
 
     agent: Agent[NavigatorDeps, CourseAnswer] = Agent(
         model,

@@ -4,13 +4,11 @@ from pydantic_ai import RunContext
 from pydantic_ai_shared.config import LEARNING_ROOT
 
 from course_navigator.models import NavigatorDeps
+from course_navigator.utils import get_indexed_paths
 
-_ALLOWED_PATHS: set[str] = set()
 
-
-def set_allowed_paths(paths: set[str]) -> None:
-    global _ALLOWED_PATHS
-    _ALLOWED_PATHS = {PurePath(path).as_posix() for path in paths}
+def _indexed_paths() -> set[str]:
+    return {PurePath(path).as_posix() for path in get_indexed_paths(LEARNING_ROOT)}
 
 
 def read_lesson(ctx: RunContext[NavigatorDeps], file_path: str) -> str:
@@ -23,7 +21,7 @@ def read_lesson(ctx: RunContext[NavigatorDeps], file_path: str) -> str:
         raise ValueError(f"Invalid file path: {file_path}")
 
     normalized = pure_path.as_posix()
-    if normalized not in _ALLOWED_PATHS:
+    if normalized not in _indexed_paths():
         raise ValueError(f"File path not indexed: {file_path}")
 
     full_path = LEARNING_ROOT / normalized

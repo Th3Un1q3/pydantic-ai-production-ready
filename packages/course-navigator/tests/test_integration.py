@@ -1,7 +1,7 @@
 import pytest
 from course_navigator.agent import create_agent
 from course_navigator.models import CourseAnswer, NavigatorDeps
-from pydantic_ai import ModelMessage, ModelResponse, ToolCallPart, UsageLimits, models
+from pydantic_ai import ModelMessage, ModelResponse, ToolCallPart, UsageLimits
 from pydantic_ai.models.function import AgentInfo, FunctionModel
 
 
@@ -10,8 +10,6 @@ async def test_create_agent_run_returns_course_answer_from_function_model(
     navigator_deps: NavigatorDeps,
     course_answer: CourseAnswer,
 ) -> None:
-    models.ALLOW_MODEL_REQUESTS = False
-
     deps = navigator_deps
     expected = course_answer
 

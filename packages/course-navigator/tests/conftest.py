@@ -1,20 +1,21 @@
 """Pytest configuration for course-navigator tests."""
 
-from collections.abc import Generator
+from collections.abc import Iterator
 
 import pytest
-from course_navigator import tools
 from pydantic_ai import models
 
-pytest_plugins = ["course_navigator.tests.factories"]
+pytest_plugins = ["tests.factories"]
+
+models.ALLOW_MODEL_REQUESTS = False
 
 
-@pytest.fixture(autouse=True)
-def isolate_global_test_state() -> Generator[None, None, None]:
-    original_allow_model_requests = models.ALLOW_MODEL_REQUESTS
-    original_allowed_paths = tools._ALLOWED_PATHS.copy()
+@pytest.fixture
+def allow_model_requests() -> Iterator[None]:
+    """Temporarily allow real model requests for a single test.
 
-    yield
-
-    models.ALLOW_MODEL_REQUESTS = original_allow_model_requests
-    tools._ALLOWED_PATHS = original_allowed_paths
+    Use this only for tests that intentionally hit an external provider.
+    Do not use it for unit tests; keep those deterministic with mocked/stubbed models.
+    """
+    with models.override_allow_model_requests(True):
+        yield
