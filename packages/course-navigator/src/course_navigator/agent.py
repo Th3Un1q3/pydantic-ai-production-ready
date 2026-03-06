@@ -7,14 +7,12 @@ from course_navigator.tools import read_lesson
 from course_navigator.utils import build_index
 
 
-def create_agent(model: str | Model, deps: NavigatorDeps) -> Agent[NavigatorDeps, CourseAnswer]:
+def create_agent(model: str | Model) -> Agent[NavigatorDeps, CourseAnswer]:
     """
     Factory function to create the Course Navigator agent.
 
     Args:
         model: The LLM model instance to use.
-        deps: Dependencies for personalization and configuration.
-
     Returns:
         Agent: A configured pydantic-ai Agent.
     """

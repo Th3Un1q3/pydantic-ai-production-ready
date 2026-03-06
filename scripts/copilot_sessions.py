@@ -459,7 +459,7 @@ def in_range(record: dict[str, Any], time_range: TimeRange) -> bool:
     return time_range.from_dt <= candidate <= time_range.to_dt
 
 
-def normalized_record(record: dict[str, Any], logs_root: Path) -> dict[str, Any]:
+def normalized_record(record: dict[str, Any], _logs_root: Path) -> dict[str, Any]:
     session_id = str(record.get("session_id"))
     transcript_path = record.get("transcript_path")
     transcript_ref_status = record.get("transcript_ref_status")

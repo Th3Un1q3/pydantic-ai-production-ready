@@ -11,7 +11,19 @@ def _indexed_paths() -> set[str]:
     return {PurePath(path).as_posix() for path in get_indexed_paths(LEARNING_ROOT)}
 
 
-def read_lesson(ctx: RunContext[NavigatorDeps], file_path: str) -> str:
+def read_lesson(_ctx: RunContext[NavigatorDeps], file_path: str) -> str:
+    """Read the content of a lesson file.
+
+    Args:
+        ctx: The run context containing dependencies.
+        file_path: The relative path to the lesson file.
+
+    Returns:
+        The content of the lesson file as a string.
+
+    Raises:
+        ValueError: If the file path is invalid or the file cannot be accessed.
+    """
     clean_path = file_path.strip()
     if not clean_path:
         raise ValueError("Invalid file path: empty")

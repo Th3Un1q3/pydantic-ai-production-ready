@@ -16,7 +16,7 @@ def test_create_agent_configures_prompt_and_tools(
         patch("course_navigator.agent.Agent") as MockAgent,
         patch("course_navigator.agent.build_index", return_value="INDEX") as mock_build_index,
     ):
-        create_agent(mock_model, deps)
+        create_agent(mock_model)
 
         mock_build_index.assert_called_once()
 

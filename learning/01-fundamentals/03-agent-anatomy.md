@@ -239,8 +239,6 @@ Try these exercises to practice:
 3. **Calculator Agent**: Create an agent with tools for basic math operations
 4. **Multi-Tool Agent**: Build an agent with multiple tools that it can choose between
 
-See the `exercises/` directory for detailed instructions and starter code.
-
 ## Next Steps
 
 Module 02 is planned and will be implemented later from its specification. For now, keep this placeholder forward link: [Module 02: Core Concepts (planned)](../02-core-concepts/README.md).

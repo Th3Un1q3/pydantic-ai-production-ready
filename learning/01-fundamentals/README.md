@@ -26,10 +26,6 @@ By the completion of this module, you will be able to:
 2. [Architecture of the Sandbox](02-setup.md)
 3. [Anatomy of an Enterprise Agent](03-agent-anatomy.md)
 
-## Exercises
-
-Apply these concepts in the `exercises/` directory. Focus on implementing the "Hello World" scope with strict typing enforcement.
-
 ## Estimated Time
 
 2-3 hours

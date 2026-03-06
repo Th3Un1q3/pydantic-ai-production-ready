@@ -50,6 +50,8 @@ def test_main_empty_argv_defaults_to_cli(mock_dependencies: dict[str, Any]) -> N
 def test_main_ui_mode_prints_placeholder(mock_dependencies: dict[str, Any]) -> None:
     from course_navigator.main import main
 
+    _ = mock_dependencies
+
     with patch("course_navigator.main.print") as mock_print:
         main(["ui"])
 
@@ -58,6 +60,8 @@ def test_main_ui_mode_prints_placeholder(mock_dependencies: dict[str, Any]) -> N
 
 def test_main_unknown_command_exits(mock_dependencies: dict[str, Any]) -> None:
     from course_navigator.main import main
+
+    _ = mock_dependencies
 
     with (
         patch("course_navigator.main.print") as mock_print,

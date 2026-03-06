@@ -28,7 +28,7 @@ def _parse_launch_mode(argv: list[str] | None = None) -> LaunchMode:
     return LaunchMode(cmd) if cmd in (m.value for m in LaunchMode) else LaunchMode.UNKNOWN
 
 
-def _build_agent_deps(argv: list[str] | None = None) -> NavigatorDeps:
+def _build_agent_deps() -> NavigatorDeps:
     return NavigatorDeps(user_name="Student", difficulty="Beginner")
 
 
@@ -45,7 +45,7 @@ def main(argv: list[str] | None = None) -> None:
 
     deps = _build_agent_deps()
 
-    agent = create_agent(model, deps)
+    agent = create_agent(model)
 
     if launch_mode is LaunchMode.CLI:
         asyncio.run(agent.to_cli(deps=deps))

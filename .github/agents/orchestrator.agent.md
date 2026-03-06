@@ -126,10 +126,10 @@ The quality of your subagent prompts determines everything. Every subagent promp
 4. **Constraints** — What NOT to do (don't modify unrelated files, don't change the API, etc.)
 5. **Output expectations** — Tell the subagent exactly what to report back (files changed, tests run, etc.)
 
-### Prompt Template
+### Prompt Template (MANDATORY, SELF-CONTAINED)
 
 ```
-CONTEXT PACKAGE (MANDATORY, SELF-CONTAINED):
+CONTEXT PACKAGE:
 - User request excerpt: "[original request excerpt]"
 - Task objective: [specific decomposed task objective]
 - Scope:

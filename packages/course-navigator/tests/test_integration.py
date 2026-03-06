@@ -13,7 +13,7 @@ async def test_create_agent_run_returns_course_answer_from_function_model(
     deps = navigator_deps
     expected = course_answer
 
-    def _model_function(messages: list[ModelMessage], info: AgentInfo) -> ModelResponse:
+    def _model_function(_messages: list[ModelMessage], info: AgentInfo) -> ModelResponse:
         output_tool = info.output_tools[0]
         return ModelResponse(
             parts=[
@@ -26,7 +26,7 @@ async def test_create_agent_run_returns_course_answer_from_function_model(
 
     model = FunctionModel(_model_function)
 
-    agent = create_agent(model, deps)
+    agent = create_agent(model)
     result = await agent.run(
         "Summarize the lesson",
         deps=deps,

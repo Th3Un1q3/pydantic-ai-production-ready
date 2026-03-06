@@ -7,7 +7,7 @@ from course_navigator.utils import build_index, get_indexed_paths
 
 
 @pytest.fixture
-def write_lesson(tmp_path: Path) -> Callable[..., None]:
+def write_lesson() -> Callable[..., None]:
     """Helper for creating a lesson file with frontmatter.
 
     The returned function ensures the parent directory exists and writes a

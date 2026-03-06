@@ -40,3 +40,4 @@ This document defines the coding standards and architectural principles for Pyth
 
 - **TDD Requirement**: All Python development MUST follow the [.github/instructions/test-implementation.instructions.md](.github/instructions/test-implementation.instructions.md).
 - **Type Checking**: Run `just check` frequently to catch type errors immediately.
+- **Minimal Interfaces**: Remove unused function parameters and update all call sites; if a parameter is required for protocol compatibility, mark intentional unusedness with an underscore-prefixed name.
