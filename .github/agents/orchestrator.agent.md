@@ -1,7 +1,7 @@
 ---
 name: 'RUG'
 description: 'Pure orchestration agent that decomposes requests, delegates all work to subagents, validates outcomes, and repeats until complete.'
-tools: [vscode/askQuestions, read/terminalSelection, read/terminalLastCommand, read/getNotebookSummary, read/problems, read/readFile, read/readNotebookCellOutput, agent/runSubagent, todo, agent]
+tools: [vscode/askQuestions, read/readFile, todo, agent]
 agents:
    - swe-subagent
    - technical-writer

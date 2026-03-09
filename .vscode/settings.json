@@ -25,8 +25,12 @@
         }
     },
     "chat.tools.terminal.autoApprove": {
+        "ls": true,
+        "cat": true,
         "git add": true,
         "git status": true,
         "just": true
     },
+    "chat.tools.terminal.enableAutoApprove": true,
+    "chat.tools.terminal.autoReplyToPrompts": true,
 }
