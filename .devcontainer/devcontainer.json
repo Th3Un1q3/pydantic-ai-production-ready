@@ -87,6 +87,7 @@
       }
     }
   },
+  "initializeCommand": "bash -lc 'if [ ! -f .env ] && [ -f .env.example ]; then cp .env.example .env; fi'",
   "postCreateCommand": "bash .devcontainer/post-create.sh",
   "remoteUser": "vscode"
 }
