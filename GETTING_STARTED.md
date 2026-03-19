@@ -21,6 +21,8 @@ We recommend using **OpenRouter** as the primary routing layer for LLM access du
 
 ## DevContainer Setup (Step 2 - Recommended)
 
+> **Codespaces note:** this repository pins the devcontainer base image to a stable published tag (`mcr.microsoft.com/devcontainers/python:3.13-bookworm`). If Codespaces still reports an image pull error, verify your organization/network allows access to both `mcr.microsoft.com` and `ghcr.io`, because devcontainer base images and features are pulled from those registries.
+
 1. Open the repository in VS Code.
 2. Press `F1` → "Dev Containers: Reopen in Container".
 3. Wait for the container to build and start. The devcontainer will install system packages and dev tooling.
