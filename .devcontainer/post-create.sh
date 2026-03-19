@@ -2,6 +2,11 @@
 
 echo "Setting up development environment..."
 
+if [ -f /workspace/.env.example ] && [ ! -f /workspace/.env ]; then
+    cp /workspace/.env.example /workspace/.env
+    echo "Created /workspace/.env from .env.example"
+fi
+
 # Install just command runner
 # Note: Using official installer from just.systems (standard practice)
 # Alternative: Install from package manager when available
